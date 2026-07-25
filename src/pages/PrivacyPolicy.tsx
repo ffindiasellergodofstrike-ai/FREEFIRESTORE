@@ -9,7 +9,7 @@ export default function PrivacyPolicy() {
             Privacy Policy
           </h1>
           <div className="text-xs text-stone-500 font-mono space-y-1 leading-relaxed">
-            <p><strong>Trade Name:</strong> Free Fire India Shop</p>
+            <p><strong>Trade Name:</strong> garenaofficialshop</p>
             <p><strong>Proprietary Owner:</strong> PRANKRISHNA DAS</p>
             <p><strong>Business Type:</strong> E-commerce Retail & Custom Apparel Store</p>
             <p><strong>Registered Address:</strong> 02 NO TAKIMARI, Mantadari, PO: Milanpally, DIST: Jalpaiguri, West Bengal - 735133, India</p>
@@ -22,7 +22,7 @@ export default function PrivacyPolicy() {
         <div className="space-y-6 text-xs sm:text-sm leading-relaxed text-stone-600">
           
           <p>
-            <strong>Free Fire India Shop</strong> (PRANKRISHNA DAS) is committed to respecting your privacy and safeguarding your personal information. This Privacy Policy details how we collect, utilize, store, share, and protect customer information when you visit or make a purchase on our platform in compliance with the Information Technology Act, 2000 and applicable data protection regulations.
+            <strong>garenaofficialshop</strong> (PRANKRISHNA DAS) is committed to respecting your privacy and safeguarding your personal information. This Privacy Policy details how we collect, utilize, store, share, and protect customer information when you visit or make a purchase on our platform in compliance with the Information Technology Act, 2000 and applicable data protection regulations.
           </p>
 
           <section className="space-y-3">
@@ -86,7 +86,7 @@ export default function PrivacyPolicy() {
               For privacy concerns, data deletion requests, or questions regarding our information handling practices, please contact:
             </p>
             <div className="bg-stone-50 p-4 rounded-xl border border-stone-200 text-xs text-stone-700 space-y-1">
-              <p className="font-bold text-stone-900">Data Privacy Officer - Free Fire India Shop</p>
+              <p className="font-bold text-stone-900">Data Privacy Officer - garenaofficialshop</p>
               <p>Attention: PRANKRISHNA DAS</p>
               <p>Registered Address: 02 NO TAKIMARI, Mantadari, PO: Milanpally, DIST: Jalpaiguri, West Bengal - 735133, India</p>
               <p>Email: connectwithvexora@gmail.com</p>

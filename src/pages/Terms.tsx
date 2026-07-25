@@ -9,7 +9,7 @@ export default function Terms() {
             Terms & Conditions
           </h1>
           <div className="text-xs text-stone-500 font-mono space-y-1 leading-relaxed">
-            <p><strong>Trade Name:</strong> Free Fire India Shop</p>
+            <p><strong>Trade Name:</strong> garenaofficialshop</p>
             <p><strong>Proprietary Owner:</strong> PRANKRISHNA DAS</p>
             <p><strong>Business Type:</strong> E-commerce Retail & Custom Apparel Store</p>
             <p><strong>Registered Address:</strong> 02 NO TAKIMARI, Mantadari, PO: Milanpally, DIST: Jalpaiguri, West Bengal - 735133, India</p>
@@ -24,7 +24,7 @@ export default function Terms() {
           <section className="space-y-3">
             <h2 className="text-base font-bold text-stone-900 tracking-tight">1. Agreement to Terms</h2>
             <p>
-              These Terms and Conditions (“Terms”, “Agreement”) constitute a legally binding agreement between PRANKRISHNA DAS, operating under the trade name <strong>Free Fire India Shop</strong> (“Website Owner”, “We”, “Us”, or “Our”), and any individual or entity (“Customer”, “User”, “You”, or “Your”) accessing or using our e-commerce platform and related services (collectively, the “Services”).
+              These Terms and Conditions (“Terms”, “Agreement”) constitute a legally binding agreement between PRANKRISHNA DAS, operating under the trade name <strong>garenaofficialshop</strong> (“Website Owner”, “We”, “Us”, or “Our”), and any individual or entity (“Customer”, “User”, “You”, or “Your”) accessing or using our e-commerce platform and related services (collectively, the “Services”).
             </p>
             <p>
               By accessing our website, placing an order, or utilizing any of our Services, you acknowledge that you have read, understood, and agreed to be bound by these Terms, as well as our integrated Privacy Policy, Shipping Policy, and Refund Policy. If you do not agree to all provisions of these Terms, you must immediately cease using the platform.
@@ -84,7 +84,7 @@ export default function Terms() {
           <section className="space-y-3">
             <h2 className="text-base font-bold text-stone-900 tracking-tight">7. Intellectual Property Rights</h2>
             <p>
-              All trademarks, trade names, logos, original artwork, website designs, code, graphic elements, and content displayed on Free Fire India Shop are the exclusive intellectual property of PRANKRISHNA DAS or its licensors. Unauthorized copying, reproduction, distribution, or reverse engineering of any portion of the platform is strictly prohibited.
+              All trademarks, trade names, logos, original artwork, website designs, code, graphic elements, and content displayed on garenaofficialshop are the exclusive intellectual property of PRANKRISHNA DAS or its licensors. Unauthorized copying, reproduction, distribution, or reverse engineering of any portion of the platform is strictly prohibited.
             </p>
           </section>
 
@@ -108,7 +108,7 @@ export default function Terms() {
               For questions regarding these Terms or to submit a formal grievance, please contact our designated Grievance Officer:
             </p>
             <div className="bg-stone-50 p-4 rounded-xl border border-stone-200 text-xs text-stone-700 space-y-1">
-              <p className="font-bold text-stone-900">Grievance Desk - Free Fire India Shop</p>
+              <p className="font-bold text-stone-900">Grievance Desk - garenaofficialshop</p>
               <p>Attention: PRANKRISHNA DAS</p>
               <p>Address: 02 NO TAKIMARI, Mantadari, PO: Milanpally, DIST: Jalpaiguri, West Bengal - 735133</p>
               <p>Email: connectwithvexora@gmail.com</p>

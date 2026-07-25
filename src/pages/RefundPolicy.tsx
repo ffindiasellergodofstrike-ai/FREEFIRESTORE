@@ -9,7 +9,7 @@ export default function RefundPolicy() {
             Refund & Cancellation Policy
           </h1>
           <div className="text-xs text-stone-500 font-mono space-y-1 leading-relaxed">
-            <p><strong>Trade Name:</strong> Free Fire India Shop</p>
+            <p><strong>Trade Name:</strong> garenaofficialshop</p>
             <p><strong>Proprietary Owner:</strong> PRANKRISHNA DAS</p>
             <p><strong>Business Type:</strong> E-commerce Retail & Custom Apparel Store</p>
             <p><strong>Registered Address:</strong> 02 NO TAKIMARI, Mantadari, PO: Milanpally, DIST: Jalpaiguri, West Bengal - 735133, India</p>
@@ -22,7 +22,7 @@ export default function RefundPolicy() {
         <div className="space-y-6 text-xs sm:text-sm leading-relaxed text-stone-600">
           
           <p>
-            At <strong>Free Fire India Shop</strong> (PRANKRISHNA DAS), customer satisfaction is paramount. We strive to provide transparent, equitable, and efficient procedures for order cancellations, returns, and refund requests. Please review our comprehensive refund framework below.
+            At <strong>garenaofficialshop</strong> (PRANKRISHNA DAS), customer satisfaction is paramount. We strive to provide transparent, equitable, and efficient procedures for order cancellations, returns, and refund requests. Please review our comprehensive refund framework below.
           </p>
 
           <section className="space-y-3">
@@ -80,7 +80,7 @@ export default function RefundPolicy() {
             <h2 className="text-base font-bold text-stone-900 tracking-tight">6. Contact Information for Refund Requests</h2>
             <div className="bg-stone-50 p-4 rounded-xl border border-stone-200 text-xs text-stone-700 space-y-1">
               <p className="font-bold text-stone-900">Customer Support - Refund Desk</p>
-              <p>Proprietor: PRANKRISHNA DAS (Free Fire India Shop)</p>
+              <p>Proprietor: PRANKRISHNA DAS (garenaofficialshop)</p>
               <p>Address: 02 NO TAKIMARI, Mantadari, PO: Milanpally, DIST: Jalpaiguri, West Bengal - 735133, India</p>
               <p>Email: connectwithvexora@gmail.com</p>
               <p>Phone: +91 9918396803 (10:00 AM - 6:00 PM IST, Monday to Saturday)</p>

@@ -109,7 +109,7 @@ const baseProducts: Product[] = [
         "author": "Nikhil Mehra",
         "rating": 5,
         "date": "5 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -233,7 +233,7 @@ const baseProducts: Product[] = [
         "author": "Abhishek Sharma",
         "rating": 5,
         "date": "4 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -357,7 +357,7 @@ const baseProducts: Product[] = [
         "author": "Ramesh Chhabra",
         "rating": 5,
         "date": "3 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -481,7 +481,7 @@ const baseProducts: Product[] = [
         "author": "Karthik Nair",
         "rating": 5,
         "date": "2 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -605,7 +605,7 @@ const baseProducts: Product[] = [
         "author": "Manish Pandey",
         "rating": 5,
         "date": "6 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -729,7 +729,7 @@ const baseProducts: Product[] = [
         "author": "Vikramaditya S.",
         "rating": 5,
         "date": "5 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -853,7 +853,7 @@ const baseProducts: Product[] = [
         "author": "Gaurav Joshi",
         "rating": 5,
         "date": "4 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -977,7 +977,7 @@ const baseProducts: Product[] = [
         "author": "Nikhil Mehra",
         "rating": 5,
         "date": "3 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -1101,7 +1101,7 @@ const baseProducts: Product[] = [
         "author": "Abhishek Sharma",
         "rating": 5,
         "date": "2 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -1225,7 +1225,7 @@ const baseProducts: Product[] = [
         "author": "Ramesh Chhabra",
         "rating": 5,
         "date": "6 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -1349,7 +1349,7 @@ const baseProducts: Product[] = [
         "author": "Karthik Nair",
         "rating": 5,
         "date": "5 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -1473,7 +1473,7 @@ const baseProducts: Product[] = [
         "author": "Manish Pandey",
         "rating": 5,
         "date": "4 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -1604,7 +1604,7 @@ const baseProducts: Product[] = [
         "author": "Vikramaditya S.",
         "rating": 5,
         "date": "3 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -1728,7 +1728,7 @@ const baseProducts: Product[] = [
         "author": "Gaurav Joshi",
         "rating": 5,
         "date": "2 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -1852,7 +1852,7 @@ const baseProducts: Product[] = [
         "author": "Nikhil Mehra",
         "rating": 5,
         "date": "6 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -1976,7 +1976,7 @@ const baseProducts: Product[] = [
         "author": "Abhishek Sharma",
         "rating": 5,
         "date": "5 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -2100,7 +2100,7 @@ const baseProducts: Product[] = [
         "author": "Ramesh Chhabra",
         "rating": 5,
         "date": "4 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -2224,7 +2224,7 @@ const baseProducts: Product[] = [
         "author": "Karthik Nair",
         "rating": 5,
         "date": "3 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -2348,7 +2348,7 @@ const baseProducts: Product[] = [
         "author": "Manish Pandey",
         "rating": 5,
         "date": "2 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -2514,7 +2514,7 @@ const baseProducts: Product[] = [
         "author": "Vikramaditya S.",
         "rating": 5,
         "date": "6 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -2686,7 +2686,7 @@ const baseProducts: Product[] = [
         "author": "Gaurav Joshi",
         "rating": 5,
         "date": "5 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -2836,7 +2836,7 @@ const baseProducts: Product[] = [
         "author": "Nikhil Mehra",
         "rating": 5,
         "date": "4 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -3000,7 +3000,7 @@ const baseProducts: Product[] = [
         "author": "Abhishek Sharma",
         "rating": 5,
         "date": "3 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -3167,7 +3167,7 @@ const baseProducts: Product[] = [
         "author": "Ramesh Chhabra",
         "rating": 5,
         "date": "2 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -3333,7 +3333,7 @@ const baseProducts: Product[] = [
         "author": "Karthik Nair",
         "rating": 5,
         "date": "6 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -3497,7 +3497,7 @@ const baseProducts: Product[] = [
         "author": "Manish Pandey",
         "rating": 5,
         "date": "5 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -3654,7 +3654,7 @@ const baseProducts: Product[] = [
         "author": "Vikramaditya S.",
         "rating": 5,
         "date": "4 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -3811,7 +3811,7 @@ const baseProducts: Product[] = [
         "author": "Gaurav Joshi",
         "rating": 5,
         "date": "3 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -3975,7 +3975,7 @@ const baseProducts: Product[] = [
         "author": "Nikhil Mehra",
         "rating": 5,
         "date": "2 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -4146,7 +4146,7 @@ const baseProducts: Product[] = [
         "author": "Abhishek Sharma",
         "rating": 5,
         "date": "6 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -4315,7 +4315,7 @@ const baseProducts: Product[] = [
         "author": "Ramesh Chhabra",
         "rating": 5,
         "date": "5 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -4486,7 +4486,7 @@ const baseProducts: Product[] = [
         "author": "Karthik Nair",
         "rating": 5,
         "date": "4 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -4661,7 +4661,7 @@ const baseProducts: Product[] = [
         "author": "Manish Pandey",
         "rating": 5,
         "date": "3 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -4830,7 +4830,7 @@ const baseProducts: Product[] = [
         "author": "Vikramaditya S.",
         "rating": 5,
         "date": "2 days ago",
-        "comment": "Ordered for the first time from Free Fire India Shop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
         "verified": true
       },
       {

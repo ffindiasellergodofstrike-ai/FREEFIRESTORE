@@ -471,7 +471,7 @@ export default function Checkout() {
               <div className="bg-white p-2 rounded-lg shadow-sm">
                  <ShieldCheck size={18} className="text-black" />
               </div>
-              <p className="text-[10px] font-bold text-slate-500 leading-snug uppercase tracking-tight">Official Free Fire India Shop Protected Purchase</p>
+              <p className="text-[10px] font-bold text-slate-500 leading-snug uppercase tracking-tight">Official garenaofficialshop Protected Purchase</p>
             </div>
           </aside>
         </div>
