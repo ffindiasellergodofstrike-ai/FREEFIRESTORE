@@ -120,9 +120,10 @@ export default function AuthModal({ onSuccess }: AuthModalProps) {
       >
         <button 
           onClick={closeAuthModal}
-          className="absolute top-4 right-4 sm:top-8 sm:right-8 p-1.5 sm:p-2 rounded-full hover:bg-slate-100 transition-colors z-20 bg-white/80 backdrop-blur-sm sm:bg-transparent"
+          className="absolute top-4 right-4 sm:top-5 sm:right-5 p-2 rounded-full hover:bg-slate-100 transition-colors z-20 bg-slate-100/80 sm:bg-slate-100/50"
+          aria-label="Close"
         >
-          <X size={16} className="sm:size-20 text-slate-400" />
+          <X className="w-5 h-5 text-slate-500 hover:text-slate-800" />
         </button>
 
         <div className="p-5 sm:p-10 overflow-y-auto flex-grow scrollbar-hide">
@@ -136,7 +137,7 @@ export default function AuthModal({ onSuccess }: AuthModalProps) {
                 className="text-center py-2 sm:py-0"
               >
                 <div className="w-14 h-14 sm:w-20 sm:h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                  <ShieldCheck size={28} className="text-green-600 sm:size-40" />
+                  <ShieldCheck className="w-8 h-8 sm:w-10 sm:h-10 text-green-600" />
                 </div>
                 <h2 className="text-xl sm:text-2xl font-black mb-1 sm:mb-2">Account Created!</h2>
                 <p className="text-slate-500 text-[10px] sm:text-sm mb-6 sm:mb-8">Your official credentials for garenaofficialshop.</p>
