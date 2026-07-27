@@ -11,24 +11,14 @@ import {
   Type, 
   Check, 
   ArrowRight, 
-  ExternalLink,
   ShieldCheck,
   RotateCcw,
   Sliders,
   Layers,
-  ChevronDown
+  ChevronDown,
+  MessageCircle,
+  X
 } from "lucide-react";
-
-// =========================================================================
-//                  CUSTOM EXTERNAL PAYMENT LINKS DEFINITION
-// =========================================================================
-// Paste your custom payment URLs for each total price tier here.
-const TIER_PAYMENT_URLS: Record<number, string> = {
-  550: "https://u.payu.in/PAYUMN/AJl9j2t0SZxW",
-  750: "https://u.payu.in/PAYUMN/JIERIdfXdtKX",
-  1100: "https://u.payu.in/PAYUMN/8I0PE0KuqnCt",
-  1400: "https://u.payu.in/PAYUMN/srx2fKE94OQV"
-};
 
 interface ProductOption {
   id: string;
@@ -91,6 +81,7 @@ export default function CustomProducts() {
   const [textPlacement, setTextPlacement] = useState("Center Print");
   const [calculatedPrice, setCalculatedPrice] = useState(550);
   const [isRedirecting, setIsRedirecting] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   // Dynamic conditional suboptions states
   // Mobile cover suboptions
@@ -186,28 +177,13 @@ export default function CustomProducts() {
     setAccessoryMaterial("Standard Eco Canvas / Ceramic");
   };
 
-  // External payout router
+  // Customization order handler
   const handleProceedToPayment = () => {
     setIsRedirecting(true);
-    
     setTimeout(() => {
-      const url = TIER_PAYMENT_URLS[calculatedPrice];
-      if (url && !url.includes("your-custom-link")) {
-        window.location.href = url;
-      } else {
-        const proceed = window.confirm(
-          `PAYMENT GATEWAY REDIRECT SIMULATION\n\n` +
-          `🔒 Order Secured Amount: ₹${calculatedPrice}\n` +
-          `📦 Selected Item: ${selectedProduct.name}\n` +
-          `⚙️ Custom Specs: ${selectedColor.name} (${selectedSize})\n\n` +
-          `Click OK to check standard secure portal details or paste custom link in 'CustomProducts.tsx'.`
-        );
-        if (proceed) {
-          window.open("https://www.payu.in", "_blank");
-        }
-        setIsRedirecting(false);
-      }
-    }, 1200);
+      setIsRedirecting(false);
+      setShowSuccessModal(true);
+    }, 400);
   };
 
   return (
@@ -782,21 +758,21 @@ export default function CustomProducts() {
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    <span>Connecting Gateways...</span>
+                    <span>Processing Details...</span>
                   </>
                 ) : (
                   <>
                     <span>Proceed to Pay</span>
-                    <ExternalLink size={13} />
+                    <ArrowRight size={13} />
                   </>
                 )}
               </button>
             </div>
             
-            {/* Direct warning/info note emphasizing contact post-payment */}
+            {/* Direct warning/info note emphasizing contact post-submit */}
             <div className="p-3 bg-white/5 border border-white/10 rounded-xl mt-4 space-y-2" id="post-payment-discuss-note">
               <p className="text-[10px] text-amber-200 leading-normal text-center">
-                ✨ <strong>Design Consultation:</strong> Our team will contact you to design and discuss custom requirements after successful payment.
+                ✨ <strong>Design Consultation:</strong> Our team will contact you on WhatsApp to verify and discuss custom design details.
               </p>
               <div className="flex justify-center gap-3 text-[9px] uppercase tracking-wider font-bold text-neutral-400">
                 <Link to="/policies/shipping" className="hover:text-white underline transition-colors">Shipping Policy</Link>
@@ -808,13 +784,97 @@ export default function CustomProducts() {
             </div>
 
             <p className="text-[9px] text-neutral-500 text-center leading-normal font-mono relative z-10" id="checkout-disclaimer">
-              Prepaid instant direct link gateway. Clean secure transaction environment.
+              Customization Verification Desk. Fast response & WhatsApp consultation.
             </p>
           </div>
 
         </div>
 
       </div>
+
+      {/* WhatsApp Verification Details Pop-Up Modal */}
+      <AnimatePresence>
+        {showSuccessModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" id="customizer-success-modal-overlay">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="bg-white text-neutral-900 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative border border-neutral-100 overflow-hidden"
+              id="customizer-success-modal-box"
+            >
+              <button
+                type="button"
+                onClick={() => setShowSuccessModal(false)}
+                className="absolute top-4 right-4 p-2 text-neutral-400 hover:text-neutral-700 bg-neutral-100 hover:bg-neutral-200 rounded-full transition-colors"
+                aria-label="Close modal"
+                id="close-customizer-modal-btn"
+              >
+                <X size={18} />
+              </button>
+
+              <div className="text-center space-y-4 pt-2">
+                <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner">
+                  <MessageCircle size={32} className="fill-emerald-100" />
+                </div>
+
+                <h3 className="text-xl font-extrabold text-neutral-900 uppercase tracking-tight">
+                  Request Submitted!
+                </h3>
+
+                <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-left shadow-xs">
+                  <p className="text-xs sm:text-sm font-semibold text-emerald-950 leading-relaxed text-center">
+                    Your details have been sent to our team. They will contact you on your WhatsApp account for further verification and design discussion.
+                  </p>
+                </div>
+
+                <div className="bg-neutral-50 rounded-2xl p-4 text-left space-y-2 border border-neutral-100 text-xs">
+                  <div className="text-[10px] font-bold uppercase text-neutral-400 tracking-wider">Custom Spec Overview</div>
+                  <div className="flex justify-between font-bold text-neutral-800">
+                    <span>Selected Item:</span>
+                    <span>{selectedProduct.name}</span>
+                  </div>
+                  {selectedProduct.id === "phone-cover" && (
+                    <div className="flex justify-between text-neutral-600">
+                      <span>Device:</span>
+                      <span>{phoneBrand} ({phoneModel})</span>
+                    </div>
+                  )}
+                  {selectedProduct.category === "apparel" && (
+                    <div className="flex justify-between text-neutral-600">
+                      <span>Fit / Size:</span>
+                      <span>{apparelFit} / Size {selectedSize}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between text-neutral-600">
+                    <span>Color Tone:</span>
+                    <span>{selectedColor.name}</span>
+                  </div>
+                  {customText && (
+                    <div className="flex justify-between text-neutral-600">
+                      <span>Custom Wordmark:</span>
+                      <span className="font-mono text-emerald-700 font-bold">"{customText}"</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between font-extrabold text-neutral-900 text-sm pt-2 border-t border-neutral-200">
+                    <span>Estimated Total:</span>
+                    <span>₹{calculatedPrice}</span>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setShowSuccessModal(false)}
+                  className="w-full bg-neutral-900 hover:bg-neutral-800 text-white font-bold py-3.5 px-6 rounded-xl text-xs uppercase tracking-widest shadow-lg transition-all"
+                  id="modal-got-it-btn"
+                >
+                  Got It
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

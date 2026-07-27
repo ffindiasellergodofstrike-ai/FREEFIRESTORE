@@ -51,9 +51,10 @@ export default function Checkout() {
     }
   }, [user]);
 
-  const [paymentType, setPaymentType] = useState<'payu' | 'pod'>('payu');
+  const [paymentType, setPaymentType] = useState<'payu' | 'pod'>('pod');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [showOnlinePaymentNotice, setShowOnlinePaymentNotice] = useState(false);
 
   useEffect(() => {
     if (statusParam === 'success') {
@@ -110,82 +111,10 @@ export default function Checkout() {
       const orderNumber = Math.floor(Math.random() * 900000) + 100000;
       
       if (paymentType === 'payu') {
-        toast.loading('Synchronizing Secure Payment Gateway...', {
-          id: 'checkout-toast'
-        });
-
-        // Request secure hash from our backend Node API using secure secrets
-        const payuRes = await fetch('/api/payu/generate-hash', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            amount: subtotal,
-            firstname: formData.firstName || 'Shopper',
-            email: formData.email,
-            phone: formData.phone,
-            productinfo: checkoutItems.map(item => `${item.title} (${item.size || 'N/A'})`).join(', ').substring(0, 100),
-            udf1: user?.uid || 'guest'
-          }),
-        });
-
-        const payuData = await payuRes.json();
-        if (!payuData.success) {
-          throw new Error(payuData.error || 'Gateway authentication rejected');
-        }
-
-        // Keep a transient state in Firestore referencing this transaction ID
-        // This is safe: if transaction completes, callback updates status to 'Order Placed' and paymentStatus to 'Paid'
-        if (user) {
-          await addDoc(collection(db, 'orders'), {
-            userId: user.uid || user.email,
-            userEmail: user.email,
-            items: checkoutItems,
-            total: subtotal,
-            status: 'Pending Payment',
-            paymentStatus: 'Pending',
-            shippingAddress: formData,
-            orderNumber,
-            txnid: payuData.txnid,
-            createdAt: serverTimestamp()
-          });
-        }
-
-        toast.loading('Redirecting to Secured Gateway...', {
-          id: 'checkout-toast'
-        });
-
-        // Create virtual form and automatically transition to PayU sandbox or production
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = payuData.actionUrl;
-
-        const parameters = {
-          key: payuData.key,
-          txnid: payuData.txnid,
-          amount: String(payuData.amount),
-          productinfo: payuData.productinfo,
-          firstname: payuData.firstname,
-          email: payuData.email,
-          phone: payuData.phone,
-          surl: `${window.location.origin}/api/payu/callback`,
-          furl: `${window.location.origin}/api/payu/callback`,
-          hash: payuData.hash,
-          service_provider: 'payu_paisa',
-          udf1: payuData.udf1
-        };
-
-        Object.entries(parameters).forEach(([name, val]) => {
-          const input = document.createElement('input');
-          input.type = 'hidden';
-          input.name = name;
-          input.value = val;
-          form.appendChild(input);
-        });
-
-        document.body.appendChild(form);
-        form.submit();
+        setIsProcessing(false);
+        setShowOnlinePaymentNotice(true);
+        toast.dismiss('checkout-toast');
+        return;
       } else {
         // Standard Cash on Delivery order flow
         if (user) {
@@ -333,36 +262,38 @@ export default function Checkout() {
               </div>
               
               <div className="grid grid-cols-1 gap-4">
-                <label 
-                  onClick={() => setPaymentType('payu')}
-                  className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer relative overflow-hidden group shadow-sm transition-all ${
-                    paymentType === 'payu' ? 'border-black bg-slate-50' : 'border-slate-100 bg-white hover:border-slate-200'
-                  }`}
+                <div 
+                  onClick={() => setShowOnlinePaymentNotice(true)}
+                  className="flex items-start gap-4 p-5 rounded-2xl border-2 border-slate-200 bg-slate-100/70 opacity-75 cursor-not-allowed relative overflow-hidden group shadow-xs transition-all"
+                  id="prepaid-option-disabled"
                 >
                   <input 
                     type="radio" 
                     name="paymentType" 
                     value="payu" 
-                    checked={paymentType === 'payu'}
-                    onChange={() => setPaymentType('payu')}
-                    className="mt-1 accent-black w-4 h-4" 
+                    disabled
+                    checked={false}
+                    className="mt-1 accent-slate-400 w-4 h-4 cursor-not-allowed" 
                   />
                   <div className="flex-1">
-                    <span className="block text-sm font-black text-black uppercase tracking-tight">Prepaid Credit / Debit Cards / UPI</span>
-                    <p className="text-[11px] text-slate-500 mt-2 font-medium leading-relaxed">
-                      Safe & secure transaction powered by <strong className="text-black">PayU</strong>. Instant checkout confirmation via popular UPI platforms (GPay, PhonePe, Paytm) or cards.
+                    <div className="flex items-center gap-2">
+                      <span className="block text-sm font-black text-slate-500 uppercase tracking-tight">Prepaid Credit / Debit Cards / UPI</span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 mt-2 font-medium leading-relaxed">
+                      Online payment gateway currently paused. Please select Pay On Delivery (POD) to proceed with your order.
                     </p>
                   </div>
                   <div className="absolute top-0 right-0 p-3">
-                    <div className="bg-black text-white text-[8px] font-bold px-2 py-1 rounded uppercase tracking-widest">Recommended</div>
+                    <div className="bg-amber-100 text-amber-800 text-[8px] font-bold px-2 py-1 rounded uppercase tracking-widest border border-amber-300/60">Currently Unavailable</div>
                   </div>
-                </label>
+                </div>
 
                 <label 
                   onClick={() => setPaymentType('pod')}
                   className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer relative overflow-hidden group shadow-sm transition-all ${
-                    paymentType === 'pod' ? 'border-black bg-slate-50' : 'border-slate-100 bg-white hover:border-slate-200'
+                    paymentType === 'pod' ? 'border-black bg-slate-50 ring-1 ring-black/5' : 'border-slate-100 bg-white hover:border-slate-200'
                   }`}
+                  id="pod-option-enabled"
                 >
                   <input 
                     type="radio" 
@@ -373,13 +304,13 @@ export default function Checkout() {
                     className="mt-1 accent-black w-4 h-4" 
                   />
                   <div className="flex-1">
-                    <span className="block text-sm font-black text-black uppercase tracking-tight">Pay On Delivery (POD)</span>
+                    <span className="block text-sm font-black text-black uppercase tracking-tight">Pay On Delivery (POD) / Cash on Delivery</span>
                     <p className="text-[11px] text-slate-500 mt-2 font-medium leading-relaxed">
                       Secure payment verification upon arrival. Pay via Cash, Mini-ATM or UPI directly to our logistics partner.
                     </p>
                   </div>
                   <div className="absolute top-0 right-0 p-3">
-                    <div className="bg-slate-500 text-white text-[8px] font-bold px-2 py-1 rounded uppercase tracking-widest">COD</div>
+                    <div className="bg-emerald-600 text-white text-[8px] font-bold px-2 py-1 rounded uppercase tracking-widest shadow-xs">Available Now</div>
                   </div>
                 </label>
               </div>
@@ -476,6 +407,69 @@ export default function Checkout() {
           </aside>
         </div>
       </div>
+
+      {/* Online Payment Notice Popup Modal */}
+      {showOnlinePaymentNotice && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200" id="online-payment-notice-modal">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative text-center border border-slate-100 overflow-hidden" id="online-payment-modal-card">
+            {/* Top decorative accent banner */}
+            <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500"></div>
+
+            <button 
+              type="button" 
+              onClick={() => setShowOnlinePaymentNotice(false)}
+              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 rounded-full transition-colors"
+              aria-label="Close"
+              id="close-online-payment-modal-btn"
+            >
+              <X size={18} />
+            </button>
+
+            <div className="pt-2 pb-1 space-y-4">
+              <div className="w-16 h-16 bg-amber-50 border border-amber-200/80 text-amber-600 rounded-2xl flex items-center justify-center mx-auto shadow-inner relative">
+                <Lock size={30} />
+                <div className="absolute -bottom-1 -right-1 bg-amber-500 text-white rounded-full p-1 shadow-xs">
+                  <ShieldCheck size={12} />
+                </div>
+              </div>
+
+              <div>
+                <span className="inline-block bg-amber-100 text-amber-900 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full mb-2">
+                  Online Payments Paused
+                </span>
+                <h3 className="text-xl font-black uppercase tracking-tight text-slate-900">
+                  Payment Notice
+                </h3>
+              </div>
+
+              <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 sm:p-5 text-center shadow-xs">
+                <p className="text-xs sm:text-sm font-semibold text-slate-800 leading-relaxed">
+                  We are not accepting online payments at this time. We will accept online payments as soon as possible.
+                </p>
+              </div>
+
+              <div className="p-3 bg-emerald-50 border border-emerald-200/60 rounded-xl text-left flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></div>
+                <p className="text-[11px] font-bold text-emerald-950 leading-tight">
+                  Pay On Delivery (POD) / Cash on Delivery is active and available for your order.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setShowOnlinePaymentNotice(false);
+                  setPaymentType('pod');
+                }}
+                className="w-full bg-slate-950 hover:bg-black text-white font-black py-4 px-6 rounded-xl text-xs uppercase tracking-widest shadow-xl transition-all hover:scale-[1.01] active:scale-[0.99] mt-2"
+                id="notice-modal-close-btn"
+              >
+                Proceed with Pay On Delivery
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
