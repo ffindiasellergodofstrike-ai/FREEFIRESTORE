@@ -9,9 +9,9 @@ export default function ShippingPolicy() {
             Shipping & Delivery Policy
           </h1>
           <div className="text-xs text-stone-500 font-mono space-y-1 leading-relaxed">
-            <p><strong>Trade Name:</strong> garenaofficialshop</p>
+            <p><strong>Trade Name:</strong> Free Fire Shop</p>
             <p><strong>Proprietary Owner:</strong> PRANKRISHNA DAS</p>
-            <p><strong>Business Type:</strong> E-commerce Retail & Custom Apparel Store</p>
+            <p><strong>Business Type:</strong> E-commerce Retail Store</p>
             <p><strong>Registered Address:</strong> 02 NO TAKIMARI, Mantadari, PO: Milanpally, DIST: Jalpaiguri, West Bengal - 735133, India</p>
             <p><strong>Support Email:</strong> connectwithvexora@gmail.com | <strong>Contact:</strong> +91 9918396803</p>
             <p><strong>Effective Date:</strong> Last updated on {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
@@ -22,18 +22,14 @@ export default function ShippingPolicy() {
         <div className="space-y-6 text-xs sm:text-sm leading-relaxed text-stone-600">
           
           <p>
-            At <strong>garenaofficialshop</strong> (PRANKRISHNA DAS), we partner with leading nationwide express courier networks to ensure your standard orders and custom-crafted items reach your doorstep safely, securely, and within established timeframes across India.
+            At <strong>Free Fire Shop</strong> (PRANKRISHNA DAS), we partner with leading nationwide express courier networks to ensure your orders reach your doorstep safely, securely, and within established timeframes across India.
           </p>
 
           <section className="space-y-3">
-            <h2 className="text-base font-bold text-stone-900 tracking-tight">1. Order Processing & Production Lead Times</h2>
+            <h2 className="text-base font-bold text-stone-900 tracking-tight">1. Order Processing Lead Times</h2>
             <p>
-              Order fulfillment timelines depend on whether your item is standard ready-to-ship inventory or custom made-to-order merchandise:
+              Standard retail orders across apparel, fashion accessories, and general merchandise are processed and prepared for dispatch within <strong>1 to 2 business days</strong>.
             </p>
-            <ul className="list-disc pl-5 space-y-2">
-              <li><strong>Custom Made-to-Order Merchandise:</strong> Customized apparel, personalized gaming jerseys, custom embroidery, and engraved gear require a mandatory manufacturing, printing, and handcrafting window of <strong>7 to 8 business days</strong> prior to dispatch.</li>
-              <li><strong>Standard Retail Catalog Goods:</strong> Non-customized apparel, fashion accessories, and general merchandise are processed and prepared for dispatch within <strong>1 to 2 business days</strong>.</li>
-            </ul>
           </section>
 
           <section className="space-y-3">
@@ -51,7 +47,6 @@ export default function ShippingPolicy() {
           <section className="space-y-3">
             <h2 className="text-base font-bold text-stone-900 tracking-tight">3. Total Estimated Doorstep Delivery Timelines</h2>
             <div className="bg-stone-50 p-4 rounded-xl border border-stone-200 text-xs text-stone-700 space-y-2">
-              <p><strong>• Custom Products Total Delivery Window:</strong> <strong>10 to 16 business days</strong> (7-8 days production + 3-8 days courier transit).</p>
               <p><strong>• Standard Catalog Products Total Delivery Window:</strong> <strong>4 to 10 business days</strong> (1-2 days processing + 3-8 days courier transit).</p>
             </div>
           </section>
@@ -82,7 +77,7 @@ export default function ShippingPolicy() {
             <h2 className="text-base font-bold text-stone-900 tracking-tight">7. Shipping Desk Contact Information</h2>
             <div className="bg-stone-50 p-4 rounded-xl border border-stone-200 text-xs text-stone-700 space-y-1">
               <p className="font-bold text-stone-900">Logistics & Shipping Desk</p>
-              <p>Proprietor: PRANKRISHNA DAS (garenaofficialshop)</p>
+              <p>Proprietor: PRANKRISHNA DAS (Free Fire Shop)</p>
               <p>Address: 02 NO TAKIMARI, Mantadari, PO: Milanpally, DIST: Jalpaiguri, West Bengal - 735133, India</p>
               <p>Email: connectwithvexora@gmail.com</p>
               <p>Phone: +91 9918396803 (10:00 AM - 6:00 PM IST, Monday to Saturday)</p>

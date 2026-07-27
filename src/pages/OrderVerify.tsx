@@ -667,7 +667,7 @@ export default function OrderVerify() {
                       {/* BOTTOM Footer Band */}
                       <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-400">
                         <span className="font-bold text-slate-500 uppercase tracking-wider">
-                          GARENAOFFICIALSHOP — OFFICIAL DELIVERY RECORD
+                          FREE FIRE SHOP — OFFICIAL DELIVERY RECORD
                         </span>
                         <span className="italic">
                           {log.trackingId === 'SF3673820650VNM'

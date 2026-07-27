@@ -17,7 +17,6 @@ import TrackOrder from './pages/TrackOrder';
 import MyOrders from './pages/MyOrders';
 import Success from './pages/Success';
 import Failure from './pages/Failure';
-import CustomProducts from './pages/CustomProducts';
 import OrderVerify from './pages/OrderVerify';
 import ScrollToTop from './components/ScrollToTop';
 import AuthModal from './components/AuthModal';
@@ -32,7 +31,6 @@ function StoreLayout() {
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/custom-products" element={<CustomProducts />} />
           <Route path="/products" element={<ProductList />} />
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/checkout" element={<Checkout />} />

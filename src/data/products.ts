@@ -109,7 +109,7 @@ const baseProducts: Product[] = [
         "author": "Nikhil Mehra",
         "rating": 5,
         "date": "5 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from Free Fire Shop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -202,7 +202,7 @@ const baseProducts: Product[] = [
         "author": "Abhishek Sharma",
         "rating": 5,
         "date": "4 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from Free Fire Shop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -309,440 +309,6 @@ const baseProducts: Product[] = [
     ]
   },
   {
-    "id": "p_add_11",
-    "title": "High Bass Stereo Sound Wired In Ear Earphones",
-    "price": 428,
-    "oldPrice": 759,
-    "category": "Electronics",
-    "image": "https://deodap.in/cdn/shop/files/EarphoneBassbull-01.jpg?v=1775192654",
-    "shortDescription": "High Bass Stereo Sound Wired In Ear Earphones - Top quality drop-shipped product.",
-    "description": "Premium product directly sourced for you. Designed for durability, elegance, and incredible value.",
-    "isNew": false,
-    "rating": 4.7,
-    "reviewCount": 453,
-    "reviews": [
-      {
-        "id": "base_rev_p_add_11_1",
-        "author": "Ramesh Chhabra",
-        "rating": 5,
-        "date": "3 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
-        "verified": true
-      },
-      {
-        "id": "base_rev_p_add_11_2",
-        "author": "Karthik Nair",
-        "rating": 4,
-        "date": "8 days ago",
-        "comment": "Great quality product for this price point. Would recommend!",
-        "verified": true
-      }
-    ]
-  },
-  {
-    "id": "p_add_12",
-    "title": "Portable Air Cooler Fan with 7-Color Light",
-    "price": 393,
-    "oldPrice": 1169,
-    "category": "Electronics",
-    "image": "https://deodap.in/cdn/shop/files/02_4d2235f1-7fc9-4773-b9f2-30ad2aa88e52.jpg?v=1775559406",
-    "shortDescription": "Portable Air Cooler Fan with 7-Color Light - Top quality drop-shipped product.",
-    "description": "Premium product directly sourced for you. Designed for durability, elegance, and incredible value.",
-    "isNew": false,
-    "rating": 4.8,
-    "reviewCount": 476,
-    "reviews": [
-      {
-        "id": "base_rev_p_add_12_1",
-        "author": "Anjali Deshmukh",
-        "rating": 5,
-        "date": "4 days ago",
-        "comment": "Value for money! The product came nicely packed and works exactly as expected.",
-        "verified": true
-      },
-      {
-        "id": "base_rev_p_add_12_2",
-        "author": "Bhavna Patel",
-        "rating": 4,
-        "date": "9 days ago",
-        "comment": "Great quality product for this price point. Would recommend!",
-        "verified": true
-      }
-    ]
-  },
-  {
-    "id": "p_add_13",
-    "title": "Vacuum Cleaner Sweeping Robot",
-    "price": 649,
-    "oldPrice": 1429,
-    "category": "Electronics",
-    "image": "https://deodap.in/cdn/shop/files/02_cleaner.jpg?v=1755924632",
-    "shortDescription": "Vacuum Cleaner Sweeping Robot - Top quality drop-shipped product.",
-    "description": "Premium product directly sourced for you. Designed for durability, elegance, and incredible value.",
-    "isNew": false,
-    "rating": 4.3,
-    "reviewCount": 99,
-    "reviews": [
-      {
-        "id": "base_rev_p_add_13_1",
-        "author": "Gaurav Joshi",
-        "rating": 5,
-        "date": "5 days ago",
-        "comment": "Super happy with the quality. Delivery was completed in 3 days.",
-        "verified": true
-      },
-      {
-        "id": "base_rev_p_add_13_2",
-        "author": "Nikhil Mehra",
-        "rating": 4,
-        "date": "10 days ago",
-        "comment": "Great quality product for this price point. Would recommend!",
-        "verified": true
-      }
-    ]
-  },
-  {
-    "id": "p_add_14",
-    "title": "3 in 1 Mini Car Vacuum – Wireless, Rechargeable",
-    "price": 339,
-    "oldPrice": 779,
-    "category": "Electronics",
-    "image": "https://deodap.in/cdn/shop/files/3in1Vacuumcleaner-WOSKU-01_92853fde-2a71-4058-a126-2bc5c7062d97.jpg?v=1767079415",
-    "shortDescription": "3 in 1 Mini Car Vacuum – Wireless, Rechargeable - Top quality drop-shipped product.",
-    "description": "Premium product directly sourced for you. Designed for durability, elegance, and incredible value.",
-    "isNew": false,
-    "rating": 4.4,
-    "reviewCount": 122,
-    "reviews": [
-      {
-        "id": "base_rev_p_add_14_1",
-        "author": "Tanya Sen",
-        "rating": 5,
-        "date": "6 days ago",
-        "comment": "Very sturdy and well finished. Definitely buying more items from this drop.",
-        "verified": true
-      },
-      {
-        "id": "base_rev_p_add_14_2",
-        "author": "Swati Saxena",
-        "rating": 4,
-        "date": "11 days ago",
-        "comment": "Great quality product for this price point. Would recommend!",
-        "verified": true
-      }
-    ]
-  },
-  {
-    "id": "p_add_15",
-    "title": "Solar Wall Lamp – Wireless Outdoor Light with Motion Sensor",
-    "price": 341,
-    "oldPrice": 519,
-    "category": "Electronics",
-    "image": "https://deodap.in/cdn/shop/files/08_41f723d0-703e-479d-a3ee-6269447cd192.jpg?v=1737625784",
-    "shortDescription": "Solar Wall Lamp – Wireless Outdoor Light with Motion Sensor - Top quality drop-shipped product.",
-    "description": "Premium product directly sourced for you. Designed for durability, elegance, and incredible value.",
-    "isNew": false,
-    "rating": 4.5,
-    "reviewCount": 145,
-    "reviews": [
-      {
-        "id": "base_rev_p_add_15_1",
-        "author": "Karthik Nair",
-        "rating": 5,
-        "date": "2 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
-        "verified": true
-      },
-      {
-        "id": "base_rev_p_add_15_2",
-        "author": "Manish Pandey",
-        "rating": 4,
-        "date": "12 days ago",
-        "comment": "Great quality product for this price point. Would recommend!",
-        "verified": true
-      }
-    ]
-  },
-  {
-    "id": "p_add_16",
-    "title": "Handy Portable Mini Sewing Stapler Machine",
-    "price": 447,
-    "oldPrice": 754,
-    "category": "Electronics",
-    "image": "https://deodap.in/cdn/shop/files/01_1e9f5010-24f7-464e-86dd-6ce0010c5728.jpg?v=1738816407",
-    "shortDescription": "Handy Portable Mini Sewing Stapler Machine - Top quality drop-shipped product.",
-    "description": "Premium product directly sourced for you. Designed for durability, elegance, and incredible value.",
-    "isNew": false,
-    "rating": 4.6,
-    "reviewCount": 168,
-    "reviews": [
-      {
-        "id": "base_rev_p_add_16_1",
-        "author": "Bhavna Patel",
-        "rating": 5,
-        "date": "3 days ago",
-        "comment": "Value for money! The product came nicely packed and works exactly as expected.",
-        "verified": true
-      },
-      {
-        "id": "base_rev_p_add_16_2",
-        "author": "Deepika K.",
-        "rating": 4,
-        "date": "6 days ago",
-        "comment": "Great quality product for this price point. Would recommend!",
-        "verified": true
-      }
-    ]
-  },
-  {
-    "id": "p_add_17",
-    "title": "Remote Control Helicopter USB Chargeable",
-    "price": 592,
-    "oldPrice": 779,
-    "category": "Electronics",
-    "image": "https://deodap.in/cdn/shop/products/13_beec6050-4cd3-4bb6-a4d3-2525b90429ac.jpg?v=1742303954",
-    "shortDescription": "Remote Control Helicopter USB Chargeable - Top quality drop-shipped product.",
-    "description": "Premium product directly sourced for you. Designed for durability, elegance, and incredible value.",
-    "isNew": false,
-    "rating": 4.7,
-    "reviewCount": 191,
-    "reviews": [
-      {
-        "id": "base_rev_p_add_17_1",
-        "author": "Nikhil Mehra",
-        "rating": 5,
-        "date": "4 days ago",
-        "comment": "Super happy with the quality. Delivery was completed in 3 days.",
-        "verified": true
-      },
-      {
-        "id": "base_rev_p_add_17_2",
-        "author": "Abhishek Sharma",
-        "rating": 4,
-        "date": "7 days ago",
-        "comment": "Great quality product for this price point. Would recommend!",
-        "verified": true
-      }
-    ]
-  },
-  {
-    "id": "p_add_18",
-    "title": "Mini Bag Sealer, 2 in 1 Seal & Cutter Heat Sealers",
-    "price": 484,
-    "oldPrice": 519,
-    "category": "Electronics",
-    "image": "https://deodap.in/cdn/shop/files/3030322.webp?v=1776688450",
-    "shortDescription": "Mini Bag Sealer, 2 in 1 Seal & Cutter Heat Sealers - Top quality drop-shipped product.",
-    "description": "Premium product directly sourced for you. Designed for durability, elegance, and incredible value.",
-    "isNew": false,
-    "rating": 4.8,
-    "reviewCount": 214,
-    "reviews": [
-      {
-        "id": "base_rev_p_add_18_1",
-        "author": "Swati Saxena",
-        "rating": 5,
-        "date": "5 days ago",
-        "comment": "Very sturdy and well finished. Definitely buying more items from this drop.",
-        "verified": true
-      },
-      {
-        "id": "base_rev_p_add_18_2",
-        "author": "Simran Gill",
-        "rating": 4,
-        "date": "8 days ago",
-        "comment": "Great quality product for this price point. Would recommend!",
-        "verified": true
-      }
-    ]
-  },
-  {
-    "id": "p_add_19",
-    "title": "Digital LCD Alarm Clock with Backlight",
-    "price": 541,
-    "oldPrice": 824,
-    "category": "Electronics",
-    "image": "https://deodap.in/cdn/shop/files/01_be1eae61-e9c3-4b0d-b303-77732b1fc133.jpg?v=1744968473",
-    "shortDescription": "Digital LCD Alarm Clock with Backlight - Top quality drop-shipped product.",
-    "description": "Premium product directly sourced for you. Designed for durability, elegance, and incredible value.",
-    "isNew": false,
-    "rating": 4.3,
-    "reviewCount": 237,
-    "reviews": [
-      {
-        "id": "base_rev_p_add_19_1",
-        "author": "Manish Pandey",
-        "rating": 5,
-        "date": "6 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
-        "verified": true
-      },
-      {
-        "id": "base_rev_p_add_19_2",
-        "author": "Vikramaditya S.",
-        "rating": 4,
-        "date": "9 days ago",
-        "comment": "Great quality product for this price point. Would recommend!",
-        "verified": true
-      }
-    ]
-  },
-  {
-    "id": "p_add_20",
-    "title": "Digital Weighing Scale (10 Kg)",
-    "price": 556,
-    "oldPrice": 858,
-    "category": "Electronics",
-    "image": "https://deodap.in/cdn/shop/products/04_c9e765b2-f1b1-4c5f-8e8c-28bc6417f456.jpg?v=1737629208",
-    "shortDescription": "Digital Weighing Scale (10 Kg) - Top quality drop-shipped product.",
-    "description": "Premium product directly sourced for you. Designed for durability, elegance, and incredible value.",
-    "isNew": false,
-    "rating": 4.4,
-    "reviewCount": 260,
-    "reviews": [
-      {
-        "id": "base_rev_p_add_20_1",
-        "author": "Deepika K.",
-        "rating": 5,
-        "date": "2 days ago",
-        "comment": "Value for money! The product came nicely packed and works exactly as expected.",
-        "verified": true
-      },
-      {
-        "id": "base_rev_p_add_20_2",
-        "author": "Priyanka Roy",
-        "rating": 4,
-        "date": "10 days ago",
-        "comment": "Great quality product for this price point. Would recommend!",
-        "verified": true
-      }
-    ]
-  },
-  {
-    "id": "p_add_21",
-    "title": "4-in-1 Blackhead Extractor – Vacuum Suction",
-    "price": 418,
-    "oldPrice": 1097,
-    "category": "Electronics",
-    "image": "https://deodap.in/cdn/shop/products/4_1d32ddb8-41e9-410c-948a-19a0c140d171.jpg?v=1750849325",
-    "shortDescription": "4-in-1 Blackhead Extractor – Vacuum Suction - Top quality drop-shipped product.",
-    "description": "Premium product directly sourced for you. Designed for durability, elegance, and incredible value.",
-    "isNew": false,
-    "rating": 4.5,
-    "reviewCount": 283,
-    "reviews": [
-      {
-        "id": "base_rev_p_add_21_1",
-        "author": "Abhishek Sharma",
-        "rating": 5,
-        "date": "3 days ago",
-        "comment": "Super happy with the quality. Delivery was completed in 3 days.",
-        "verified": true
-      },
-      {
-        "id": "base_rev_p_add_21_2",
-        "author": "Ramesh Chhabra",
-        "rating": 4,
-        "date": "11 days ago",
-        "comment": "Great quality product for this price point. Would recommend!",
-        "verified": true
-      }
-    ]
-  },
-  {
-    "id": "p_add_22",
-    "title": "Digital LCD 8.5'' inch Writing Drawing Tablet Pad",
-    "price": 401,
-    "oldPrice": 973,
-    "category": "Electronics",
-    "image": "https://deodap.in/cdn/shop/products/1_345bc4e1-e049-42d7-bfa6-c0ef43b6433c.jpg?v=1737632626",
-    "shortDescription": "Digital LCD 8.5'' inch Writing Drawing Tablet Pad - Top quality drop-shipped product.",
-    "description": "Premium product directly sourced for you. Designed for durability, elegance, and incredible value.",
-    "isNew": false,
-    "rating": 4.6,
-    "reviewCount": 306,
-    "reviews": [
-      {
-        "id": "base_rev_p_add_22_1",
-        "author": "Simran Gill",
-        "rating": 5,
-        "date": "4 days ago",
-        "comment": "Very sturdy and well finished. Definitely buying more items from this drop.",
-        "verified": true
-      },
-      {
-        "id": "base_rev_p_add_22_2",
-        "author": "Anjali Deshmukh",
-        "rating": 4,
-        "date": "12 days ago",
-        "comment": "Great quality product for this price point. Would recommend!",
-        "verified": true
-      }
-    ]
-  },
-  {
-    "id": "p_add_23",
-    "title": "USB Vibration Full Body Massager",
-    "price": 437,
-    "oldPrice": 716,
-    "category": "Electronics",
-    "image": "https://deodap.in/cdn/shop/products/02_b7309ff7-09cb-4669-9b0f-11c16348b529.jpg?v=1737631801",
-    "shortDescription": "USB Vibration Full Body Massager - Top quality drop-shipped product.",
-    "description": "Premium product directly sourced for you. Designed for durability, elegance, and incredible value.",
-    "isNew": false,
-    "rating": 4.7,
-    "reviewCount": 329,
-    "reviews": [
-      {
-        "id": "base_rev_p_add_23_1",
-        "author": "Vikramaditya S.",
-        "rating": 5,
-        "date": "5 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
-        "verified": true
-      },
-      {
-        "id": "base_rev_p_add_23_2",
-        "author": "Gaurav Joshi",
-        "rating": 4,
-        "date": "6 days ago",
-        "comment": "Great quality product for this price point. Would recommend!",
-        "verified": true
-      }
-    ]
-  },
-  {
-    "id": "p_add_24",
-    "title": "Hand Blender for Mixing and Blending",
-    "price": 571,
-    "oldPrice": 789,
-    "category": "Electronics",
-    "image": "https://deodap.in/cdn/shop/products/02_13a215dc-07e6-4d05-98bc-dd30f55e92dc.jpg?v=1737632230",
-    "shortDescription": "Hand Blender for Mixing and Blending - Top quality drop-shipped product.",
-    "description": "Premium product directly sourced for you. Designed for durability, elegance, and incredible value.",
-    "isNew": false,
-    "rating": 4.8,
-    "reviewCount": 352,
-    "reviews": [
-      {
-        "id": "base_rev_p_add_24_1",
-        "author": "Priyanka Roy",
-        "rating": 5,
-        "date": "6 days ago",
-        "comment": "Value for money! The product came nicely packed and works exactly as expected.",
-        "verified": true
-      },
-      {
-        "id": "base_rev_p_add_24_2",
-        "author": "Tanya Sen",
-        "rating": 4,
-        "date": "7 days ago",
-        "comment": "Great quality product for this price point. Would recommend!",
-        "verified": true
-      }
-    ]
-  },
-  {
     "id": "p_add_25",
     "title": "Squeeze Twist Mop Self Wringing Mop",
     "price": 333,
@@ -822,7 +388,7 @@ const baseProducts: Product[] = [
         "author": "Gaurav Joshi",
         "rating": 5,
         "date": "4 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from Free Fire Shop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -946,7 +512,7 @@ const baseProducts: Product[] = [
         "author": "Nikhil Mehra",
         "rating": 5,
         "date": "3 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from Free Fire Shop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -1163,7 +729,7 @@ const baseProducts: Product[] = [
         "author": "Ramesh Chhabra",
         "rating": 5,
         "date": "4 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from Free Fire Shop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -1287,7 +853,7 @@ const baseProducts: Product[] = [
         "author": "Karthik Nair",
         "rating": 5,
         "date": "3 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from Free Fire Shop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -1367,7 +933,7 @@ const baseProducts: Product[] = [
     "title": "Men's Claws and Jaws Pocket T-shirt",
     "price": 2876,
     "oldPrice": 3739,
-    "category": "Trending",
+    "category": "Men's Fashion",
     "image": "https://file.zendrop.com/products/a6/49/7ab9e01e43c48e09a23f886a2d1c.jpeg",
     "images": [
       "https://file.zendrop.com/products/a6/49/7ab9e01e43c48e09a23f886a2d1c.jpeg",
@@ -1457,7 +1023,7 @@ const baseProducts: Product[] = [
     "title": "Save Gas and Jig Tuna T-shirt",
     "price": 4700,
     "oldPrice": 6110,
-    "category": "Trending",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/17/f8/69a998c3494593926c660c9dd2d3.jpeg",
     "images": [
       "https://file.zendrop.com/products/17/f8/69a998c3494593926c660c9dd2d3.jpeg",
@@ -1484,7 +1050,7 @@ const baseProducts: Product[] = [
         "author": "Vikramaditya S.",
         "rating": 5,
         "date": "6 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from Free Fire Shop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -1502,7 +1068,7 @@ const baseProducts: Product[] = [
     "title": "European and American Patriotic Eagle Short Sleeve T-Shirt",
     "price": 525,
     "oldPrice": 782,
-    "category": "Trending",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/82/6d/7dbc4fa345649d057bb67c4bc947.jpeg",
     "images": [
       "https://file.zendrop.com/products/82/6d/7dbc4fa345649d057bb67c4bc947.jpeg",
@@ -1656,7 +1222,7 @@ const baseProducts: Product[] = [
         "author": "Gaurav Joshi",
         "rating": 5,
         "date": "5 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from Free Fire Shop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -1742,7 +1308,7 @@ const baseProducts: Product[] = [
     "title": "Vintage Cartoon Dog & Piano T-Shirt",
     "price": 2344,
     "oldPrice": 3048,
-    "category": "Trending",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/88/42/15410db240538efbc67124cdff2d.jpeg",
     "images": [
       "https://file.zendrop.com/products/88/42/15410db240538efbc67124cdff2d.jpeg"
@@ -1783,7 +1349,7 @@ const baseProducts: Product[] = [
     "title": "YourTops Women Fueled By Jesus And Coffee T-Shirt ...",
     "price": 1660,
     "oldPrice": 2158,
-    "category": "Trending",
+    "category": "Women's Fashion",
     "image": "https://file.zendrop.com/products/fe/bb/40f41c5941eb8b69a210ce380078.jpeg",
     "images": [
       "https://file.zendrop.com/products/fe/bb/40f41c5941eb8b69a210ce380078.jpeg"
@@ -1806,7 +1372,7 @@ const baseProducts: Product[] = [
         "author": "Nikhil Mehra",
         "rating": 5,
         "date": "4 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from Free Fire Shop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -1824,7 +1390,7 @@ const baseProducts: Product[] = [
     "title": "World and Space Varsity Academy Kids T-Shirt Ha...",
     "price": 1942,
     "oldPrice": 2525,
-    "category": "Kids & Baby",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/d5/37/9094cf8e497bbb366610e3d845d3.jpeg",
     "images": [
       "https://file.zendrop.com/products/d5/37/9094cf8e497bbb366610e3d845d3.jpeg"
@@ -1943,7 +1509,7 @@ const baseProducts: Product[] = [
     "title": "Roses and Diamonds Freedom T-Shirt for Men",
     "price": 339,
     "oldPrice": 379,
-    "category": "Trending",
+    "category": "Men's Fashion",
     "image": "https://file.zendrop.com/products/ea/38/3de48eee444ea968a48203713cf3.jpeg",
     "images": [
       "https://file.zendrop.com/products/ea/38/3de48eee444ea968a48203713cf3.jpeg",
@@ -1970,7 +1536,7 @@ const baseProducts: Product[] = [
         "author": "Abhishek Sharma",
         "rating": 5,
         "date": "3 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from Free Fire Shop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -1988,7 +1554,7 @@ const baseProducts: Product[] = [
     "title": "Sports Fitness Fashion T-Shirt and Running Set",
     "price": 665,
     "oldPrice": 865,
-    "category": "Sports & Outdoors",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/53/92/00d201fc410680a7d2325d7476bb.jpeg",
     "images": [
       "https://file.zendrop.com/products/53/92/00d201fc410680a7d2325d7476bb.jpeg"
@@ -2029,7 +1595,7 @@ const baseProducts: Product[] = [
     "title": "Casual T-Shirt for Baby and Children's Clothing",
     "price": 866,
     "oldPrice": 1126,
-    "category": "Kids & Baby",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/1c/83/b26bb2134b81abe863cce8ecdd2d.png",
     "images": [
       "https://file.zendrop.com/products/1c/83/b26bb2134b81abe863cce8ecdd2d.png",
@@ -2114,7 +1680,7 @@ const baseProducts: Product[] = [
     "title": "Boys' and Girls' Striped Long Sleeve T-Shirt",
     "price": 382,
     "oldPrice": 497,
-    "category": "Kids & Baby",
+    "category": "Women's Fashion",
     "image": "https://file.zendrop.com/products/fb/0e/f17f0a7d4db09891dea3f22438a2.jpeg",
     "images": [
       "https://file.zendrop.com/products/fb/0e/f17f0a7d4db09891dea3f22438a2.jpeg"
@@ -2137,7 +1703,7 @@ const baseProducts: Product[] = [
         "author": "Ramesh Chhabra",
         "rating": 5,
         "date": "2 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from Free Fire Shop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -2155,7 +1721,7 @@ const baseProducts: Product[] = [
     "title": "Adult Pet T-Shirt for Dogs and Cats",
     "price": 414,
     "oldPrice": 539,
-    "category": "Pet Supplies",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/35/68/9b0a41634d758a05a6f74365e6d5.jpeg",
     "images": [
       "https://file.zendrop.com/products/35/68/9b0a41634d758a05a6f74365e6d5.jpeg"
@@ -2303,7 +1869,7 @@ const baseProducts: Product[] = [
         "author": "Karthik Nair",
         "rating": 5,
         "date": "6 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from Free Fire Shop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -2362,7 +1928,7 @@ const baseProducts: Product[] = [
     "title": "Summer Striped T-Shirt for Boys and Girls",
     "price": 530,
     "oldPrice": 792,
-    "category": "Kids & Baby",
+    "category": "Women's Fashion",
     "image": "https://file.zendrop.com/products/22/6c/9630030646b49ac996f185cf6eff.jpeg",
     "images": [
       "https://file.zendrop.com/products/22/6c/9630030646b49ac996f185cf6eff.jpeg"
@@ -2403,7 +1969,7 @@ const baseProducts: Product[] = [
     "title": "Black and White Raglan T-shirt for Couples",
     "price": 622,
     "oldPrice": 809,
-    "category": "Trending",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/75/ad/91705f6f4033ac7c333e620ad9e4.png",
     "images": [
       "https://file.zendrop.com/products/75/ad/91705f6f4033ac7c333e620ad9e4.png"
@@ -2444,7 +2010,7 @@ const baseProducts: Product[] = [
     "title": "Fleece Dog T-Shirt for Autumn and Winter",
     "price": 478,
     "oldPrice": 761,
-    "category": "Pet Supplies",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/7d/f3/a174b2374b36b111bfe73ddc5af5.jpeg",
     "images": [
       "https://file.zendrop.com/products/7d/f3/a174b2374b36b111bfe73ddc5af5.jpeg"
@@ -2467,7 +2033,7 @@ const baseProducts: Product[] = [
         "author": "Manish Pandey",
         "rating": 5,
         "date": "5 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from Free Fire Shop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -2485,7 +2051,7 @@ const baseProducts: Product[] = [
     "title": "Hooded Striped T-Shirt for Pets and Owners",
     "price": 558,
     "oldPrice": 726,
-    "category": "Trending",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/8b/00/cd9ff5b94ae6b14642c1541a0f1b.jpeg",
     "images": [
       "https://file.zendrop.com/products/8b/00/cd9ff5b94ae6b14642c1541a0f1b.jpeg"
@@ -2567,7 +2133,7 @@ const baseProducts: Product[] = [
     "title": "Children's T-Shirt and Skirt 2-Piece Set",
     "price": 367,
     "oldPrice": 478,
-    "category": "Kids & Baby",
+    "category": "Women's Fashion",
     "image": "https://file.zendrop.com/products/34/7c/6fbe775745c1a1d61672d9abd230.jpeg",
     "images": [
       "https://file.zendrop.com/products/34/7c/6fbe775745c1a1d61672d9abd230.jpeg"
@@ -2624,7 +2190,7 @@ const baseProducts: Product[] = [
         "author": "Vikramaditya S.",
         "rating": 5,
         "date": "4 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from Free Fire Shop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -2642,7 +2208,7 @@ const baseProducts: Product[] = [
     "title": "New Spring and Summer Dog Vest T-Shirt",
     "price": 523,
     "oldPrice": 731,
-    "category": "Pet Supplies",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/d0/b6/39cee9ba4b8e8fa3e8bbcb7c286c.jpeg",
     "images": [
       "https://file.zendrop.com/products/d0/b6/39cee9ba4b8e8fa3e8bbcb7c286c.jpeg"
@@ -2676,7 +2242,7 @@ const baseProducts: Product[] = [
     "title": "Striped Summer T-Shirt for Boys and Girls",
     "price": 540,
     "oldPrice": 720,
-    "category": "Kids & Baby",
+    "category": "Women's Fashion",
     "image": "https://file.zendrop.com/products/88/06/849abb7343c8994535d583a71449.jpeg",
     "images": [
       "https://file.zendrop.com/products/88/06/849abb7343c8994535d583a71449.jpeg"
@@ -2717,7 +2283,7 @@ const baseProducts: Product[] = [
     "title": "Children's Polo Shirt and Short Sleeve T-Shirt Set",
     "price": 351,
     "oldPrice": 457,
-    "category": "Kids & Baby",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/47/76/fdb965c44c0d85d79efad9fa6d4f.jpeg",
     "images": [
       "https://file.zendrop.com/products/47/76/fdb965c44c0d85d79efad9fa6d4f.jpeg"
@@ -2758,7 +2324,7 @@ const baseProducts: Product[] = [
     "title": "Casual Terry T-Shirt for Dogs and Pets",
     "price": 447,
     "oldPrice": 582,
-    "category": "Pet Supplies",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/2d/d7/29b105c749cd930546b4b01a7115.jpeg",
     "images": [
       "https://file.zendrop.com/products/2d/d7/29b105c749cd930546b4b01a7115.jpeg"
@@ -2781,7 +2347,7 @@ const baseProducts: Product[] = [
         "author": "Gaurav Joshi",
         "rating": 5,
         "date": "3 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from Free Fire Shop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -2881,7 +2447,7 @@ const baseProducts: Product[] = [
     "title": "Dolphin T-Shirt for Pets and Dogs",
     "price": 556,
     "oldPrice": 830,
-    "category": "Pet Supplies",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/c6/6c/6c78bea645bbbcb5e168f4176833.jpeg",
     "images": [
       "https://file.zendrop.com/products/c6/6c/6c78bea645bbbcb5e168f4176833.jpeg"
@@ -2904,7 +2470,7 @@ const baseProducts: Product[] = [
         "author": "Nikhil Mehra",
         "rating": 5,
         "date": "2 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from Free Fire Shop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -3004,10 +2570,10 @@ const baseProducts: Product[] = [
   },
   {
     "id": "zen_2797455",
-    "title": "Custom T-Shirt and Tops Collection",
+    "title": "T-Shirt and Tops Collection",
     "price": 548,
     "oldPrice": 813,
-    "category": "Trending",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/9d/5e/d9a18fbb4211bcfae71c4365328a.png",
     "images": [
       "https://file.zendrop.com/products/9d/5e/d9a18fbb4211bcfae71c4365328a.png",
@@ -3016,8 +2582,8 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/1f/ec/0aa0b5f04cf19f17224375bd26ce.png",
       "https://file.zendrop.com/products/f3/9a/cdf68b004a338e172d1dca96e359.png"
     ],
-    "shortDescription": "Custom Apparel - Premium Dropshipped Product.",
-    "description": "Experience premium quality and style with this Custom Apparel piece. Professionally sourced for durability and comfort.",
+    "shortDescription": "Fashion Apparel - Premium Dropshipped Product.",
+    "description": "Experience premium quality and style with this Fashion Apparel piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
       "M",
@@ -3034,7 +2600,7 @@ const baseProducts: Product[] = [
         "author": "Abhishek Sharma",
         "rating": 5,
         "date": "6 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from Free Fire Shop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -3095,7 +2661,7 @@ const baseProducts: Product[] = [
     "title": "3D Men's Polo Shirt and Printed T-Shirt Collection",
     "price": 653,
     "oldPrice": 849,
-    "category": "Trending",
+    "category": "Men's Fashion",
     "image": "https://file.zendrop.com/products/70/9c/186b550c447b97a7b5c5e7f1aa7e.png",
     "images": [
       "https://file.zendrop.com/products/70/9c/186b550c447b97a7b5c5e7f1aa7e.png",
@@ -3138,7 +2704,7 @@ const baseProducts: Product[] = [
     "title": "Superhero Graphic Compression Sports T-Shirt and Leggings",
     "price": 408,
     "oldPrice": 662,
-    "category": "Sports & Outdoors",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/9e/a4/334b625f405fa20656202b6418aa.png",
     "images": [
       "https://file.zendrop.com/products/9e/a4/334b625f405fa20656202b6418aa.png",
@@ -3162,7 +2728,7 @@ const baseProducts: Product[] = [
         "author": "Ramesh Chhabra",
         "rating": 5,
         "date": "5 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from Free Fire Shop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -3180,7 +2746,7 @@ const baseProducts: Product[] = [
     "title": "Cat Print Hoodie and T-Shirt",
     "price": 382,
     "oldPrice": 497,
-    "category": "Trending",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/ca/3c/0dc26bcf401199ad7a6c3848c524.jpeg",
     "images": [
       "https://file.zendrop.com/products/ca/3c/0dc26bcf401199ad7a6c3848c524.jpeg",
@@ -3224,7 +2790,7 @@ const baseProducts: Product[] = [
     "title": "Wave Mural and T-Shirt Combo Set",
     "price": 450,
     "oldPrice": 631,
-    "category": "Trending",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/b8/aa/6ed7bc794537a66b287785a0dd29.png",
     "images": [
       "https://file.zendrop.com/products/b8/aa/6ed7bc794537a66b287785a0dd29.png",
@@ -3248,7 +2814,7 @@ const baseProducts: Product[] = [
         "author": "Karthik Nair",
         "rating": 5,
         "date": "4 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from Free Fire Shop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -3266,7 +2832,7 @@ const baseProducts: Product[] = [
     "title": "Snake Pattern T-Shirt and Printed Tee",
     "price": 548,
     "oldPrice": 744,
-    "category": "Trending",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/c4/9d/b6cd7bec4e69b58b6fa5f7452aef.jpeg",
     "images": [
       "https://file.zendrop.com/products/c4/9d/b6cd7bec4e69b58b6fa5f7452aef.jpeg",
@@ -3356,7 +2922,7 @@ const baseProducts: Product[] = [
     "title": "2018 Summer 3D Printed Baseball Shirt and T-Shirt",
     "price": 765,
     "oldPrice": 995,
-    "category": "Trending",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/b0/5d/a3e94ec346799776db483d23b47f.png",
     "images": [
       "https://file.zendrop.com/products/b0/5d/a3e94ec346799776db483d23b47f.png"
@@ -3423,7 +2989,7 @@ const baseProducts: Product[] = [
         "author": "Manish Pandey",
         "rating": 5,
         "date": "3 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from Free Fire Shop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -3441,7 +3007,7 @@ const baseProducts: Product[] = [
     "title": "Quick-Dry T-Shirt and Yoga Wear",
     "price": 531,
     "oldPrice": 691,
-    "category": "Sports & Outdoors",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/1e/70/7706925240799facf89663b72060.png",
     "images": [
       "https://file.zendrop.com/products/1e/70/7706925240799facf89663b72060.png",
@@ -3525,7 +3091,7 @@ const baseProducts: Product[] = [
     "title": "Devil and Angel Wings Couple T-Shirt",
     "price": 567,
     "oldPrice": 837,
-    "category": "Trending",
+    "category": "Essentials",
     "image": "https://file.zendrop.com/products/23/42/6b0aee554b66910479b3792fadb5.png",
     "images": [
       "https://file.zendrop.com/products/23/42/6b0aee554b66910479b3792fadb5.png",
@@ -3592,7 +3158,7 @@ const baseProducts: Product[] = [
         "author": "Vikramaditya S.",
         "rating": 5,
         "date": "2 days ago",
-        "comment": "Ordered for the first time from garenaofficialshop. Really good quality and fast shipping!",
+        "comment": "Ordered for the first time from Free Fire Shop. Really good quality and fast shipping!",
         "verified": true
       },
       {
@@ -3650,7 +3216,7 @@ const baseProducts: Product[] = [
 
 export const products: Product[] = [...baseProducts];
 
-export const categories: string[] = ["All", ...Array.from(new Set(baseProducts.map((p) => p.category)))];
+export const categories: string[] = ["All", "Men's Fashion", "Women's Fashion", "Essentials"];
 
 export const getProductsByCategory = (category: string) => {
   if (category === "All") return products;

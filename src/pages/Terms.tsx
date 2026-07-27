@@ -9,9 +9,9 @@ export default function Terms() {
             Terms & Conditions
           </h1>
           <div className="text-xs text-stone-500 font-mono space-y-1 leading-relaxed">
-            <p><strong>Trade Name:</strong> garenaofficialshop</p>
+            <p><strong>Trade Name:</strong> Free Fire Shop</p>
             <p><strong>Proprietary Owner:</strong> PRANKRISHNA DAS</p>
-            <p><strong>Business Type:</strong> E-commerce Retail & Custom Apparel Store</p>
+            <p><strong>Business Type:</strong> E-commerce Retail Store</p>
             <p><strong>Registered Address:</strong> 02 NO TAKIMARI, Mantadari, PO: Milanpally, DIST: Jalpaiguri, West Bengal - 735133, India</p>
             <p><strong>Grievance Email:</strong> connectwithvexora@gmail.com | <strong>Contact:</strong> +91 9918396803</p>
             <p><strong>Effective Date:</strong> Last updated on {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
@@ -24,7 +24,7 @@ export default function Terms() {
           <section className="space-y-3">
             <h2 className="text-base font-bold text-stone-900 tracking-tight">1. Agreement to Terms</h2>
             <p>
-              These Terms and Conditions (“Terms”, “Agreement”) constitute a legally binding agreement between PRANKRISHNA DAS, operating under the trade name <strong>garenaofficialshop</strong> (“Website Owner”, “We”, “Us”, or “Our”), and any individual or entity (“Customer”, “User”, “You”, or “Your”) accessing or using our e-commerce platform and related services (collectively, the “Services”).
+              These Terms and Conditions (“Terms”, “Agreement”) constitute a legally binding agreement between PRANKRISHNA DAS, operating under the trade name <strong>Free Fire Shop</strong> (“Website Owner”, “We”, “Us”, or “Our”), and any individual or entity (“Customer”, “User”, “You”, or “Your”) accessing or using our e-commerce platform and related services (collectively, the “Services”).
             </p>
             <p>
               By accessing our website, placing an order, or utilizing any of our Services, you acknowledge that you have read, understood, and agreed to be bound by these Terms, as well as our integrated Privacy Policy, Shipping Policy, and Refund Policy. If you do not agree to all provisions of these Terms, you must immediately cease using the platform.
@@ -42,33 +42,29 @@ export default function Terms() {
           </section>
 
           <section className="space-y-3">
-            <h2 className="text-base font-bold text-stone-900 tracking-tight">3. Product Specifications & Customization Guidelines</h2>
+            <h2 className="text-base font-bold text-stone-900 tracking-tight">3. Product Specifications & Display</h2>
             <p>
-              We offer standard catalog retail merchandise as well as print-on-demand and customizable products (e.g., customized gaming jerseys, personalized apparel, and custom gear).
+              We offer standard catalog retail merchandise across fashion and daily essentials.
             </p>
             <ul className="list-disc pl-5 space-y-2">
-              <li><strong>User-Provided Artworks & Inputs:</strong> For customized orders, you are solely responsible for ensuring that all uploaded images, vector files, logos, text, and player UIDs provided for printing or embroidery are accurate and owned by you or appropriately licensed. We do not accept liability for typographical errors or low-resolution graphics submitted by the customer.</li>
-              <li><strong>Color & Display Variations:</strong> While we make every effort to display product colors and materials accurately, actual printed outcomes may vary slightly due to monitor display settings, fabric dye lots, and printing substrate characteristics.</li>
+              <li><strong>Color & Display Variations:</strong> While we make every effort to display product colors and materials accurately, actual outcomes may vary slightly due to monitor display settings and fabric dye lot characteristics.</li>
             </ul>
           </section>
 
           <section className="space-y-3">
-            <h2 className="text-base font-bold text-stone-900 tracking-tight">4. Manufacturing Timelines & Delivery Terms</h2>
+            <h2 className="text-base font-bold text-stone-900 tracking-tight">4. Order Processing & Delivery Terms</h2>
             <ul className="list-disc pl-5 space-y-2">
-              <li><strong>Custom Manufacturing Period:</strong> All customized or made-to-order merchandise requires a mandatory production and handcrafting window of <strong>7 to 8 business days</strong> prior to courier dispatch.</li>
-              <li><strong>Transit & Courier Dispatch:</strong> Once manufactured, orders are handed over to our logistics partners (e.g., DTDC, Delhivery, Speed Post). Standard transit requires an additional <strong>3 to 8 business days</strong> depending on delivery pin codes within India.</li>
-              <li><strong>Total Delivery Timeline:</strong> Estimated complete turnaround from order confirmation to doorstep delivery ranges between <strong>10 to 16 business days</strong>.</li>
+              <li><strong>Order Processing Period:</strong> All catalog merchandise is processed and prepared for dispatch within <strong>1 to 2 business days</strong>.</li>
+              <li><strong>Transit & Courier Dispatch:</strong> Once processed, orders are handed over to our logistics partners (e.g., DTDC, Delhivery, Speed Post). Standard transit requires an additional <strong>3 to 8 business days</strong> depending on delivery pin codes within India.</li>
+              <li><strong>Total Delivery Timeline:</strong> Estimated complete turnaround from order confirmation to doorstep delivery ranges between <strong>4 to 10 business days</strong>.</li>
             </ul>
           </section>
 
           <section className="space-y-3">
-            <h2 className="text-base font-bold text-stone-900 tracking-tight">5. Order Cancellations, Modifications & Deductions</h2>
-            <p>
-              Due to the specialized nature of custom merchandise manufacturing, order cancellations are strictly regulated under the following conditions:
-            </p>
+            <h2 className="text-base font-bold text-stone-900 tracking-tight">5. Order Cancellations & Modifications</h2>
             <ul className="list-disc pl-5 space-y-2">
               <li><strong>Full Refund Window (Within 24 Hours):</strong> You may request a 100% full refund and order cancellation provided your request is formally submitted to customer support strictly <strong>within 24 hours</strong> of placing the order.</li>
-              <li><strong>Late Cancellation & Material Deduction Penalty (After 24 Hours):</strong> Because automated fabric cutting, substrate preparation, and customized printing commence immediately after the 24-hour mark, standard cancellations are not permitted thereafter. Any cancellation request, chargeback, or payment dispute initiated after 24 hours will incur a mandatory <strong>80% deduction</strong> from the total order value to cover non-recoverable material, printing, and setup costs. Only the remaining <strong>20%</strong> will be remitted as a partial refund.</li>
+              <li><strong>Late Cancellation:</strong> Requests submitted after 24 hours may be subject to logistics processing deductions if the parcel has already been handed over to transport partners.</li>
             </ul>
           </section>
 
@@ -84,7 +80,7 @@ export default function Terms() {
           <section className="space-y-3">
             <h2 className="text-base font-bold text-stone-900 tracking-tight">7. Intellectual Property Rights</h2>
             <p>
-              All trademarks, trade names, logos, original artwork, website designs, code, graphic elements, and content displayed on garenaofficialshop are the exclusive intellectual property of PRANKRISHNA DAS or its licensors. Unauthorized copying, reproduction, distribution, or reverse engineering of any portion of the platform is strictly prohibited.
+              All trademarks, trade names, logos, original artwork, website designs, code, graphic elements, and content displayed on Free Fire Shop are the exclusive intellectual property of PRANKRISHNA DAS or its licensors. Unauthorized copying, reproduction, distribution, or reverse engineering of any portion of the platform is strictly prohibited.
             </p>
           </section>
 
@@ -108,7 +104,7 @@ export default function Terms() {
               For questions regarding these Terms or to submit a formal grievance, please contact our designated Grievance Officer:
             </p>
             <div className="bg-stone-50 p-4 rounded-xl border border-stone-200 text-xs text-stone-700 space-y-1">
-              <p className="font-bold text-stone-900">Grievance Desk - garenaofficialshop</p>
+              <p className="font-bold text-stone-900">Grievance Desk - Free Fire Shop</p>
               <p>Attention: PRANKRISHNA DAS</p>
               <p>Address: 02 NO TAKIMARI, Mantadari, PO: Milanpally, DIST: Jalpaiguri, West Bengal - 735133</p>
               <p>Email: connectwithvexora@gmail.com</p>

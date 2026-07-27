@@ -43,7 +43,7 @@ export default function Navbar() {
                 <Menu size={22} />
               </button>
               <Link to="/" className="text-sm sm:text-base md:text-lg font-black tracking-tight uppercase text-stone-900 flex items-center">
-                garenaofficialshop
+                Free Fire Shop
               </Link>
 
               <nav className="hidden lg:flex items-center gap-5 text-[11px] font-bold uppercase tracking-wide text-stone-600">
@@ -112,7 +112,7 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-[60] bg-white flex flex-col">
           <div className="px-5 py-4 flex justify-between items-center border-b border-stone-200">
-            <span className="text-lg font-black tracking-tight uppercase text-stone-900">garenaofficialshop</span>
+            <span className="text-lg font-black tracking-tight uppercase text-stone-900">Free Fire Shop</span>
             <button onClick={() => setMobileMenuOpen(false)} className="p-2 -mr-2 text-stone-500 hover:text-stone-900">
               <X size={22} />
             </button>

@@ -17,14 +17,9 @@ const CATEGORY_CARDS = [
     link: "/products?category=Women's+Fashion"
   },
   {
-    name: "Electronics",
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=600&auto=format&fit=crop",
-    link: "/products?category=Electronics"
-  },
-  {
-    name: "Custom Studio",
-    image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=600&auto=format&fit=crop",
-    link: "/custom-products"
+    name: "Essentials",
+    image: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600&auto=format&fit=crop",
+    link: "/products?category=Essentials"
   }
 ];
 
@@ -63,7 +58,7 @@ export default function Home() {
               ELEVATE YOUR STYLE & GEAR
             </h1>
             <p className="text-xs sm:text-sm text-stone-600 font-medium mb-6 max-w-md leading-relaxed">
-              Curated premium fashion, electronics, and daily essentials delivered fast across India.
+              Curated premium fashion and daily essentials delivered fast across India.
             </p>
             <Link 
               to="/products" 
@@ -83,7 +78,7 @@ export default function Home() {
             Browse All &rarr;
           </Link>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
           {CATEGORY_CARDS.map((cat, idx) => (
             <Link 
               key={idx} 
@@ -162,7 +157,7 @@ export default function Home() {
       </section>
 
       {/* Trust Badges Bar */}
-      <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mb-12 sm:mb-20">
+      <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mb-6 sm:mb-12">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6">
           <div className="flex items-center gap-3.5 p-4 sm:p-6 bg-white rounded-xl sm:rounded-2xl border border-stone-200/80 shadow-xs">
             <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0">
@@ -192,35 +187,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
-
-      {/* Light-Themed Custom Merchandise Banner */}
-      <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="relative bg-gradient-to-r from-stone-100 via-amber-50/50 to-stone-100 border border-stone-200/80 rounded-2xl sm:rounded-3xl overflow-hidden p-6 sm:p-10 lg:p-12 shadow-xs"
-        >
-          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="max-w-lg">
-              <span className="text-[10px] font-black tracking-widest text-orange-600 uppercase mb-1.5 block">Custom Printing</span>
-              <h2 className="text-xl sm:text-2xl font-black tracking-tight mb-2 text-stone-900 uppercase">
-                Custom Merchandise Studio
-              </h2>
-              <p className="text-xs sm:text-sm text-stone-600 font-medium leading-relaxed">
-                Personalize t-shirts, mobile covers, apparel, and accessories with custom names, graphics, and styles.
-              </p>
-            </div>
-            <Link 
-              to="/custom-products" 
-              className="inline-flex items-center justify-center bg-stone-900 text-white px-5 py-3 rounded-xl text-xs font-bold hover:bg-orange-600 transition-all uppercase tracking-wider gap-2 shrink-0 shadow-sm"
-            >
-              Start Customizing <ArrowRight size={14} />
-            </Link>
-          </div>
-        </motion.div>
       </section>
     </div>
   );
