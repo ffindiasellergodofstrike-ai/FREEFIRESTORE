@@ -942,7 +942,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/46/cd/20b9fd20413e9877b51f88bb19dd.jpeg",
       "https://file.zendrop.com/products/d9/c0/99ae717b4986969862ae71df79e5.jpeg"
     ],
-    "shortDescription": "Graphic Tees - Premium Dropshipped Product.",
+    "shortDescription": "Graphic Tees - Premium Quality Product.",
     "description": "Experience premium quality and style with this Graphic Tees piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -987,7 +987,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/41/c9/84de1fff45919855ca7a114fb522.jpeg",
       "https://file.zendrop.com/products/4c/32/d1e7cb004d25b0bb9dbfd94fbaf9.jpeg"
     ],
-    "shortDescription": "Casual Shirts - Premium Dropshipped Product.",
+    "shortDescription": "Casual Shirts - Premium Quality Product.",
     "description": "Experience premium quality and style with this Casual Shirts piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -1032,7 +1032,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/c3/e8/1bcdf159472193be2367c2e8edbf.jpeg",
       "https://file.zendrop.com/products/a3/1d/9cbd7e6b46cf8f64529fa06fa1ba.jpeg"
     ],
-    "shortDescription": "Novelty Tops - Premium Dropshipped Product.",
+    "shortDescription": "Novelty Tops - Premium Quality Product.",
     "description": "Experience premium quality and style with this Novelty Tops piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -1076,7 +1076,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/41/3b/0e81579a42e3914a3f9750c386f3.jpeg",
       "https://file.zendrop.com/products/84/91/ac0fd8b144c0b1da75d6d224a1f6.jpeg"
     ],
-    "shortDescription": "Political Tees - Premium Dropshipped Product.",
+    "shortDescription": "Political Tees - Premium Quality Product.",
     "description": "Experience premium quality and style with this Political Tees piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -1120,7 +1120,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/6b/b2/06b685f6432bb24f34a3d19c7e99.png",
       "https://file.zendrop.com/products/c1/d5/65e076744add9b9ff51f9b5bfde4.png"
     ],
-    "shortDescription": "T-Shirts - Premium Dropshipped Product.",
+    "shortDescription": "T-Shirts - Premium Quality Product.",
     "description": "Experience premium quality and style with this T-Shirts piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -1163,7 +1163,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/3d/37/126189ec440497f3eb7cb1d95729.jpeg",
       "https://file.zendrop.com/products/11/52/3151ca724e7ea05694bc4858234e.jpeg"
     ],
-    "shortDescription": "Co-ord Sets - Premium Dropshipped Product.",
+    "shortDescription": "Co-ord Sets - Premium Quality Product.",
     "description": "Experience premium quality and style with this Co-ord Sets piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "28",
@@ -1204,7 +1204,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/20/a6/fa3ca1f7495d9337302deecfbe38.jpeg"
     ],
-    "shortDescription": "Long Sleeve T-Shirts - Premium Dropshipped Product.",
+    "shortDescription": "Long Sleeve T-Shirts - Premium Quality Product.",
     "description": "Experience premium quality and style with this Long Sleeve T-Shirts piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -1245,7 +1245,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/25/60/0712ceeb4b01a623a759cd885269.jpeg"
     ],
-    "shortDescription": "T-Shirts - Premium Dropshipped Product.",
+    "shortDescription": "T-Shirts - Premium Quality Product.",
     "description": "Experience premium quality and style with this T-Shirts piece. Professionally sourced for durability and comfort.",
     "isNew": false,
     "rating": 4.8,
@@ -1279,7 +1279,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/3f/b1/39a5460749d2b45fbebf83d0d78f.jpeg"
     ],
-    "shortDescription": "Long Sleeve T-Shirts - Premium Dropshipped Product.",
+    "shortDescription": "Long Sleeve T-Shirts - Premium Quality Product.",
     "description": "Experience premium quality and style with this Long Sleeve T-Shirts piece. Professionally sourced for durability and comfort.",
     "isNew": false,
     "rating": 4.3,
@@ -1313,7 +1313,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/88/42/15410db240538efbc67124cdff2d.jpeg"
     ],
-    "shortDescription": "Pop Culture Tees - Premium Dropshipped Product.",
+    "shortDescription": "Pop Culture Tees - Premium Quality Product.",
     "description": "Experience premium quality and style with this Pop Culture Tees piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -1354,7 +1354,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/fe/bb/40f41c5941eb8b69a210ce380078.jpeg"
     ],
-    "shortDescription": "Graphic Tees - Premium Dropshipped Product.",
+    "shortDescription": "Graphic Tees - Premium Quality Product.",
     "description": "Experience premium quality and style with this Graphic Tees piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -1395,7 +1395,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/d5/37/9094cf8e497bbb366610e3d845d3.jpeg"
     ],
-    "shortDescription": "Graphic T-Shirts - Premium Dropshipped Product.",
+    "shortDescription": "Graphic T-Shirts - Premium Quality Product.",
     "description": "Experience premium quality and style with this Graphic T-Shirts piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -1436,7 +1436,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/ff/14/eea299484958ba17ff27f460af59.jpeg"
     ],
-    "shortDescription": "T-Shirts - Premium Dropshipped Product.",
+    "shortDescription": "T-Shirts - Premium Quality Product.",
     "description": "Experience premium quality and style with this T-Shirts piece. Professionally sourced for durability and comfort.",
     "isNew": false,
     "rating": 4.7,
@@ -1473,7 +1473,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/11/5b/0d9bc1fa4e5a9a15cb3c3cb5861f.webp",
       "https://file.zendrop.com/products/65/fc/e30d6d9e4eda89589993af49c7e6.webp"
     ],
-    "shortDescription": "Trendy Wear - Premium Dropshipped Product.",
+    "shortDescription": "Trendy Wear - Premium Quality Product.",
     "description": "Experience premium quality and style with this Trendy Wear piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -1518,7 +1518,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/05/99/322bf4604160b2ac88beee1b32e0.jpeg",
       "https://file.zendrop.com/products/55/35/1643b0af41639563f526c805669f.jpeg"
     ],
-    "shortDescription": "Designer Prints - Premium Dropshipped Product.",
+    "shortDescription": "Designer Prints - Premium Quality Product.",
     "description": "Experience premium quality and style with this Designer Prints piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -1559,7 +1559,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/53/92/00d201fc410680a7d2325d7476bb.jpeg"
     ],
-    "shortDescription": "Activewear Sets - Premium Dropshipped Product.",
+    "shortDescription": "Activewear Sets - Premium Quality Product.",
     "description": "Experience premium quality and style with this Activewear Sets piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -1603,7 +1603,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/cb/4c/e3732dd843998cf38d0410276b51.jpeg",
       "https://file.zendrop.com/products/01/be/d10b51454b21851b36180f1f7b80.png"
     ],
-    "shortDescription": "Everyday Wear - Premium Dropshipped Product.",
+    "shortDescription": "Everyday Wear - Premium Quality Product.",
     "description": "Experience premium quality and style with this Everyday Wear piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -1644,7 +1644,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/ce/86/a07f18be4078abd7f33e047c9561.jpeg"
     ],
-    "shortDescription": "Co-ord Sets - Premium Dropshipped Product.",
+    "shortDescription": "Co-ord Sets - Premium Quality Product.",
     "description": "Experience premium quality and style with this Co-ord Sets piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -1685,7 +1685,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/fb/0e/f17f0a7d4db09891dea3f22438a2.jpeg"
     ],
-    "shortDescription": "T-Shirts - Premium Dropshipped Product.",
+    "shortDescription": "T-Shirts - Premium Quality Product.",
     "description": "Experience premium quality and style with this T-Shirts piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -1726,7 +1726,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/35/68/9b0a41634d758a05a6f74365e6d5.jpeg"
     ],
-    "shortDescription": "Pet Clothing - Premium Dropshipped Product.",
+    "shortDescription": "Pet Clothing - Premium Quality Product.",
     "description": "Experience premium quality and style with this Pet Clothing piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -1767,7 +1767,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/0f/a5/91ffb4774284bd0e9613c308b4a3.jpeg"
     ],
-    "shortDescription": "Co-ord Sets - Premium Dropshipped Product.",
+    "shortDescription": "Co-ord Sets - Premium Quality Product.",
     "description": "Experience premium quality and style with this Co-ord Sets piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -1810,7 +1810,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/33/e7/c400c119454f9bcf0311629db33a.png",
       "https://file.zendrop.com/products/65/b8/590e6705471d97a06940e7a23c11.jpeg"
     ],
-    "shortDescription": "T-Shirts - Premium Dropshipped Product.",
+    "shortDescription": "T-Shirts - Premium Quality Product.",
     "description": "Experience premium quality and style with this T-Shirts piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -1851,7 +1851,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/60/d7/d38705994e83a7403ce46aa336a3.jpeg"
     ],
-    "shortDescription": "T-Shirts - Premium Dropshipped Product.",
+    "shortDescription": "T-Shirts - Premium Quality Product.",
     "description": "Experience premium quality and style with this T-Shirts piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -1892,7 +1892,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/ca/a8/01459a6e4db9bf0c48dcae39416c.jpeg"
     ],
-    "shortDescription": "Casual Shirts - Premium Dropshipped Product.",
+    "shortDescription": "Casual Shirts - Premium Quality Product.",
     "description": "Experience premium quality and style with this Casual Shirts piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -1933,7 +1933,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/22/6c/9630030646b49ac996f185cf6eff.jpeg"
     ],
-    "shortDescription": "T-Shirts - Premium Dropshipped Product.",
+    "shortDescription": "T-Shirts - Premium Quality Product.",
     "description": "Experience premium quality and style with this T-Shirts piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -1974,7 +1974,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/75/ad/91705f6f4033ac7c333e620ad9e4.png"
     ],
-    "shortDescription": "Couple Wear - Premium Dropshipped Product.",
+    "shortDescription": "Couple Wear - Premium Quality Product.",
     "description": "Experience premium quality and style with this Couple Wear piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2015,7 +2015,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/7d/f3/a174b2374b36b111bfe73ddc5af5.jpeg"
     ],
-    "shortDescription": "Pet Clothing - Premium Dropshipped Product.",
+    "shortDescription": "Pet Clothing - Premium Quality Product.",
     "description": "Experience premium quality and style with this Pet Clothing piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2056,7 +2056,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/8b/00/cd9ff5b94ae6b14642c1541a0f1b.jpeg"
     ],
-    "shortDescription": "Matching Wear - Premium Dropshipped Product.",
+    "shortDescription": "Matching Wear - Premium Quality Product.",
     "description": "Experience premium quality and style with this Matching Wear piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2097,7 +2097,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/a7/3a/7b887df04cf996dc27d7f7342ef9.jpeg"
     ],
-    "shortDescription": "Co-ord Sets - Premium Dropshipped Product.",
+    "shortDescription": "Co-ord Sets - Premium Quality Product.",
     "description": "Experience premium quality and style with this Co-ord Sets piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2138,7 +2138,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/34/7c/6fbe775745c1a1d61672d9abd230.jpeg"
     ],
-    "shortDescription": "Co-ord Sets - Premium Dropshipped Product.",
+    "shortDescription": "Co-ord Sets - Premium Quality Product.",
     "description": "Experience premium quality and style with this Co-ord Sets piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2179,7 +2179,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/9c/cc/d0a97b8f4d3f91ef9579c0698e5c.jpeg"
     ],
-    "shortDescription": "Maternity Wear - Premium Dropshipped Product.",
+    "shortDescription": "Maternity Wear - Premium Quality Product.",
     "description": "Experience premium quality and style with this Maternity Wear piece. Professionally sourced for durability and comfort.",
     "isNew": false,
     "rating": 4.7,
@@ -2213,7 +2213,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/d0/b6/39cee9ba4b8e8fa3e8bbcb7c286c.jpeg"
     ],
-    "shortDescription": "Pet Clothing - Premium Dropshipped Product.",
+    "shortDescription": "Pet Clothing - Premium Quality Product.",
     "description": "Experience premium quality and style with this Pet Clothing piece. Professionally sourced for durability and comfort.",
     "isNew": false,
     "rating": 4.8,
@@ -2247,7 +2247,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/88/06/849abb7343c8994535d583a71449.jpeg"
     ],
-    "shortDescription": "T-Shirts - Premium Dropshipped Product.",
+    "shortDescription": "T-Shirts - Premium Quality Product.",
     "description": "Experience premium quality and style with this T-Shirts piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2288,7 +2288,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/47/76/fdb965c44c0d85d79efad9fa6d4f.jpeg"
     ],
-    "shortDescription": "Co-ord Sets - Premium Dropshipped Product.",
+    "shortDescription": "Co-ord Sets - Premium Quality Product.",
     "description": "Experience premium quality and style with this Co-ord Sets piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2329,7 +2329,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/2d/d7/29b105c749cd930546b4b01a7115.jpeg"
     ],
-    "shortDescription": "Pet Clothing - Premium Dropshipped Product.",
+    "shortDescription": "Pet Clothing - Premium Quality Product.",
     "description": "Experience premium quality and style with this Pet Clothing piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2370,7 +2370,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/2e/14/e7413bb2457f952fccfff13a511e.jpeg"
     ],
-    "shortDescription": "T-Shirts - Premium Dropshipped Product.",
+    "shortDescription": "T-Shirts - Premium Quality Product.",
     "description": "Experience premium quality and style with this T-Shirts piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2411,7 +2411,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/0f/1f/887fec3b491fb677a616b61b7c04.jpeg"
     ],
-    "shortDescription": "Tops - Premium Dropshipped Product.",
+    "shortDescription": "Tops - Premium Quality Product.",
     "description": "Experience premium quality and style with this Tops piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2452,7 +2452,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/c6/6c/6c78bea645bbbcb5e168f4176833.jpeg"
     ],
-    "shortDescription": "Pet Clothing - Premium Dropshipped Product.",
+    "shortDescription": "Pet Clothing - Premium Quality Product.",
     "description": "Experience premium quality and style with this Pet Clothing piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2496,7 +2496,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/3d/d2/807d62894676b0a9a91b6edf3b1b.png",
       "https://file.zendrop.com/products/d0/b4/52aac6d54bd3ab9a424460411c77.png"
     ],
-    "shortDescription": "Sweatshirts & Tees - Premium Dropshipped Product.",
+    "shortDescription": "Sweatshirts & Tees - Premium Quality Product.",
     "description": "Experience premium quality and style with this Sweatshirts & Tees piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2537,7 +2537,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/dd/99/90c3004b4731a5622ed34c12b25c.png"
     ],
-    "shortDescription": "Hoodies - Premium Dropshipped Product.",
+    "shortDescription": "Hoodies - Premium Quality Product.",
     "description": "Experience premium quality and style with this Hoodies piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2582,7 +2582,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/1f/ec/0aa0b5f04cf19f17224375bd26ce.png",
       "https://file.zendrop.com/products/f3/9a/cdf68b004a338e172d1dca96e359.png"
     ],
-    "shortDescription": "Fashion Apparel - Premium Dropshipped Product.",
+    "shortDescription": "Fashion Apparel - Premium Quality Product.",
     "description": "Experience premium quality and style with this Fashion Apparel piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2625,7 +2625,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/70/ec/ea36edfd4540852ad3e5987d3c5a.jpeg",
       "https://file.zendrop.com/products/6d/98/499e99114cbb93c8e7ccbad4ed56.jpeg"
     ],
-    "shortDescription": "Co-ord Sets - Premium Dropshipped Product.",
+    "shortDescription": "Co-ord Sets - Premium Quality Product.",
     "description": "Experience premium quality and style with this Co-ord Sets piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2668,7 +2668,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/2a/6b/19ea7cc9451391a9c02a0a08ba69.png",
       "https://file.zendrop.com/products/58/09/fc744e554778ba2e01b709154670.png"
     ],
-    "shortDescription": "3D Prints - Premium Dropshipped Product.",
+    "shortDescription": "3D Prints - Premium Quality Product.",
     "description": "Experience premium quality and style with this 3D Prints piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2710,7 +2710,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/9e/a4/334b625f405fa20656202b6418aa.png",
       "https://file.zendrop.com/products/a1/4a/29b3b01548cdbaacd27b0a8ada7a.jpeg"
     ],
-    "shortDescription": "Compression Wear - Premium Dropshipped Product.",
+    "shortDescription": "Compression Wear - Premium Quality Product.",
     "description": "Experience premium quality and style with this Compression Wear piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2754,7 +2754,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/89/e5/c2078e2d49f7a8256eedb24b15ee.jpeg",
       "https://file.zendrop.com/products/84/eb/25f638da4329a366f98797371bc0.jpeg"
     ],
-    "shortDescription": "Graphic Apparel - Premium Dropshipped Product.",
+    "shortDescription": "Graphic Apparel - Premium Quality Product.",
     "description": "Experience premium quality and style with this Graphic Apparel piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2796,7 +2796,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/b8/aa/6ed7bc794537a66b287785a0dd29.png",
       "https://file.zendrop.com/products/b9/c2/bd59e8494b99bc883caa1da2df4a.png"
     ],
-    "shortDescription": "Artistic Prints - Premium Dropshipped Product.",
+    "shortDescription": "Artistic Prints - Premium Quality Product.",
     "description": "Experience premium quality and style with this Artistic Prints piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2841,7 +2841,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/29/85/c781034446eb8753abf4eddab275.png",
       "https://file.zendrop.com/products/14/0e/eeeafda44f37b305ecc69a50c71c.png"
     ],
-    "shortDescription": "Animal Prints - Premium Dropshipped Product.",
+    "shortDescription": "Animal Prints - Premium Quality Product.",
     "description": "Experience premium quality and style with this Animal Prints piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2886,7 +2886,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/11/cb/76d28ea3497d8951fe1dd59c99e8.png",
       "https://file.zendrop.com/products/f2/d8/b5fce73a4ba88db7be53c0c3dd6c.png"
     ],
-    "shortDescription": "Hoodies & Sweatshirts - Premium Dropshipped Product.",
+    "shortDescription": "Hoodies & Sweatshirts - Premium Quality Product.",
     "description": "Experience premium quality and style with this Hoodies & Sweatshirts piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2927,7 +2927,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/b0/5d/a3e94ec346799776db483d23b47f.png"
     ],
-    "shortDescription": "3D Prints - Premium Dropshipped Product.",
+    "shortDescription": "3D Prints - Premium Quality Product.",
     "description": "Experience premium quality and style with this 3D Prints piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -2971,7 +2971,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/fb/91/dc41c088430aa3492c1f95b95cd4.jpeg",
       "https://file.zendrop.com/products/d9/f2/21e58222445aa7e76ab697d26b26.jpeg"
     ],
-    "shortDescription": "Tops & Shirts - Premium Dropshipped Product.",
+    "shortDescription": "Tops & Shirts - Premium Quality Product.",
     "description": "Experience premium quality and style with this Tops & Shirts piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -3013,7 +3013,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/1e/70/7706925240799facf89663b72060.png",
       "https://file.zendrop.com/products/64/ee/178c8e9942f992841a8d1a3ce6d6.png"
     ],
-    "shortDescription": "Yoga & Fitness - Premium Dropshipped Product.",
+    "shortDescription": "Yoga & Fitness - Premium Quality Product.",
     "description": "Experience premium quality and style with this Yoga & Fitness piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -3055,7 +3055,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/e4/ef/a2acb70a4ba2997701a91cfe748a.jpeg",
       "https://file.zendrop.com/products/f7/e9/2c1b61564a60ae1ce5faa13f10d1.jpeg"
     ],
-    "shortDescription": "Polo Shirts - Premium Dropshipped Product.",
+    "shortDescription": "Polo Shirts - Premium Quality Product.",
     "description": "Experience premium quality and style with this Polo Shirts piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -3097,7 +3097,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/23/42/6b0aee554b66910479b3792fadb5.png",
       "https://file.zendrop.com/products/1f/85/c8441700461bbca7998adb7816bd.png"
     ],
-    "shortDescription": "Couple Wear - Premium Dropshipped Product.",
+    "shortDescription": "Couple Wear - Premium Quality Product.",
     "description": "Experience premium quality and style with this Couple Wear piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -3140,7 +3140,7 @@ const baseProducts: Product[] = [
       "https://file.zendrop.com/products/74/fc/8f21c8d94f8db650e31621231c3f.png",
       "https://file.zendrop.com/products/1d/33/3b83f5b845c8a45e12928dfbdacd.png"
     ],
-    "shortDescription": "Tops - Premium Dropshipped Product.",
+    "shortDescription": "Tops - Premium Quality Product.",
     "description": "Experience premium quality and style with this Tops piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",
@@ -3181,7 +3181,7 @@ const baseProducts: Product[] = [
     "images": [
       "https://file.zendrop.com/products/37/de/f1ffbd594b4bbcf1772829f57f5b.jpeg"
     ],
-    "shortDescription": "Activewear & Shapewear - Premium Dropshipped Product.",
+    "shortDescription": "Activewear & Shapewear - Premium Quality Product.",
     "description": "Experience premium quality and style with this Activewear & Shapewear piece. Professionally sourced for durability and comfort.",
     "sizes": [
       "S",

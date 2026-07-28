@@ -1,6 +1,6 @@
 {
   "name": "Free Fire Shop",
-  "description": "Modern dropshipping e-commerce store with complete Meesho product catalog, sizes, variants, multi-image galleries, and verified customer reviews.",
+  "description": "Modern e-commerce retail store with complete Meesho product catalog, sizes, variants, multi-image galleries, and verified customer reviews.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
