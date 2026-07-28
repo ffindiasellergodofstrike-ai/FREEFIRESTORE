@@ -39,7 +39,7 @@ export default function Contact() {
                     connectwithvexora@gmail.com
                   </a>
                   <p className="text-black font-semibold text-sm">
-                    Phone: +919918396803
+                    Phone: +91 9793970031
                   </p>
                 </div>
               </div>

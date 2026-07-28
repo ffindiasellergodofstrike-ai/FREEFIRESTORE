@@ -17,7 +17,7 @@ export default function Footer() {
                 <span className="text-orange-400 font-bold">Email:</span> connectwithvexora@gmail.com
               </p>
               <p className="flex items-center gap-2">
-                <span className="text-orange-400 font-bold">Phone:</span> +919918396803
+                <span className="text-orange-400 font-bold">Phone:</span> +91 9793970031
               </p>
               <p className="text-stone-300 font-bold pt-1">
                 PRANKRISHNA DAS <span className="text-stone-500 font-normal">(Free Fire Shop)</span>

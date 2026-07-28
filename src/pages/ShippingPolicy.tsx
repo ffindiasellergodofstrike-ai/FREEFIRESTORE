@@ -13,7 +13,7 @@ export default function ShippingPolicy() {
             <p><strong>Proprietary Owner:</strong> PRANKRISHNA DAS</p>
             <p><strong>Business Type:</strong> E-commerce Retail Store</p>
             <p><strong>Registered Address:</strong> 02 NO TAKIMARI, Mantadari, PO: Milanpally, DIST: Jalpaiguri, West Bengal - 735133, India</p>
-            <p><strong>Support Email:</strong> connectwithvexora@gmail.com | <strong>Contact:</strong> +91 9918396803</p>
+            <p><strong>Support Email:</strong> connectwithvexora@gmail.com | <strong>Contact:</strong> +91 9793970031</p>
             <p><strong>Effective Date:</strong> Last updated on {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
           </div>
         </div>
@@ -80,7 +80,7 @@ export default function ShippingPolicy() {
               <p>Proprietor: PRANKRISHNA DAS (Free Fire Shop)</p>
               <p>Address: 02 NO TAKIMARI, Mantadari, PO: Milanpally, DIST: Jalpaiguri, West Bengal - 735133, India</p>
               <p>Email: connectwithvexora@gmail.com</p>
-              <p>Phone: +91 9918396803 (10:00 AM - 6:00 PM IST, Monday to Saturday)</p>
+              <p>Phone: +91 9793970031 (10:00 AM - 6:00 PM IST, Monday to Saturday)</p>
             </div>
           </section>
 
