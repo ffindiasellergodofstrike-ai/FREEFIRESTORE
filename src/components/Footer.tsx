@@ -10,7 +10,7 @@ export default function Footer() {
               Free Fire Shop
             </h3>
             <p className="text-stone-400 max-w-sm text-sm leading-relaxed font-medium">
-              Premium retail e-commerce destination. Curating the best in fashion and daily essentials with uncompromising quality.
+              Free Fire Shop is an independent e-commerce retail store owned and operated by Prankrishna Das. Curating the best in fashion and daily essentials with uncompromising quality.
             </p>
             <div className="pt-2 flex flex-col space-y-1.5 text-xs text-stone-400 font-medium">
               <p className="flex items-center gap-2">

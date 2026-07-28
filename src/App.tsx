@@ -20,9 +20,6 @@ import Failure from './pages/Failure';
 import OrderVerify from './pages/OrderVerify';
 import ScrollToTop from './components/ScrollToTop';
 import AuthModal from './components/AuthModal';
-import GarenaCheckout from './pages/GarenaCheckout';
-import GarenaPayment from './pages/GarenaPayment';
-import GarenaPaymentpage from './pages/GarenaPaymentpage';
 
 function StoreLayout() {
   return (
@@ -70,17 +67,7 @@ export default function App() {
           />
           <ScrollToTop />
           <AuthModal />
-          <Routes>
-            {/* Standalone — NO store Navbar or Footer */}
-            <Route path="/GarenaCheckout" element={<GarenaCheckout />} />
-            <Route path="/GarenaCheckout.tsx" element={<GarenaCheckout />} />
-            <Route path="/GarenaPayment" element={<GarenaPayment />} />
-            <Route path="/GarenaPayment.tsx" element={<GarenaPayment />} />
-            <Route path="/GarenaPaymentpage" element={<GarenaPaymentpage />} />
-            <Route path="/GarenaPaymentpage.tsx" element={<GarenaPaymentpage />} />
-            {/* All other pages — WITH store Navbar and Footer */}
-            <Route path="/*" element={<StoreLayout />} />
-          </Routes>
+          <StoreLayout />
         </Router>
       </CartProvider>
     </AuthProvider>

@@ -13,33 +13,6 @@ async function runServer() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  // Verify Garena UID endpoint
-  app.get('/api/verify-uid', async (req, res) => {
-    const { uid } = req.query;
-    if (!uid || typeof uid !== 'string' || !/^\d{5,15}$/.test(uid)) {
-      return res.status(400).json({ error: 'Invalid UID' });
-    }
-    const regions = ['ind', 'sg', 'pk', 'bd', 'id', 'br'];
-    for (const region of regions) {
-      try {
-        const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), 3000);
-        const r = await fetch(
-          `https://gatway.vercel.app/gateway?s=${region}&u=${encodeURIComponent(uid)}`,
-          { signal: controller.signal }
-        );
-        clearTimeout(timer);
-        if (r.ok) {
-          const data = await r.json();
-          if (data?.basicInfo?.nickname) {
-            return res.json({ success: true, verifiedName: data.basicInfo.nickname });
-          }
-        }
-      } catch {}
-    }
-    return res.status(404).json({ success: false, error: 'Player not found' });
-  });
-
   // PayU endpoints
   app.post("/api/payu/generate-hash", async (req, res, next) => {
     try {
