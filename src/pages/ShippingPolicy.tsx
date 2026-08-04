@@ -1,92 +1,263 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+
 export default function ShippingPolicy() {
   return (
-    <div className="pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto min-h-screen text-stone-800">
-      <div className="bg-white border border-stone-200 rounded-2xl p-6 sm:p-10 shadow-sm space-y-8">
-        
-        {/* Document Header */}
-        <div className="border-b border-stone-200 pb-6">
-          <h1 className="text-2xl sm:text-3xl font-black text-stone-900 tracking-tight uppercase mb-3">
-            Shipping & Delivery Policy
-          </h1>
-          <div className="text-xs text-stone-500 font-mono space-y-1 leading-relaxed">
-            <p><strong>Trade Name:</strong> Free Fire Shop</p>
-            <p><strong>Proprietary Owner:</strong> PRANKRISHNA DAS</p>
-            <p><strong>Business Type:</strong> E-commerce Retail Store</p>
-            <p><strong>Registered Address:</strong> 02 NO TAKIMARI, Mantadari, PO: Milanpally, DIST: Jalpaiguri, West Bengal - 735133, India</p>
-            <p><strong>Support Email:</strong> connectwithvexora@gmail.com | <strong>Contact:</strong> +91 9793970031</p>
-            <p><strong>Effective Date:</strong> Last updated on {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+    <div id="shipping-policy-page-root">
+      <div className="breadcrumb">
+        <div className="container">
+          <div className="breadcrumb-inner">
+            <Link to="/">HOME</Link>
+            <span className="sep">/</span>
+            <span className="curr">SHIPPING POLICY</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="policy-wrap">
+        <div className="policy-header">
+          <h1 style={{ fontSize: 'clamp(1.4rem, 3vw, 2rem)', textTransform: 'uppercase', letterSpacing: '1px' }}>SHIPPING POLICY</h1>
+          <div className="policy-meta">
+            <span><strong>Trade Name:</strong> Garena Store</span>
+            <span><strong>Owner:</strong> Prankrishna Das</span>
+            <span><strong>Updated:</strong> July 28, 2026</span>
           </div>
         </div>
 
-        {/* Policy Body */}
-        <div className="space-y-6 text-xs sm:text-sm leading-relaxed text-stone-600">
-          
-          <p>
-            At <strong>Free Fire Shop</strong> (PRANKRISHNA DAS), we partner with leading nationwide express courier networks to ensure your orders reach your doorstep safely, securely, and within established timeframes across India.
-          </p>
+        <div className="policy-body">
+          <div className="policy-info-box">
+            <p><strong>Business Name:</strong> Garena Store</p>
+            <p><strong>Owner / Proprietor:</strong> Prankrishna Das</p>
+            <p><strong>Registered Address:</strong> 02 No Takimari, Mantadari, PO: Milanpally, Dist: Jalpaiguri, West Bengal - 735133, India</p>
+            <p><strong>Shipping Support Address:</strong> House no 417, Near Santosh Tea stall, labour chauraha, shantipuram, Prayagraj, UTTAR PRADESH, Pin: 211013</p>
+            <p><strong>Website:</strong> www.garenaofficialcostume.shop</p>
+            <p><strong>Support Email:</strong> connectwithvexora@gmail.com &nbsp;|&nbsp; <strong>Phone:</strong> +91 9793970031</p>
+          </div>
 
-          <section className="space-y-3">
-            <h2 className="text-base font-bold text-stone-900 tracking-tight">1. Order Processing Lead Times</h2>
-            <p>
-              Standard retail orders across apparel, fashion accessories, and general merchandise are processed and prepared for dispatch within <strong>1 to 2 business days</strong>.
-            </p>
-          </section>
+          <h2>OVERVIEW</h2>
+          <p>Thank you for shopping with Garena Store! We are committed to delivering your fashion and lifestyle products accurately, in perfect condition, and as swiftly as possible anywhere in India. Please read this Shipping Policy carefully to understand how and when your orders will arrive.</p>
 
-          <section className="space-y-3">
-            <h2 className="text-base font-bold text-stone-900 tracking-tight">2. Courier Transit & Logistics Timelines</h2>
-            <p>
-              Once your package is handed over to our logistics partners (e.g., DTDC, Delhivery, Speed Post, Blue Dart, or Ekart):
-            </p>
-            <ul className="list-disc pl-5 space-y-2">
-              <li><strong>Domestic Transit Window:</strong> Standard courier transit takes <strong>3 to 8 business days</strong> depending on your destination city, state, and pincode accessibility across India.</li>
-              <li><strong>Tier-1 Metro Cities:</strong> Estimated 3 to 5 business days transit.</li>
-              <li><strong>Tier-2 & Tier-3 Regional Areas / North East / J&K:</strong> Estimated 5 to 8 business days transit.</li>
-            </ul>
-          </section>
+          <h2>SECTION 1 — ORDER PROCESSING TIME</h2>
+          <p>All orders are processed within 1 to 3 business days after you receive your Order Confirmation email.</p>
+          <ul>
+            <li>Business days are Monday to Saturday, excluding all Indian public holidays.</li>
+            <li>Orders placed on Sundays or public holidays will be processed on the next available business day.</li>
+            <li>You will receive a Shipping Confirmation email and SMS once your order has been dispatched from our facility.</li>
+          </ul>
+          <p><strong>NOTE:</strong> Processing time is SEPARATE from shipping/delivery time. Your total wait time = Processing Time + Delivery Time.</p>
+          <p>During high-demand periods (festive sales, new launches), processing may take up to 5 business days. We appreciate your patience.</p>
 
-          <section className="space-y-3">
-            <h2 className="text-base font-bold text-stone-900 tracking-tight">3. Total Estimated Doorstep Delivery Timelines</h2>
-            <div className="bg-stone-50 p-4 rounded-xl border border-stone-200 text-xs text-stone-700 space-y-2">
-              <p><strong>• Standard Catalog Products Total Delivery Window:</strong> <strong>4 to 10 business days</strong> (1-2 days processing + 3-8 days courier transit).</p>
-            </div>
-          </section>
+          <h2>SECTION 2 — SHIPPING CHARGES</h2>
+          <div style={{ margin: '20px 0' }}>
+            <table >
+              <thead>
+                <tr >
+                  <th >ORDER TYPE</th>
+                  <th >SHIPPING FEE</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr >
+                  <td >Prepaid Orders above Rs.999</td>
+                  <td >FREE — No shipping charge</td>
+                </tr>
+                <tr >
+                  <td >Prepaid Orders below Rs.999</td>
+                  <td >Rs. 80 flat shipping fee</td>
+                </tr>
+                <tr >
+                  <td >Cash on Delivery (COD) Orders</td>
+                  <td >Rs. 50 non-refundable COD handling fee added at checkout</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Shipping charges are shown clearly at checkout before you complete your payment.</p>
+          <p>Shipping fees are <strong>NON-REFUNDABLE</strong>, except in cases where Garena Store dispatched a wrong or defective item.</p>
 
-          <section className="space-y-3">
-            <h2 className="text-base font-bold text-stone-900 tracking-tight">4. Order Tracking & Notifications</h2>
-            <p>
-              As soon as your shipment is dispatched from our facility, you will receive an automated dispatch confirmation email and SMS containing your Airway Bill (AWB) number and live courier tracking link. You can track your parcel's real-time status directly on our <strong>Track Order</strong> page or through the courier portal.
-            </p>
-          </section>
+          <h2>SECTION 3 — DELIVERY TIMEFRAMES</h2>
+          <p>Estimated delivery times AFTER dispatch:</p>
+          <div style={{ margin: '20px 0' }}>
+            <table >
+              <thead>
+                <tr >
+                  <th >LOCATION</th>
+                  <th >ESTIMATED DELIVERY</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr >
+                  <td >Metro Cities (Delhi, Mumbai, Bengaluru, Chennai, Kolkata, Hyderabad, Pune, Ahmedabad)</td>
+                  <td >3 to 5 Business Days</td>
+                </tr>
+                <tr >
+                  <td >Tier-2 and Tier-3 Cities</td>
+                  <td >5 to 7 Business Days</td>
+                </tr>
+                <tr >
+                  <td >Remote / Rural Areas and North-East India</td>
+                  <td >7 to 12 Business Days</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p><strong>IMPORTANT:</strong> These are estimated timelines and are NOT guaranteed. Actual delivery may vary based on your pin code, courier workload, weather, or other external factors.</p>
+          <p>If your order has not arrived within 15 days of your Shipping Confirmation email, contact us immediately at:</p>
+          <p><strong>Email:</strong> connectwithvexora@gmail.com &nbsp;|&nbsp; <strong>Phone:</strong> +91 9793970031</p>
 
-          <section className="space-y-3">
-            <h2 className="text-base font-bold text-stone-900 tracking-tight">5. Incorrect Address & Undeliverable Shipments</h2>
-            <ul className="list-disc pl-5 space-y-2">
-              <li>Customers are required to double-check their full shipping address, landmark, and 6-digit postal pincode during checkout.</li>
-              <li>If a parcel is returned to our origin warehouse due to an incomplete/wrong address provided by the customer or repeated non-availability during delivery attempts, re-shipping charges will apply for re-dispatch.</li>
-            </ul>
-          </section>
+          <h2>SECTION 4 — CASH ON DELIVERY (COD)</h2>
+          <p>COD is available for most pin codes across India.</p>
+          <ul>
+            <li>A non-refundable COD handling fee of Rs. 50 is added at checkout for all COD orders.</li>
+            <li>COD availability depends on your pin code and our courier partner's serviceability. You will be notified at checkout if COD is unavailable for your location.</li>
+            <li>Please keep the <strong>EXACT</strong> amount ready at the time of delivery. Courier executives may not carry change.</li>
+            <li>COD refunds are issued as store credit only. See our Refund Policy for full details.</li>
+          </ul>
 
-          <section className="space-y-3">
-            <h2 className="text-base font-bold text-stone-900 tracking-tight">6. Transit Damage & Missing Items Protocol</h2>
-            <p>
-              All shipments are insured during transit. If your package arrives visibly tampered, damaged, or unsealed, please refuse delivery or report the issue to customer care <strong>within 24 hours of delivery</strong> with unboxing video proof so we can initiate an immediate claim with the courier and dispatch a replacement.
-            </p>
-          </section>
+          <h2>SECTION 5 — PAYMENT METHODS ACCEPTED</h2>
+          <p>All online payments are processed securely through our authorised payment gateway partners:</p>
+          <div style={{ margin: '20px 0' }}>
+            <table >
+              <thead>
+                <tr >
+                  <th >PAYMENT METHOD</th>
+                  <th >GATEWAY</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr >
+                  <td >Credit Cards (Visa, MasterCard, RuPay, American Express)</td>
+                  <td >PayU / Razorpay / CCAvenue</td>
+                </tr>
+                <tr >
+                  <td >Debit Cards (Visa, MasterCard, RuPay)</td>
+                  <td >PayU / Razorpay / CCAvenue</td>
+                </tr>
+                <tr >
+                  <td >Net Banking (All major Indian banks)</td>
+                  <td >PayU / Razorpay / Cashfree</td>
+                </tr>
+                <tr >
+                  <td >UPI (GPay, PhonePe, Paytm, BHIM, Amazon Pay)</td>
+                  <td >PayU / Razorpay / Cashfree</td>
+                </tr>
+                <tr >
+                  <td >Digital Wallets (Paytm, Mobikwik, etc.)</td>
+                  <td >PayU / Razorpay</td>
+                </tr>
+                <tr >
+                  <td >EMI</td>
+                  <td >Subject to bank eligibility</td>
+                </tr>
+                <tr >
+                  <td >Cash on Delivery (COD)</td>
+                  <td >Available for eligible pin codes</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>All transactions are SSL encrypted. Garena Store does NOT store your card, UPI, or banking credentials.</p>
 
-          <section className="space-y-3">
-            <h2 className="text-base font-bold text-stone-900 tracking-tight">7. Shipping Desk Contact Information</h2>
-            <div className="bg-stone-50 p-4 rounded-xl border border-stone-200 text-xs text-stone-700 space-y-1">
-              <p className="font-bold text-stone-900">Logistics & Shipping Desk</p>
-              <p>Proprietor: PRANKRISHNA DAS (Free Fire Shop)</p>
-              <p>Address: 02 NO TAKIMARI, Mantadari, PO: Milanpally, DIST: Jalpaiguri, West Bengal - 735133, India</p>
-              <p>Email: connectwithvexora@gmail.com</p>
-              <p>Phone: +91 9793970031 (10:00 AM - 6:00 PM IST, Monday to Saturday)</p>
-            </div>
-          </section>
+          <h2>SECTION 6 — SERVICE AREAS AND COURIER PARTNERS</h2>
+          <p>We ship to ALL states and union territories within India.</p>
+          <p>International shipping is <strong>NOT</strong> available at this time.</p>
+          <p>If your pin code is not serviceable, you will be notified at checkout.</p>
+          <p>Our trusted courier partners include:</p>
+          <ul>
+            <li>Delhivery</li>
+            <li>Shiprocket</li>
+            <li>BlueDart</li>
+            <li>DTDC</li>
+            <li>Xpressbees</li>
+            <li>Ecom Express</li>
+            <li>India Post (Speed Post)</li>
+          </ul>
+          <p>Courier partner assignment is automatic based on your location and availability. You cannot choose your courier partner.</p>
 
+          <h2>SECTION 7 — ORDER TRACKING</h2>
+          <p>After dispatch, you will receive your tracking number and courier partner name via email and SMS.</p>
+          <ul>
+            <li>Tracking updates may take up to 24 to 48 hours to appear on the courier partner's website after dispatch.</li>
+            <li>Use your tracking number on the courier partner's website to check your delivery status in real time.</li>
+            <li>If tracking shows no update for more than 5 business days, contact us at connectwithvexora@gmail.com with your Order ID and we will investigate with the courier partner.</li>
+          </ul>
+
+          <h2>SECTION 8 — DELIVERY ATTEMPTS</h2>
+          <p>Our courier partners will attempt delivery up to 2 times at your registered delivery address.</p>
+          <ul>
+            <li>If delivery fails on both attempts (no one available, wrong address, refused delivery), the package will be returned to us.</li>
+            <li>Re-delivery of returned packages may attract additional shipping charges.</li>
+            <li>For COD orders where delivery is refused, no refund will be issued as no payment was made by the customer.</li>
+          </ul>
+
+          <h2>SECTION 9 — INCORRECT SHIPPING ADDRESS</h2>
+          <p>Garena Store is <strong>NOT</strong> responsible for non-delivery or delays caused by an incorrect, incomplete, or invalid delivery address provided by you at checkout.</p>
+          <p>Before placing your order, please verify:</p>
+          <ul>
+            <li>Full name</li>
+            <li>Flat/house number and street name</li>
+            <li>Locality and city</li>
+            <li>District and state</li>
+            <li>Pin code (6-digit)</li>
+            <li>Mobile number</li>
+          </ul>
+          <p>If you notice an address error AFTER placing your order, contact us <strong>IMMEDIATELY</strong>:</p>
+          <p><strong>Email:</strong> connectwithvexora@gmail.com &nbsp;|&nbsp; <strong>Phone:</strong> +91 9793970031</p>
+          <p>We will try to update the address before dispatch. Once dispatched, address changes are NOT possible.</p>
+
+          <h2>SECTION 10 — DAMAGED OR TAMPERED PACKAGES</h2>
+          <p>If your package arrives visibly damaged, tampered, or open at the time of delivery:</p>
+          <ul>
+            <li>Do <strong>NOT</strong> accept the delivery.</li>
+            <li>Ask the courier executive to mark it as "REFUSED — PACKAGE DAMAGED" and return it.</li>
+          </ul>
+          <p>If you have already accepted a damaged package:</p>
+          <ul>
+            <li>Take clear photographs of the item <strong>AND</strong> the packaging immediately, before opening fully.</li>
+            <li>Contact us within 24 hours of delivery:</li>
+          </ul>
+          <p><strong>Email:</strong> connectwithvexora@gmail.com &nbsp;|&nbsp; <strong>Phone:</strong> +91 9793970031</p>
+          <p>We will arrange a free replacement or full refund as per our Refund and Return Policy.</p>
+          <p>Damage claims raised after 24 hours of delivery will not be accepted.</p>
+
+          <h2>SECTION 11 — LOST PACKAGES IN TRANSIT</h2>
+          <p>In the rare event that your package is lost in transit:</p>
+          <ul>
+            <li>Check your tracking — confirm status with courier.</li>
+            <li>Contact us within 48 hours of the expected delivery date if the package has not arrived.</li>
+            <li>We will raise a formal investigation with the courier partner within 1 to 2 business days.</li>
+            <li>Resolution will be provided within 7 business days.</li>
+          </ul>
+          <p>Garena Store is not legally liable for packages lost by the courier partner after dispatch. However, we will actively coordinate with the courier partner on your behalf and work to resolve the issue at the earliest.</p>
+
+          <h2>SECTION 12 — DELAYS AND DISRUPTIONS</h2>
+          <p>Garena Store will not be held liable for delivery delays caused by:</p>
+          <ul>
+            <li>Courier partner delays or logistics issues</li>
+            <li>Natural disasters, floods, or extreme weather</li>
+            <li>Cyclones, earthquakes, or other force majeure events</li>
+            <li>Strikes, civil unrest, or curfews</li>
+            <li>Government-imposed restrictions or national lockdowns</li>
+            <li>National and state public holidays</li>
+          </ul>
+          <p>We will proactively notify you of known delays and help track and resolve your shipment at the earliest.</p>
+
+          <h2>SECTION 13 — MULTIPLE ITEMS IN ONE ORDER</h2>
+          <p>If you order multiple items, they may be shipped in separate packages with different tracking numbers, depending on stock availability and courier routing. You will receive individual tracking details for each package via email and SMS.</p>
+
+          <h2>SECTION 14 — CONTACT US</h2>
+          <p>For any shipping or delivery related queries, please contact us:</p>
+          <div className="policy-info-box" style={{ marginTop: '12px' }}>
+            <p><strong>Business Name:</strong> Garena Store</p>
+            <p><strong>Proprietor:</strong> Prankrishna Das</p>
+            <p><strong>Email:</strong> connectwithvexora@gmail.com</p>
+            <p><strong>Phone / WhatsApp:</strong> +91 9793970031</p>
+            <p><strong>Address:</strong> House no 417, Near Santosh Tea stall, labour chauraha, shantipuram, Prayagraj, UTTAR PRADESH, Pin: 211013</p>
+            <p><strong>Website:</strong> www.garenaofficialcostume.shop</p>
+            <p><strong>Support Hours:</strong> Monday to Saturday, 10:00 AM to 6:00 PM IST</p>
+          </div>
         </div>
       </div>
     </div>
   );
 }
-

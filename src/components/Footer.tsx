@@ -1,57 +1,65 @@
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Footer() {
-  return (
-    <footer className="bg-stone-900 text-stone-300 border-t border-stone-800 pt-16 pb-12">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-          <div className="col-span-1 md:col-span-2 space-y-4">
-            <h3 className="text-xl sm:text-2xl font-black tracking-tight uppercase text-white flex items-center">
-              Free Fire Shop
-            </h3>
-            <p className="text-stone-400 max-w-sm text-sm leading-relaxed font-medium">
-              Free Fire Shop is an independent e-commerce retail store owned and operated by Prankrishna Das. Curating the best in fashion and daily essentials with uncompromising quality.
-            </p>
-            <div className="pt-2 flex flex-col space-y-1.5 text-xs text-stone-400 font-medium">
-              <p className="flex items-center gap-2">
-                <span className="text-orange-400 font-bold">Email:</span> connectwithvexora@gmail.com
-              </p>
-              <p className="flex items-center gap-2">
-                <span className="text-orange-400 font-bold">Phone:</span> +91 9793970031
-              </p>
-              <p className="text-stone-300 font-bold pt-1">
-                PRANKRISHNA DAS <span className="text-stone-500 font-normal">(Free Fire Shop)</span>
-              </p>
-              <p className="leading-relaxed text-stone-400 text-xs max-w-md">
-                <strong>Address:</strong> 02 NO TAKIMARI, Mantadari, PO: Milanpally, DIST: Jalpaiguri, West Bengal - 735133
-              </p>
-            </div>
-          </div>
-          
-          <div>
-            <h4 className="text-[11px] font-black uppercase tracking-widest mb-6 text-orange-400">Shop</h4>
-            <div className="flex flex-col space-y-3">
-              <Link to="/products" className="text-stone-400 hover:text-white transition-colors text-xs font-semibold">All Products</Link>
-              <Link to="/products?category=Men's+Fashion" className="text-stone-400 hover:text-white transition-colors text-xs font-semibold">Men's Fashion</Link>
-              <Link to="/products?category=Women's+Fashion" className="text-stone-400 hover:text-white transition-colors text-xs font-semibold">Women's Fashion</Link>
-              <Link to="/products?category=Essentials" className="text-stone-400 hover:text-white transition-colors text-xs font-semibold">Essentials</Link>
-            </div>
-          </div>
+  const navigate = useNavigate();
 
-          <div>
-            <h4 className="text-[11px] font-black uppercase tracking-widest mb-6 text-orange-400">Support</h4>
-            <div className="flex flex-col space-y-3">
-              <Link to="/contact" className="text-stone-400 hover:text-white transition-colors text-xs font-semibold">Contact Us</Link>
-              <Link to="/policies/terms" className="text-stone-400 hover:text-white transition-colors text-xs font-semibold">Terms & Conditions</Link>
-              <Link to="/policies/refund" className="text-stone-400 hover:text-white transition-colors text-xs font-semibold">Refund Policy</Link>
-              <Link to="/policies/shipping" className="text-stone-400 hover:text-white transition-colors text-xs font-semibold">Shipping Policy</Link>
-              <Link to="/policies/privacy" className="text-stone-400 hover:text-white transition-colors text-xs font-semibold">Privacy Policy</Link>
+  return (
+    <footer className="footer" id="site-footer">
+      <div className="footer-top">
+        <div className="container">
+          <div className="footer-grid">
+            <div className="footer-brand">
+              <span className="logo" onClick={() => navigate('/')}>GARENA STORE</span>
+              <p>Your trusted destination for premium fashion & lifestyle products. Delivered across India with love from Prayagraj.</p>
+              <div className="social-links">
+                <a href="#"><i className="fab fa-instagram"></i></a>
+                <a href="#"><i className="fab fa-facebook-f"></i></a>
+                <a href="#"><i className="fab fa-twitter"></i></a>
+                <a href="#"><i className="fab fa-youtube"></i></a>
+              </div>
+            </div>
+            <div className="footer-col">
+              <h4>QUICK LINKS</h4>
+              <Link to="/">Home</Link>
+              <Link to="/collections/all">Shop All</Link>
+              <Link to="/collections/men">Men</Link>
+              <Link to="/collections/women">Women</Link>
+              <Link to="/collections/electronics">Electronics and Accessories</Link>
+              <Link to="/blog">Style Journal</Link>
+              <Link to="/about">About Us</Link>
+            </div>
+            <div className="footer-col">
+              <h4>POLICIES</h4>
+              <Link to="/policies/privacy">Privacy Policy</Link>
+              <Link to="/policies/refund">Refund Policy</Link>
+              <Link to="/policies/shipping">Shipping Policy</Link>
+              <Link to="/policies/terms">Terms of Service</Link>
+              <Link to="/contact">Contact Us</Link>
+              <Link to="/my-orders">Track Order</Link>
+            </div>
+            <div className="footer-col">
+              <h4>CONTACT</h4>
+              <div className="fc-contact"><i className="fa fa-envelope"></i><span>connectwithvexora@gmail.com</span></div>
+              <div className="fc-contact"><i className="fa fa-phone"></i><span>+91-9793970031</span></div>
+              <div className="fc-contact"><i className="fa fa-map-marker-alt"></i><span>House No. 417, Near Santosh Tea Stall, Labour Chauraha, Shantipuram, Prayagraj, UP – 211013</span></div>
             </div>
           </div>
         </div>
-        
-        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-stone-800 text-stone-500 text-[10px] uppercase tracking-wider font-bold">
-          <p>© {new Date().getFullYear()} FREE FIRE SHOP. ALL RIGHTS RESERVED.</p>
+      </div>
+      <div className="footer-mid" style={{ padding: 0 }}>
+        <div className="secure-payment-strip">
+          <span className="secure-text">100% Secure Payment</span>
+          <img src="https://cdn.shopify.com/s/files/1/0936/3747/6665/files/card_1.png?v=1768831505" alt="Mastercard" referrerPolicy="no-referrer" />
+          <img src="https://cdn.shopify.com/s/files/1/0936/3747/6665/files/visa.png?v=1768827408" alt="Visa" referrerPolicy="no-referrer" />
+          <img src="https://cdn.shopify.com/s/files/1/0936/3747/6665/files/gpay_black.png?v=1768831823" alt="GPay" referrerPolicy="no-referrer" />
+          <img src="https://cdn.shopify.com/s/files/1/0936/3747/6665/files/images_cdff9037-f7f4-492a-a09f-c285d9e905bd.png?v=1768831823" alt="UPI" referrerPolicy="no-referrer" />
+          <img src="https://cdn.shopify.com/s/files/1/0936/3747/6665/files/buy.png?v=1768831823" alt="Cash on Delivery" referrerPolicy="no-referrer" />
+        </div>
+      </div>
+      <div className="footer-bot">
+        <div className="container">
+          <p>© 2026 Garena Store (PRANKRISHNA DAS). All rights reserved. | GST Registered in Uttar Pradesh, India</p>
         </div>
       </div>
     </footer>

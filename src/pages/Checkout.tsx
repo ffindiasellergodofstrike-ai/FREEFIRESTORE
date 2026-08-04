@@ -1,44 +1,43 @@
-import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { useLocation, useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
-import { ShieldCheck, ArrowLeft, Lock, Trash2, Plus, Minus, X } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { db } from '../lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { ShieldCheck, ShoppingBag, ArrowRight } from 'lucide-react';
 
 export default function Checkout() {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { cart, clearCart, removeFromCart } = useCart();
+  const { cart, clearCart, getTotalPrice, cartCount } = useCart();
   const { user } = useAuth();
   
   const statusParam = searchParams.get('status');
-  const txnidParam = searchParams.get('txnid');
   const messageParam = searchParams.get('message');
   
-  // location.state is used for "Buy Now" (direct single product checkout)
-  const { product: directProduct, size: directSize } = location.state || {};
+  const { product: directProduct, size: directSize, qty: directQty } = location.state || {};
   
-  // Decide which items to show: direct product (Buy Now) or full cart
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
   const checkoutItems = directProduct 
     ? [{ 
+        key: `${directProduct.id}-${directSize}`,
         id: directProduct.id, 
-        title: directProduct.title, 
+        name: directProduct.name, 
         price: directProduct.price, 
-        image: directProduct.image, 
-        size: directSize, 
-        quantity: 1,
-        category: directProduct.category
+        cat: directProduct.cat,
+        size: directSize || 'M', 
+        qty: directQty || 1
       }] 
     : cart;
 
   const [formData, setFormData] = useState({
     email: user?.email || '',
-    firstName: '',
-    lastName: '',
-    phone: '',
+    firstName: user?.name ? user.name.split(' ')[0] : '',
+    lastName: user?.name ? user.name.split(' ').slice(1).join(' ') : '',
+    phone: user?.mobile || '',
     address: '',
     city: '',
     state: '',
@@ -46,10 +45,22 @@ export default function Checkout() {
   });
   
   useEffect(() => {
-    if (user) {
-      setFormData(prev => ({ ...prev, email: user.email }));
+    if (!user) {
+      setShowLoginModal(true);
+      if (directProduct?.id) {
+        localStorage.setItem('redirect_product_id', String(directProduct.id));
+      }
+    } else {
+      setShowLoginModal(false);
+      setFormData(prev => ({ 
+        ...prev, 
+        email: user.email || '',
+        firstName: user.name ? user.name.split(' ')[0] : prev.firstName,
+        lastName: user.name ? user.name.split(' ').slice(1).join(' ') : prev.lastName,
+        phone: user.mobile || prev.phone
+      }));
     }
-  }, [user]);
+  }, [user, directProduct]);
 
   const [paymentType, setPaymentType] = useState<'payu' | 'pod'>('pod');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -60,52 +71,43 @@ export default function Checkout() {
     if (statusParam === 'success') {
       if (!directProduct) clearCart();
       setIsSuccess(true);
-      toast.success('Prepaid Payment Successful! Order secured.', {
-        id: 'checkout-toast'
-      });
-    } else if (statusParam === 'failure') {
-      toast.error(messageParam || 'Payment was declined or cancelled. Please try again.', {
-        id: 'checkout-toast',
-        duration: 5000
-      });
-    } else if (statusParam === 'error') {
-      toast.error(messageParam || 'Verification error. Contact support if debited.', {
-        id: 'checkout-toast',
-        duration: 5000
-      });
+      toast.success('Prepaid Payment Successful! Order confirmed.');
+    } else if (statusParam === 'failure' || statusParam === 'error') {
+      toast.error(messageParam || 'Payment error. Please try again.');
     }
   }, [statusParam, messageParam, directProduct]);
 
-  // If accessed directly without product in state AND cart is empty
   if (checkoutItems.length === 0 && !isSuccess) {
     return (
-      <div className="pt-32 pb-24 px-6 text-center min-h-screen flex flex-col items-center justify-center">
-        <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-6">
-          <Trash2 size={40} className="text-slate-300" />
-        </div>
-        <h2 className="text-2xl font-black mb-2 uppercase tracking-tight">Your Cart is Empty</h2>
-        <p className="text-slate-500 text-sm mb-8 max-w-xs mx-auto">Looks like you haven't added anything to your cart yet. Secure your official gear today.</p>
-        <Link to="/products" className="bg-black text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-slate-800 transition-colors shadow-lg">
+      <div className="container" style={{ padding: '80px 24px', textAlign: 'center' }}>
+        <div style={{ fontSize: '64px', marginBottom: '16px' }}>🛍️</div>
+        <h2 style={{ fontSize: '22px', marginBottom: '8px' }}>YOUR CART IS EMPTY</h2>
+        <p style={{ color: 'var(--gray)', marginBottom: '28px' }}>Looks like you haven't added anything to your cart yet.</p>
+        <Link to="/" className="btn btn-black btn-lg">
           Start Shopping
         </Link>
       </div>
     );
   }
 
-  const subtotal = checkoutItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+  const subtotal = directProduct ? directProduct.price : getTotalPrice();
+  const grandTotal = subtotal; // Free delivery is standard
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleCheckout = async (e: FormEvent) => {
     e.preventDefault();
-    setIsProcessing(true);
     
-    toast.loading('Validating Shipping Protocol...', {
-      id: 'checkout-toast'
-    });
+    if (!formData.email || !formData.firstName || !formData.lastName || !formData.address || !formData.city || !formData.pincode || !formData.phone) {
+      toast.error('⚠ Please fill in all shipping details.');
+      return;
+    }
+
+    setIsProcessing(true);
+    toast.loading('Securing order details...');
     
     try {
       const orderNumber = Math.floor(Math.random() * 900000) + 100000;
@@ -113,360 +115,529 @@ export default function Checkout() {
       if (paymentType === 'payu') {
         setIsProcessing(false);
         setShowOnlinePaymentNotice(true);
-        toast.dismiss('checkout-toast');
+        toast.dismiss();
         return;
       } else {
-        // Standard Cash on Delivery order flow
-        if (user) {
-          await addDoc(collection(db, 'orders'), {
-            userId: user.uid || user.email,
-            userEmail: user.email,
-            items: checkoutItems,
-            total: subtotal,
-            status: 'Order Placed',
-            shippingAddress: formData,
-            orderNumber,
-            createdAt: serverTimestamp()
-          });
+        if (db) {
+          try {
+            await addDoc(collection(db, 'orders'), {
+              userId: user?.uid || user?.email || 'guest',
+              userEmail: formData.email,
+              items: checkoutItems,
+              total: grandTotal,
+              status: 'Order Placed',
+              shippingAddress: formData,
+              orderNumber,
+              createdAt: new Date().toISOString()
+            });
+          } catch (e) {
+            console.log('Firestore write notice:', e);
+          }
         }
 
         setTimeout(() => {
           setIsProcessing(false);
           setIsSuccess(true);
           if (!directProduct) clearCart();
-          toast.success('Official Order Confirmed!', {
-            id: 'checkout-toast'
-          });
-        }, 1500);
+          toast.dismiss();
+          toast.success('Garena Store Order Confirmed!');
+        }, 1200);
       }
     } catch (error: any) {
-      console.error("Payment initiation / registration failure:", error);
-      toast.error(error.message || "Checkout protocol failed. Try again.", { id: 'checkout-toast' });
+      toast.dismiss();
+      toast.error(error.message || "Checkout failed. Please try again.");
       setIsProcessing(false);
     }
   };
 
+  const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
+  const emoji = (cat: string) => cat === 'men' ? '👕' : cat === 'women' ? '👗' : '💻';
+
   if (isSuccess) {
     return (
-      <div className="pt-28 pb-24 px-6 text-center min-h-screen flex flex-col items-center justify-center bg-white">
-        <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-8 relative">
-          <div className="absolute inset-0 bg-green-100 rounded-full animate-ping opacity-25"></div>
-          <ShieldCheck size={48} className="text-green-600 relative z-10" />
+      <div className="container" style={{ padding: '80px 24px', textAlign: 'center', minHeight: '60vh' }}>
+        <div style={{ width: '80px', height: '80px', background: '#dcfce7', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
+          <i className="fa fa-check" style={{ fontSize: '36px', color: '#166534' }}></i>
         </div>
-        <h2 className="text-3xl sm:text-4xl font-black tracking-tighter mb-4 uppercase">Order Secured!</h2>
-        <p className="text-slate-500 mb-10 max-w-md mx-auto text-sm sm:text-base leading-relaxed">
-          Protocol initiated. Your order <span className="text-black font-bold">#{Math.floor(Math.random() * 900000) + 100000}</span> has been broadcast to our dispatch hub. Tracking details will be available shortly.
+        <h1 style={{ fontSize: '28px', marginBottom: '12px', fontFamily: 'var(--font-h)' }}>ORDER SECURED!</h1>
+        <p style={{ color: 'var(--gray)', maxWidth: '480px', margin: '0 auto 32px', fontSize: '15px' }}>
+          Thank you for shopping with Garena Store. Your order has been placed successfully and will be delivered to your address soon.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 w-full max-w-sm">
-          <Link to="/my-orders" className="flex-1 bg-black text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl text-center">
-            My Orders
-          </Link>
-          <Link to="/" className="flex-1 bg-white border-2 border-slate-100 text-black px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-slate-50 transition-all text-center">
-            Return Home
-          </Link>
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+          <Link to="/" className="btn btn-black btn-lg">RETURN TO HOME</Link>
+          <Link to="/my-orders" className="btn btn-outline btn-lg">VIEW MY ORDERS</Link>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="pt-24 sm:pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto min-h-screen">
-      <Link to={directProduct ? `/product/${directProduct.id}` : "/products"} className="inline-flex items-center gap-2 text-[10px] sm:text-xs font-bold text-slate-500 hover:text-black mb-8 md:mb-10 transition-colors uppercase tracking-widest">
-        <ArrowLeft size={14} /> {directProduct ? 'Return to Product' : 'Continue Shopping'}
-      </Link>
-
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-        <div className="lg:col-span-7">
-          <h1 className="text-2xl sm:text-3xl font-black mb-8 uppercase tracking-tight">Checkout Gate</h1>
-          <form onSubmit={handleCheckout} className="space-y-10">
-            <section>
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-8 h-8 bg-black text-white rounded-lg flex items-center justify-center text-xs font-bold">01</div>
-                <h2 className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Shipping Protocol</h2>
+    <div id="checkout-page-root">
+      {showLoginModal && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(0, 0, 0, 0.65)',
+          zIndex: 9999,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backdropFilter: 'blur(8px)',
+          padding: '16px'
+        }} id="checkout-login-modal">
+          <div style={{
+            background: '#ffffff',
+            maxWidth: '520px',
+            width: '100%',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 40px rgba(0,0,0,0.03)',
+            borderRadius: '0',
+            border: '1px solid #111111',
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column'
+          }}>
+            {/* Modal Top Header (E-Commerce Branding style) */}
+            <div style={{
+              background: '#111111',
+              color: '#ffffff',
+              padding: '24px 32px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              borderBottom: '1px solid #333333'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <ShieldCheck style={{ width: '22px', height: '22px', color: '#4ade80' }} />
+                <span style={{
+                  fontFamily: 'var(--font-h)',
+                  fontSize: '14px',
+                  fontWeight: 800,
+                  letterSpacing: '2px',
+                  textTransform: 'uppercase'
+                }}>
+                  SECURE GATEWAY
+                </span>
               </div>
-              
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Gmail Account</label>
-                    <input 
-                      required type="email" name="email" placeholder="youraccount@gmail.com" 
-                      value={formData.email} onChange={handleInputChange}
-                      className="w-full bg-white border border-slate-200 rounded-xl py-3.5 px-4 text-xs sm:text-sm outline-none focus:border-black transition-colors"
-                    />
-                  </div>
-                </div>
+              <span style={{
+                fontSize: '10px',
+                background: '#333333',
+                color: '#4ade80',
+                padding: '4px 8px',
+                fontWeight: '700',
+                letterSpacing: '1px'
+              }}>
+                SSL ENCRYPTED
+              </span>
+            </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Identity First Name</label>
-                    <input 
-                      required type="text" name="firstName" placeholder="First Name" 
-                      value={formData.firstName} onChange={handleInputChange}
-                      className="w-full bg-white border border-slate-200 rounded-xl py-3.5 px-4 text-xs sm:text-sm outline-none focus:border-black transition-colors"
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Identity Last Name</label>
-                    <input 
-                      required type="text" name="lastName" placeholder="Last Name" 
-                      value={formData.lastName} onChange={handleInputChange}
-                      className="w-full bg-white border border-slate-200 rounded-xl py-3.5 px-4 text-xs sm:text-sm outline-none focus:border-black transition-colors"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Full Shipping Address</label>
-                  <input 
-                    required type="text" name="address" placeholder="House No, Street, Landmark" 
-                    value={formData.address} onChange={handleInputChange}
-                    className="w-full bg-white border border-slate-200 rounded-xl py-3.5 px-4 text-xs sm:text-sm outline-none focus:border-black transition-colors"
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">City / Region</label>
-                    <input 
-                      required type="text" name="city" placeholder="City Name" 
-                      value={formData.city} onChange={handleInputChange}
-                      className="w-full bg-white border border-slate-200 rounded-xl py-3.5 px-4 text-xs sm:text-sm outline-none focus:border-black transition-colors"
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">PIN Code</label>
-                    <input 
-                      required type="text" name="pincode" placeholder="6-Digit Code" 
-                      value={formData.pincode} onChange={handleInputChange}
-                      className="w-full bg-white border border-slate-200 rounded-xl py-3.5 px-4 text-xs sm:text-sm outline-none focus:border-black transition-colors"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Contact Active Mobile</label>
-                  <input 
-                    required type="tel" name="phone" placeholder="+91 XXXXX XXXXX" 
-                    value={formData.phone} onChange={handleInputChange}
-                    className="w-full bg-white border border-slate-200 rounded-xl py-3.5 px-4 text-xs sm:text-sm outline-none focus:border-black transition-colors"
-                  />
+            {/* Modal Body */}
+            <div style={{ padding: '36px 32px 32px' }}>
+              {/* Shopping Bag representation */}
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                <div style={{
+                  background: '#f4f4f5',
+                  padding: '18px',
+                  borderRadius: '50%',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <ShoppingBag style={{ width: '32px', height: '32px', color: '#111111' }} />
                 </div>
               </div>
-            </section>
 
-            <section>
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-8 h-8 bg-black text-white rounded-lg flex items-center justify-center text-xs font-bold">02</div>
-                <h2 className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Payment Authorization</h2>
-              </div>
-              
-              <div className="grid grid-cols-1 gap-4">
-                <div 
-                  onClick={() => setShowOnlinePaymentNotice(true)}
-                  className="flex items-start gap-4 p-5 rounded-2xl border-2 border-slate-200 bg-slate-100/70 opacity-75 cursor-not-allowed relative overflow-hidden group shadow-xs transition-all"
-                  id="prepaid-option-disabled"
-                >
-                  <input 
-                    type="radio" 
-                    name="paymentType" 
-                    value="payu" 
-                    disabled
-                    checked={false}
-                    className="mt-1 accent-slate-400 w-4 h-4 cursor-not-allowed" 
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className="block text-sm font-black text-slate-500 uppercase tracking-tight">Prepaid Credit / Debit Cards / UPI</span>
+              <h2 style={{
+                fontFamily: 'var(--font-h)',
+                fontSize: '20px',
+                fontWeight: 900,
+                textAlign: 'center',
+                color: '#111111',
+                marginBottom: '10px',
+                textTransform: 'uppercase',
+                letterSpacing: '1px'
+              }}>
+                Sign in to Complete Order
+              </h2>
+
+              <p style={{
+                color: '#666666',
+                fontSize: '13px',
+                lineHeight: '1.6',
+                textAlign: 'center',
+                marginBottom: '24px',
+                maxWidth: '420px',
+                marginLeft: 'auto',
+                marginRight: 'auto'
+              }}>
+                To ensure a secure, smooth transaction and accurate parcel tracking, please identify yourself.
+              </p>
+
+              {/* Benefits Box */}
+              <div style={{
+                background: '#fafafa',
+                border: '1px solid #eaeaea',
+                padding: '16px 20px',
+                marginBottom: '28px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px'
+              }}>
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                  <span style={{ fontSize: '14px', color: '#111111' }}>⚡</span>
+                  <div style={{ textAlign: 'left' }}>
+                    <div style={{ fontSize: '12px', fontWeight: '800', fontFamily: 'var(--font-h)', color: '#111111', letterSpacing: '0.5px' }}>
+                      1-CLICK SECURE CHECKOUT
                     </div>
-                    <p className="text-[11px] text-slate-400 mt-2 font-medium leading-relaxed">
-                      Online payment gateway currently paused. Please select Pay On Delivery (POD) to proceed with your order.
-                    </p>
-                  </div>
-                  <div className="absolute top-0 right-0 p-3">
-                    <div className="bg-amber-100 text-amber-800 text-[8px] font-bold px-2 py-1 rounded uppercase tracking-widest border border-amber-300/60">Currently Unavailable</div>
+                    <div style={{ fontSize: '11px', color: '#71717a', marginTop: '1px' }}>
+                      Save delivery details for seamless future orders
+                    </div>
                   </div>
                 </div>
 
-                <label 
-                  onClick={() => setPaymentType('pod')}
-                  className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer relative overflow-hidden group shadow-sm transition-all ${
-                    paymentType === 'pod' ? 'border-black bg-slate-50 ring-1 ring-black/5' : 'border-slate-100 bg-white hover:border-slate-200'
-                  }`}
-                  id="pod-option-enabled"
-                >
-                  <input 
-                    type="radio" 
-                    name="paymentType" 
-                    value="pod" 
-                    checked={paymentType === 'pod'}
-                    onChange={() => setPaymentType('pod')}
-                    className="mt-1 accent-black w-4 h-4" 
-                  />
-                  <div className="flex-1">
-                    <span className="block text-sm font-black text-black uppercase tracking-tight">Pay On Delivery (POD) / Cash on Delivery</span>
-                    <p className="text-[11px] text-slate-500 mt-2 font-medium leading-relaxed">
-                      Secure payment verification upon arrival. Pay via Cash, Mini-ATM or UPI directly to our logistics partner.
-                    </p>
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                  <span style={{ fontSize: '14px', color: '#111111' }}>📦</span>
+                  <div style={{ textAlign: 'left' }}>
+                    <div style={{ fontSize: '12px', fontWeight: '800', fontFamily: 'var(--font-h)', color: '#111111', letterSpacing: '0.5px' }}>
+                      REAL-TIME ORDER TRACKING
+                    </div>
+                    <div style={{ fontSize: '11px', color: '#71717a', marginTop: '1px' }}>
+                      Track status updates and dynamic shipping in real-time
+                    </div>
                   </div>
-                  <div className="absolute top-0 right-0 p-3">
-                    <div className="bg-emerald-600 text-white text-[8px] font-bold px-2 py-1 rounded uppercase tracking-widest shadow-xs">Available Now</div>
-                  </div>
-                </label>
-              </div>
-            </section>
+                </div>
 
-            <div className="pt-4">
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                  <span style={{ fontSize: '14px', color: '#111111' }}>🏷️</span>
+                  <div style={{ textAlign: 'left' }}>
+                    <div style={{ fontSize: '12px', fontWeight: '800', fontFamily: 'var(--font-h)', color: '#111111', letterSpacing: '0.5px' }}>
+                      MEMBER PRIVILEGES & REWARDS
+                    </div>
+                    <div style={{ fontSize: '11px', color: '#71717a', marginTop: '1px' }}>
+                      Unlock exclusive coupons and automatic discount schemes
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <button 
+                  className="btn btn-black btn-full btn-lg" 
+                  onClick={() => navigate('/login')}
+                  style={{
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    fontFamily: 'var(--font-h)',
+                    fontSize: '12px',
+                    fontWeight: 800,
+                    letterSpacing: '1.5px',
+                    padding: '16px 20px',
+                    border: '1px solid #111111'
+                  }}
+                >
+                  LOG IN TO YOUR ACCOUNT <ArrowRight style={{ width: '16px', height: '16px' }} />
+                </button>
+                
+                <button 
+                  className="btn btn-outline btn-full btn-lg" 
+                  onClick={() => navigate('/register')}
+                  style={{
+                    cursor: 'pointer',
+                    fontFamily: 'var(--font-h)',
+                    fontSize: '12px',
+                    fontWeight: 800,
+                    letterSpacing: '1.5px',
+                    padding: '16px 20px',
+                    border: '1px solid #dddddd'
+                  }}
+                >
+                  NEW CUSTOMER? CREATE ACCOUNT
+                </button>
+
+                <Link 
+                  to="/" 
+                  style={{
+                    fontSize: '11px',
+                    fontFamily: 'var(--font-h)',
+                    fontWeight: 700,
+                    letterSpacing: '1px',
+                    color: '#888888',
+                    textDecoration: 'none',
+                    textTransform: 'uppercase',
+                    marginTop: '16px',
+                    display: 'inline-block',
+                    textAlign: 'center',
+                    transition: 'color 0.2s'
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = '#111111')}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = '#888888')}
+                >
+                  ← CANCEL AND RETURN TO STORE
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="page-hero">
+        <h1>SECURE CHECKOUT</h1>
+        <p>COMPLETE YOUR PURCHASE SECURELY</p>
+      </div>
+
+      <div className="container" style={{ padding: '40px 20px 60px' }}>
+        <div className="cart-pg-layout" id="checkoutLayout">
+          {/* Form */}
+          <div>
+            <form onSubmit={handleCheckout} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              
+              {/* Shipping Address Card */}
+              <div style={{ background: '#fff', border: '1px solid var(--border)', padding: '24px' }}>
+                <h3 style={{ fontSize: '14px', letterSpacing: '1px', fontFamily: 'var(--font-h)', fontWeight: 700, borderBottom: '1px solid var(--border)', paddingBottom: '12px', marginBottom: '20px' }}>
+                  1. SHIPPING DETAILS
+                </h3>
+                
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <div className="form-group">
+                    <label className="form-label">EMAIL ADDRESS *</label>
+                    <input 
+                      required 
+                      type="email" 
+                      name="email" 
+                      placeholder="your@email.com" 
+                      value={formData.email} 
+                      onChange={handleInputChange}
+                      className="form-input"
+                    />
+                  </div>
+
+                  <div className="form-row-2col">
+                    <div className="form-group">
+                      <label className="form-label">FIRST NAME *</label>
+                      <input 
+                        required 
+                        type="text" 
+                        name="firstName" 
+                        placeholder="First Name" 
+                        value={formData.firstName} 
+                        onChange={handleInputChange}
+                        className="form-input"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">LAST NAME *</label>
+                      <input 
+                        required 
+                        type="text" 
+                        name="lastName" 
+                        placeholder="Last Name" 
+                        value={formData.lastName} 
+                        onChange={handleInputChange}
+                        className="form-input"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">ADDRESS (STREET / LANDMARK) *</label>
+                    <input 
+                      required 
+                      type="text" 
+                      name="address" 
+                      placeholder="House No, Street Name, Landmark" 
+                      value={formData.address} 
+                      onChange={handleInputChange}
+                      className="form-input"
+                    />
+                  </div>
+
+                  <div className="form-row-2col">
+                    <div className="form-group">
+                      <label className="form-label">CITY *</label>
+                      <input 
+                        required 
+                        type="text" 
+                        name="city" 
+                        placeholder="City" 
+                        value={formData.city} 
+                        onChange={handleInputChange}
+                        className="form-input"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">PINCODE *</label>
+                      <input 
+                        required 
+                        type="text" 
+                        name="pincode" 
+                        placeholder="6-digit ZIP code" 
+                        value={formData.pincode} 
+                        onChange={handleInputChange}
+                        className="form-input"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">STATE *</label>
+                    <select 
+                      name="state" 
+                      value={formData.state} 
+                      onChange={handleInputChange} 
+                      className="form-input"
+                      required
+                    >
+                      <option value="">Select your state</option>
+                      <option value="UTTAR PRADESH">Uttar Pradesh</option>
+                      <option value="DELHI">Delhi</option>
+                      <option value="MAHARASHTRA">Maharashtra</option>
+                      <option value="KARNATAKA">Karnataka</option>
+                      <option value="TAMIL NADU">Tamil Nadu</option>
+                      <option value="WEST BENGAL">West Bengal</option>
+                      <option value="GUJARAT">Gujarat</option>
+                      <option value="OTHER">Other State</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">PHONE NUMBER (FOR DELIVERY UPDATES) *</label>
+                    <input 
+                      required 
+                      type="tel" 
+                      name="phone" 
+                      placeholder="+91 XXXXX XXXXX" 
+                      value={formData.phone} 
+                      onChange={handleInputChange}
+                      className="form-input"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Payment Option Card */}
+              <div style={{ background: '#fff', border: '1px solid var(--border)', padding: '24px' }}>
+                <h3 style={{ fontSize: '14px', letterSpacing: '1px', fontFamily: 'var(--font-h)', fontWeight: 700, borderBottom: '1px solid var(--border)', paddingBottom: '12px', marginBottom: '20px' }}>
+                  2. PAYMENT METHOD
+                </h3>
+                
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <label 
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      padding: '16px',
+                      border: '2px solid var(--dark)',
+                      background: '#fcfcfc',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <input 
+                      type="radio" 
+                      name="paymentType" 
+                      value="pod" 
+                      checked={paymentType === 'pod'}
+                      onChange={() => setPaymentType('pod')}
+                    />
+                    <div>
+                      <strong style={{ display: 'block', fontSize: '14px', color: 'var(--dark)' }}>CASH / PAY ON DELIVERY (COD)</strong>
+                      <span style={{ fontSize: '12px', color: 'var(--gray)' }}>Pay via Cash, UPI, or Card upon delivery</span>
+                    </div>
+                  </label>
+
+                  <label 
+                    onClick={() => setShowOnlinePaymentNotice(true)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      padding: '16px',
+                      border: '1px solid var(--border)',
+                      background: '#f9fafb',
+                      cursor: 'pointer',
+                      opacity: 0.7
+                    }}
+                  >
+                    <input type="radio" disabled name="paymentType" value="payu" />
+                    <div>
+                      <strong style={{ display: 'block', fontSize: '14px', color: '#999' }}>ONLINE PAYMENT (UPI / CARDS)</strong>
+                      <span style={{ fontSize: '12px', color: '#aaa' }}>Currently paused (use Cash on Delivery)</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
               <button 
                 type="submit" 
                 disabled={isProcessing}
-                className="w-full bg-black text-white font-bold py-5 rounded-2xl text-[10px] sm:text-xs hover:bg-slate-800 transition-all uppercase tracking-[0.2em] flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed shadow-2xl hover:shadow-black/20"
+                className="btn btn-black btn-full btn-lg"
               >
-                {isProcessing ? (
-                  <>
-                    <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
-                    Authenticating Order...
-                  </>
-                ) : (
-                  <>
-                    <Lock size={16} /> Confirm Official Order (&#8377;{subtotal})
-                  </>
-                )}
+                {isProcessing ? 'PLACING SECURE ORDER...' : `SECURE MY ORDER (${fmt(grandTotal)})`}
               </button>
-              <p className="text-center text-[9px] text-slate-400 mt-6 font-medium">Secure End-to-End Encryption Enabled</p>
-            </div>
-          </form>
-        </div>
+            </form>
+          </div>
 
-        <div className="lg:col-span-5 lg:sticky lg:top-28">
-          <aside className="bg-white border border-slate-100 p-6 sm:p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-            <div className="flex justify-between items-center mb-8 border-b border-slate-50 pb-4">
-              <h3 className="text-lg font-black uppercase tracking-tight text-neutral-900">Official Bill</h3>
-              <span className="text-[10px] font-bold text-slate-400">{checkoutItems.length} Item(s)</span>
-            </div>
+          {/* Sidebar Summary */}
+          <div className="order-summary" style={{ height: 'fit-content' }}>
+            <div className="os-title">ORDER SUMMARY</div>
             
-            <div className="space-y-6 mb-8 max-h-[40vh] overflow-y-auto pr-2 scrollbar-hide">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '20px', maxHeight: '350px', overflowY: 'auto' }}>
               {checkoutItems.map((item, idx) => (
-                <div key={item.id + (item.size || idx)} className="flex gap-4 group relative">
-                  <div className="w-20 h-20 bg-slate-50 rounded-xl p-2 relative flex-shrink-0 group-hover:bg-slate-100 transition-colors">
+                <div key={item.key || idx} style={{ display: 'flex', gap: '12px', alignItems: 'center', borderBottom: '1px solid var(--border)', paddingBottom: '12px' }}>
+                  {item.image ? (
                     <img 
                       src={item.image} 
-                      alt={item.title} 
-                      className="w-full h-full object-cover rounded-lg" 
+                      alt={item.name} 
+                      style={{ width: '48px', height: '48px', objectFit: 'cover', flexShrink: 0 }}
                       referrerPolicy="no-referrer"
-                      onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop"; }}
                     />
-                    <span className="absolute -top-2 -right-2 bg-black text-white text-[10px] w-6 h-6 flex items-center justify-center rounded-full font-black shadow-lg">
-                      {item.quantity}
-                    </span>
-                  </div>
-                  <div className="flex-1 flex flex-col justify-center pr-8">
-                    <p className="text-xs font-black text-neutral-900 line-clamp-2 uppercase tracking-tight leading-tight">{item.title}</p>
-                    <div className="flex items-center gap-2 mt-2">
-                       <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{item.size ? `Size: ${item.size}` : item.category}</p>
+                  ) : (
+                    <div className={`ph ph-${item.cat === 'electronics' ? 'elec' : item.cat}`} style={{ width: '48px', height: '48px', fontSize: '24px', flexShrink: 0 }}>
+                      {emoji(item.cat || 'men')}
                     </div>
-                    <p className="text-xs font-bold text-black mt-2">&#8377;{item.price * item.quantity}</p>
-                  </div>
-                  
-                  {!directProduct && (
-                    <button 
-                      onClick={() => removeFromCart(item.id, item.size)}
-                      className="absolute top-1/2 -right-2 -translate-y-1/2 p-2 text-slate-300 hover:text-red-500 transition-colors"
-                      title="Remove Item"
-                    >
-                      <X size={16} />
-                    </button>
                   )}
+                  <div style={{ flex: 1, fontSize: '13px' }}>
+                    <div style={{ fontWeight: 700, color: 'var(--dark)' }}>{item.name}</div>
+                    <div style={{ color: 'var(--gray)', fontSize: '11px', marginTop: '2px' }}>Size: {item.size} &nbsp;|&nbsp; Qty: {item.qty}</div>
+                  </div>
+                  <div style={{ fontWeight: 700, fontSize: '14px', color: 'var(--dark)' }}>{fmt(item.price * item.qty)}</div>
                 </div>
               ))}
             </div>
 
-            <div className="space-y-4 pt-6 border-t border-slate-100">
-              <div className="flex justify-between items-center">
-                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Subtotal</span>
-                <span className="text-xs font-bold text-black">&#8377;{subtotal}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Logistics / Tax</span>
-                <span className="text-[11px] font-black text-green-600 uppercase tracking-widest">FREE</span>
-              </div>
-              <div className="pt-6 mt-2 border-t-2 border-dashed border-slate-100">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-black text-black uppercase tracking-tight">Total Amount</span>
-                  <span className="text-xl font-black text-black tracking-tight">&#8377;{subtotal}</span>
-                </div>
-              </div>
+            <div className="os-row">
+              <span>Subtotal</span>
+              <span>{fmt(subtotal)}</span>
             </div>
 
-            <div className="mt-8 p-4 bg-slate-50 rounded-2xl flex items-center gap-4 border border-slate-100">
-              <div className="bg-white p-2 rounded-lg shadow-sm">
-                 <ShieldCheck size={18} className="text-black" />
-              </div>
-              <p className="text-[10px] font-bold text-slate-500 leading-snug uppercase tracking-tight">Official Free Fire Shop Protected Purchase</p>
+            <div className="os-row">
+              <span>Shipping</span>
+              <span style={{ color: '#166534', fontWeight: 700 }}>FREE</span>
             </div>
-          </aside>
+
+            <div className="os-ship">✓ FREE SHIPPING TO YOUR ADDRESS</div>
+
+            <div className="os-row total">
+              <span>GRAND TOTAL</span>
+              <span>{fmt(grandTotal)}</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Online Payment Notice Popup Modal */}
       {showOnlinePaymentNotice && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200" id="online-payment-notice-modal">
-          <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative text-center border border-slate-100 overflow-hidden" id="online-payment-modal-card">
-            {/* Top decorative accent banner */}
-            <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500"></div>
-
-            <button 
-              type="button" 
-              onClick={() => setShowOnlinePaymentNotice(false)}
-              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 rounded-full transition-colors"
-              aria-label="Close"
-              id="close-online-payment-modal-btn"
-            >
-              <X size={18} />
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
+          <div style={{ background: '#fff', padding: '32px', borderRadius: '0', border: '2px solid var(--dark)', maxWidth: '400px', width: '100%', textAlign: 'center' }}>
+            <h3 style={{ fontSize: '16px', fontFamily: 'var(--font-h)', fontWeight: 700, letterSpacing: '1px', marginBottom: '12px' }}>ONLINE PAYMENT NOTICE</h3>
+            <p style={{ fontSize: '14px', color: 'var(--gray)', lineHeight: 1.6, marginBottom: '24px' }}>
+              Online prepaid transactions are temporarily offline. Please select Cash on Delivery (COD) to place your order. Garena Store offers free delivery and easy checkout for all COD orders!
+            </p>
+            <button className="btn btn-black btn-full" onClick={() => setShowOnlinePaymentNotice(false)}>
+              CONTINUE WITH CASH ON DELIVERY
             </button>
-
-            <div className="pt-2 pb-1 space-y-4">
-              <div className="w-16 h-16 bg-amber-50 border border-amber-200/80 text-amber-600 rounded-2xl flex items-center justify-center mx-auto shadow-inner relative">
-                <Lock size={30} />
-                <div className="absolute -bottom-1 -right-1 bg-amber-500 text-white rounded-full p-1 shadow-xs">
-                  <ShieldCheck size={12} />
-                </div>
-              </div>
-
-              <div>
-                <span className="inline-block bg-amber-100 text-amber-900 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full mb-2">
-                  Online Payments Paused
-                </span>
-                <h3 className="text-xl font-black uppercase tracking-tight text-slate-900">
-                  Payment Notice
-                </h3>
-              </div>
-
-              <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 sm:p-5 text-center shadow-xs">
-                <p className="text-xs sm:text-sm font-semibold text-slate-800 leading-relaxed">
-                  We are not accepting online payments at this time. We will accept online payments as soon as possible.
-                </p>
-              </div>
-
-              <div className="p-3 bg-emerald-50 border border-emerald-200/60 rounded-xl text-left flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></div>
-                <p className="text-[11px] font-bold text-emerald-950 leading-tight">
-                  Pay On Delivery (POD) / Cash on Delivery is active and available for your order.
-                </p>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => {
-                  setShowOnlinePaymentNotice(false);
-                  setPaymentType('pod');
-                }}
-                className="w-full bg-slate-950 hover:bg-black text-white font-black py-4 px-6 rounded-xl text-xs uppercase tracking-widest shadow-xl transition-all hover:scale-[1.01] active:scale-[0.99] mt-2"
-                id="notice-modal-close-btn"
-              >
-                Proceed with Pay On Delivery
-              </button>
-            </div>
           </div>
         </div>
       )}

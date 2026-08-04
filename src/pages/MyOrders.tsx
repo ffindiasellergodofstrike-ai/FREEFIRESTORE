@@ -1,18 +1,19 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { db } from '../lib/firebase';
 import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
 import { useAuth } from '../context/AuthContext';
-import { Package, Clock, CheckCircle, ChevronRight, ShoppingBag } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
 
 interface OrderItem {
-  id: string;
-  title: string;
+  id: string | number;
+  name?: string;
+  title?: string;
   price: number;
-  image: string;
-  quantity: number;
+  qty?: number;
+  quantity?: number;
   size?: string;
+  cat?: string;
+  image?: string;
 }
 
 interface Order {
@@ -36,7 +37,7 @@ export default function MyOrders() {
       try {
         const q = query(
           collection(db, 'orders'),
-          where('userId', '==', user.uid),
+          where('userId', '==', user.uid || user.email),
           orderBy('createdAt', 'desc'),
           limit(50)
         );
@@ -57,124 +58,151 @@ export default function MyOrders() {
     fetchOrders();
   }, [user]);
 
+  const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
+  const emoji = (cat?: string) => cat === 'men' ? '👕' : cat === 'women' ? '👗' : '💻';
+
+  const getFormattedDate = (createdAt: any) => {
+    if (!createdAt) return 'Pending';
+    let d: Date;
+    if (typeof createdAt === 'string') {
+      d = new Date(createdAt);
+    } else if (createdAt.toDate) {
+      d = createdAt.toDate();
+    } else if (createdAt.seconds) {
+      d = new Date(createdAt.seconds * 1000);
+    } else {
+      return 'Pending';
+    }
+    return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+  };
+
+  const getOrderStatus = (order: Order) => {
+    if (!order.createdAt) return order.status || 'Order Placed';
+    let datePlaced: Date;
+    if (typeof order.createdAt === 'string') {
+      datePlaced = new Date(order.createdAt);
+    } else if (order.createdAt.toDate) {
+      datePlaced = order.createdAt.toDate();
+    } else if (order.createdAt.seconds) {
+      datePlaced = new Date(order.createdAt.seconds * 1000);
+    } else {
+      return order.status || 'Order Placed';
+    }
+
+    const diffTime = Math.abs(new Date().getTime() - datePlaced.getTime());
+    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+
+    if (diffDays >= 10) {
+      return 'Delivered';
+    } else if (diffDays >= 3) {
+      return 'In Transit';
+    }
+    return order.status || 'Order Placed';
+  };
+
   if (!user) {
     return (
-      <div className="pt-32 pb-24 px-6 text-center animate-in fade-in duration-700">
-        <h2 className="text-2xl font-black mb-4 uppercase tracking-tight">Access Restricted</h2>
-        <p className="text-slate-500 text-sm mb-8">Please login to view your official order history.</p>
-        <Link to="/" className="bg-black text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl">
-          Return Home
-        </Link>
+      <div id="orders-page-root">
+        <div className="page-hero">
+          <h1>MY ORDERS</h1>
+          <p>TRACK YOUR PURCHASES & SHIPMENTS</p>
+        </div>
+        <div className="container" style={{ padding: '80px 24px', textAlign: 'center' }}>
+          <div style={{ fontSize: '64px', marginBottom: '16px' }}>🔒</div>
+          <h2 style={{ fontSize: '1.2rem', fontFamily: 'var(--font-h)', fontWeight: 700, letterSpacing: '1px', marginBottom: '8px' }}>ACCESS RESTRICTED</h2>
+          <p style={{ color: 'var(--gray)', marginBottom: '28px' }}>Please log in to your account to view your purchase history and order tracks.</p>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+            <Link to="/login" className="btn btn-black">LOG IN NOW</Link>
+            <Link to="/" className="btn btn-outline">RETURN HOME</Link>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="pt-28 sm:pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto min-h-screen">
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
-        <div>
-          <h1 className="text-3xl sm:text-4xl font-black uppercase tracking-tight mb-2">Order Archive</h1>
-          <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">Tracking protocol for your official gear</p>
-        </div>
-        <div className="bg-slate-50 px-4 py-2 rounded-full border border-slate-100 self-start">
-          <span className="text-[10px] font-black uppercase tracking-tight text-slate-500">Records: {orders.length}</span>
-        </div>
+    <div id="orders-page-root">
+      <div className="page-hero">
+        <h1>MY ORDERS</h1>
+        <p>SECURE LOGS OF YOUR DEPLOYMENTS</p>
       </div>
 
-      {loading ? (
-        <div className="space-y-6">
-          {[1, 2, 3].map(i => (
-            <div key={i} className="bg-white border border-slate-100 p-6 rounded-3xl animate-pulse">
-              <div className="h-4 bg-slate-100 rounded w-1/4 mb-4"></div>
-              <div className="h-20 bg-slate-50 rounded-2xl"></div>
-            </div>
-          ))}
-        </div>
-      ) : orders.length === 0 ? (
-        <div className="bg-white border border-slate-100 rounded-3xl p-12 text-center shadow-sm">
-          <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Package size={32} className="text-slate-300" />
+      <div className="container" style={{ padding: '40px 20px 60px' }}>
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '40px 20px' }}>
+            <div className="spinner" style={{ border: '4px solid #f3f3f3', borderTop: '4px solid var(--dark)', borderRadius: '50%', width: '40px', height: '40px', animation: 'spin 1s linear infinite', margin: '0 auto 16px' }}></div>
+            <p style={{ color: 'var(--gray)', fontFamily: 'var(--font-h)', fontSize: '12px', fontWeight: 700, letterSpacing: '1px' }}>RETRIVING DEPLOYMENTS...</p>
           </div>
-          <h3 className="text-xl font-black uppercase tracking-tight mb-2">No Deployments Found</h3>
-          <p className="text-slate-500 text-sm mb-8 max-w-xs mx-auto">You haven't placed any orders yet. Secure your first item from the store today.</p>
-          <Link to="/products" className="inline-flex items-center gap-2 bg-black text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl">
-            <ShoppingBag size={14} /> Browse Catalog
-          </Link>
-        </div>
-      ) : (
-        <div className="space-y-6">
-          {orders.map((order, idx) => (
-            <motion.div 
-              key={order.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1 }}
-              className="bg-white border border-slate-100 rounded-3xl overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.03)] group"
-            >
-              <div className="p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-b border-slate-50">
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Order ID</span>
-                    <span className="text-sm font-black text-black">#{order.orderNumber}</span>
+        ) : orders.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+            <div style={{ fontSize: '64px', marginBottom: '16px' }}>📦</div>
+            <h2 style={{ fontSize: '1.2rem', fontFamily: 'var(--font-h)', fontWeight: 700, letterSpacing: '1px', marginBottom: '8px' }}>NO RECORDS FOUND</h2>
+            <p style={{ color: 'var(--gray)', marginBottom: '24px' }}>You haven't placed any orders yet. Secure your first items today!</p>
+            <Link to="/collections/all" className="btn btn-black">BROWSE SHOP</Link>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }} id="ordersArchive">
+            {orders.map((order) => (
+              <div 
+                key={order.id} 
+                style={{ background: '#fff', border: '1px solid var(--border)', padding: '24px' }}
+                id={`order-record-${order.orderNumber}`}
+              >
+                {/* Order Top Bar */}
+                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '16px', borderBottom: '1px solid var(--border)', paddingBottom: '16px', marginBottom: '20px' }}>
+                  <div>
+                    <span style={{ fontFamily: 'var(--font-h)', fontSize: '11px', fontWeight: 700, letterSpacing: '1px', color: 'var(--gray)' }}>ORDER ID:</span>
+                    <strong style={{ fontFamily: 'var(--font-h)', fontSize: '13px', marginLeft: '6px', color: 'var(--dark)' }}>#{order.orderNumber}</strong>
                   </div>
-                  <div className="flex items-center gap-2 text-slate-500">
-                    <Clock size={12} />
-                    <span className="text-[10px] font-bold uppercase tracking-tight">
-                      {order.createdAt?.toDate().toLocaleDateString('en-IN', {
-                        day: '2-digit',
-                        month: 'short',
-                        year: 'numeric'
-                      })}
-                    </span>
+                  <div>
+                    <span style={{ fontFamily: 'var(--font-h)', fontSize: '11px', fontWeight: 700, letterSpacing: '1px', color: 'var(--gray)' }}>DATE:</span>
+                    <strong style={{ fontFamily: 'var(--font-h)', fontSize: '13px', marginLeft: '6px', color: 'var(--dark)' }}>
+                      {getFormattedDate(order.createdAt)}
+                    </strong>
                   </div>
-                </div>
-                
-                <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto">
-                  <div className="text-left sm:text-right">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Status</p>
-                    <div className="flex items-center gap-1.5 justify-start sm:justify-end">
-                      <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
-                      <span className="text-[10px] font-black uppercase tracking-tight text-green-600">{order.status}</span>
-                    </div>
+                  <div>
+                    <span style={{ fontFamily: 'var(--font-h)', fontSize: '11px', fontWeight: 700, letterSpacing: '1px', color: 'var(--gray)' }}>STATUS:</span>
+                    <strong style={{ fontFamily: 'var(--font-h)', fontSize: '11px', fontWeight: 700, letterSpacing: '1px', marginLeft: '6px', color: '#166534', background: '#f0fdf4', border: '1px solid #bbf7d0', padding: '4px 10px' }}>
+                      {getOrderStatus(order).toUpperCase()}
+                    </strong>
                   </div>
-                  <div className="h-10 w-[1px] bg-slate-100 hidden sm:block"></div>
-                  <div className="text-right">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Amount</p>
-                    <p className="text-sm font-black text-black tracking-tight">&#8377;{order.total}</p>
+                  <div>
+                    <span style={{ fontFamily: 'var(--font-h)', fontSize: '11px', fontWeight: 700, letterSpacing: '1px', color: 'var(--gray)' }}>GRAND TOTAL:</span>
+                    <strong style={{ fontFamily: 'var(--font-h)', fontSize: '14px', marginLeft: '6px', color: 'var(--dark)' }}>{fmt(order.total)}</strong>
                   </div>
                 </div>
-              </div>
-              
-              <div className="p-6 sm:p-8 bg-slate-50/50">
-                <div className="flex items-center gap-4 overflow-x-auto pb-4 scrollbar-hide">
-                  {order.items.map((item, i) => (
-                    <div key={i} className="flex-shrink-0 w-16 h-16 bg-white rounded-xl p-1.5 border border-slate-100 relative group-hover:scale-105 transition-transform">
-                      <img 
-                        src={item.image} 
-                        alt="" 
-                        className="w-full h-full object-cover rounded-lg" 
-                        referrerPolicy="no-referrer"
-                        onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop"; }}
-                      />
-                      <span className="absolute -top-2 -right-2 bg-black text-white text-[8px] w-5 h-5 flex items-center justify-center rounded-full font-black">
-                        {item.quantity}
-                      </span>
+
+                {/* Items in the Order */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  {order.items.map((item, idx) => (
+                    <div key={idx} style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+                      {item.image ? (
+                        <img 
+                          src={item.image} 
+                          alt={item.name || item.title} 
+                          style={{ width: '56px', height: '56px', objectFit: 'cover', flexShrink: 0 }}
+                          referrerPolicy="no-referrer"
+                        />
+                      ) : (
+                        <div className={`ph ph-${item.cat === 'electronics' ? 'elec' : item.cat || 'men'}`} style={{ width: '56px', height: '56px', fontSize: '28px', flexShrink: 0 }}>
+                          {emoji(item.cat)}
+                        </div>
+                      )}
+                      <div style={{ flex: 1 }}>
+                        <h4 style={{ fontSize: '14px', fontWeight: 700, color: 'var(--dark)' }}>{item.name || item.title}</h4>
+                        <p style={{ fontSize: '11px', color: 'var(--gray)', marginTop: '2px' }}>
+                          Size: {item.size || 'ONE SIZE'} &nbsp;|&nbsp; Qty: {item.qty || item.quantity || 1}
+                        </p>
+                      </div>
+                      <div style={{ fontWeight: 700, color: 'var(--dark)' }}>{fmt(item.price * (item.qty || item.quantity || 1))}</div>
                     </div>
                   ))}
-                  <div className="ml-auto pl-4">
-                    <Link 
-                      to={`/track-order?id=${order.orderNumber}`}
-                      className="flex items-center justify-center w-10 h-10 bg-white rounded-full border border-slate-100 text-black hover:bg-black hover:text-white transition-all shadow-sm"
-                    >
-                      <ChevronRight size={18} />
-                    </Link>
-                  </div>
                 </div>
               </div>
-            </motion.div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

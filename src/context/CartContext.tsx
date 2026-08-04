@@ -1,71 +1,109 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
-interface CartItem {
-  id: string;
-  title: string;
+export interface CartItem {
+  key: string;
+  id: number;
+  name: string;
   price: number;
-  image: string;
-  size: string | null;
-  quantity: number;
+  cat: 'men' | 'women' | 'electronics';
+  size: string;
+  qty: number;
+  image?: string;
 }
 
 interface CartContextType {
   cart: CartItem[];
-  addToCart: (product: any, size: string | null) => void;
-  removeFromCart: (productId: string, size: string | null) => void;
+  addToCart: (product: any, size?: string, qty?: number) => void;
+  updateQty: (key: string, delta: number) => void;
+  removeFromCart: (key: string) => void;
   clearCart: () => void;
+  getTotalPrice: () => number;
+  cartCount: number;
+  isCartOpen: boolean;
+  setIsCartOpen: (open: boolean) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [cart, setCart] = useState<CartItem[]>([]);
-
-  useEffect(() => {
-    const savedCart = localStorage.getItem('ffindia_cart');
-    if (savedCart) {
-      setCart(JSON.parse(savedCart));
+  const [cart, setCart] = useState<CartItem[]>(() => {
+    try {
+      const saved = localStorage.getItem('gs_cart_v2');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
     }
-  }, []);
+  });
+
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem('ffindia_cart', JSON.stringify(cart));
+    try {
+      localStorage.setItem('gs_cart_v2', JSON.stringify(cart));
+    } catch (e) {}
   }, [cart]);
 
-  const addToCart = (product: any, size: string | null) => {
+  const addToCart = (product: any, size?: string, qty: number = 1) => {
+    const selectedSize = size || (product.sizes && product.sizes[0]) || 'ONE SIZE';
+    const itemKey = `${product.id}-${selectedSize}`;
+
     setCart(prev => {
-      const existingItem = prev.find(item => item.id === product.id && item.size === size);
-      if (existingItem) {
+      const existing = prev.find(item => item.key === itemKey);
+      if (existing) {
         return prev.map(item => 
-          item.id === product.id && item.size === size 
-            ? { ...item, quantity: item.quantity + 1 } 
+          item.key === itemKey 
+            ? { ...item, qty: item.qty + qty } 
             : item
         );
       }
       return [...prev, { 
+        key: itemKey,
         id: product.id, 
-        title: product.title, 
+        name: product.name, 
         price: product.price, 
-        image: product.image, 
-        size, 
-        quantity: 1 
+        cat: product.cat,
+        size: selectedSize, 
+        qty: qty,
+        image: product.images && product.images.length > 0 ? product.images[0] : undefined
       }];
     });
-    
-    // Silent success - only visible in total count usually, 
-    // but the user said "silently add ... Do not interrupt with any modals or popups."
-    // I'll skip the toast for this specific action as requested.
+
+    toast.success(`"${product.name}" added to bag!`);
   };
 
-  const removeFromCart = (productId: string, size: string | null) => {
-    setCart(prev => prev.filter(item => !(item.id === productId && item.size === size)));
+  const updateQty = (key: string, delta: number) => {
+    setCart(prev => prev.map(item => {
+      if (item.key === key) {
+        const newQty = Math.max(1, item.qty + delta);
+        return { ...item, qty: newQty };
+      }
+      return item;
+    }));
+  };
+
+  const removeFromCart = (key: string) => {
+    setCart(prev => prev.filter(item => item.key !== key));
+    toast.info('Removed from bag');
   };
 
   const clearCart = () => setCart([]);
 
+  const getTotalPrice = () => cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
+
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart }}>
+    <CartContext.Provider value={{ 
+      cart, 
+      addToCart, 
+      updateQty, 
+      removeFromCart, 
+      clearCart, 
+      getTotalPrice, 
+      cartCount,
+      isCartOpen,
+      setIsCartOpen
+    }}>
       {children}
     </CartContext.Provider>
   );
@@ -73,7 +111,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 export const useCart = () => {
   const context = useContext(CartContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useCart must be used within a CartProvider');
   }
   return context;

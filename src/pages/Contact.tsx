@@ -1,95 +1,127 @@
-import React from 'react';
-import { Mail, MapPin, Clock } from 'lucide-react';
+import React, { useState } from 'react';
 import { toast } from 'sonner';
 
 export default function Contact() {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const name = formData.get('name') as string;
-    
-    toast.success('Message sent successfully!', {
-      description: `Thank you ${name}, we will get back to you within 24 hours.`,
-      duration: 5000,
-    });
-    
-    // Reset form
-    (e.target as HTMLFormElement).reset();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
+
+  const submitContact = () => {
+    if (!name || !email || !message) {
+      toast.error('⚠ Please fill in all required fields.');
+      return;
+    }
+    toast.success(`✓ Message sent! We'll reply to ${email} within 24 hours.`);
+    setName('');
+    setEmail('');
+    setPhone('');
+    setSubject('');
+    setMessage('');
   };
 
   return (
-    <div className="pt-32 pb-24 px-6 lg:px-8 max-w-7xl mx-auto min-h-screen">
-      <div className="max-w-3xl mx-auto text-center mb-16">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">Contact Customer Care</h1>
-        <p className="text-neutral-500 text-lg">We're here to help. Reach out to us for any queries regarding your orders or products.</p>
+    <div id="contact-page-root">
+      <div className="page-hero">
+        <h1>CONTACT US</h1>
+        <p>WE'D LOVE TO HEAR FROM YOU</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-        <div className="bg-white border border-slate-200 p-8 rounded-2xl shadow-sm">
-          <h2 className="text-xl font-bold mb-8">Get In Touch</h2>
-          
-          <div className="space-y-6">
-            <div className="flex items-start gap-4">
-              <Mail className="w-5 h-5 text-black mt-1" />
-              <div>
-                <h3 className="font-bold text-sm">Email Us</h3>
-                <p className="text-slate-500 text-sm mb-1">Our team typically responds within 24 hours.</p>
-                <div className="flex flex-col gap-1">
-                  <a href="mailto:connectwithvexora@gmail.com" className="text-black font-semibold text-sm hover:underline">
-                    connectwithvexora@gmail.com
-                  </a>
-                  <p className="text-black font-semibold text-sm">
-                    Phone: +91 9793970031
-                  </p>
-                </div>
-              </div>
+      <div className="container">
+        <div className="contact-layout">
+          <div className="contact-form-box">
+            <h2>Send Us a Message</h2>
+            <div className="form-group">
+              <label className="form-label">FULL NAME *</label>
+              <input 
+                className="form-input" 
+                type="text" 
+                placeholder="Your full name" 
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
             </div>
-            
-            <div className="flex items-start gap-4">
-              <MapPin className="w-5 h-5 text-black mt-1" />
-              <div>
-                <h3 className="font-bold text-sm">Registered Office</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">
-                  <strong>PRANKRISHNA DAS</strong><br/>
-                  02 NO TAKIMARI, Mantadari, PO: Milanpally<br/>
-                  DIST: Jalpaiguri, West Bengal - 735133
-                </p>
-              </div>
+            <div className="form-group">
+              <label className="form-label">EMAIL ADDRESS *</label>
+              <input 
+                className="form-input" 
+                type="email" 
+                placeholder="your@email.com" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
+            <div className="form-group">
+              <label className="form-label">PHONE NUMBER</label>
+              <input 
+                className="form-input" 
+                type="tel" 
+                placeholder="+91 XXXXX XXXXX" 
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">SUBJECT *</label>
+              <select 
+                className="form-input" 
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+              >
+                <option value="">Select a subject</option>
+                <option>Order Inquiry</option>
+                <option>Return / Exchange</option>
+                <option>Product Question</option>
+                <option>Shipping Issue</option>
+                <option>Payment Issue</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label className="form-label">MESSAGE *</label>
+              <textarea 
+                className="form-input" 
+                placeholder="Write your message here..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+              ></textarea>
+            </div>
+            <button className="btn btn-black btn-full btn-lg" onClick={submitContact}>SEND MESSAGE</button>
+          </div>
 
-            <div className="flex items-start gap-4">
-              <Clock className="w-5 h-5 text-black mt-1" />
+          <div className="contact-info-box">
+            <div className="ci-item">
+              <div className="ci-item-icon"><i className="fa fa-envelope"></i></div>
               <div>
-                <h3 className="font-bold text-sm">Support Hours</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">Monday - Saturday<br/>10:00 AM to 6:00 PM IST</p>
+                <h4>EMAIL US</h4>
+                <p>connectwithvexora@gmail.com</p>
+                <p style={{ fontSize: '12px', color: '#aaa', marginTop: '4px' }}>We reply within 24 hours</p>
+              </div>
+            </div>
+            <div className="ci-item">
+              <div className="ci-item-icon"><i className="fa fa-phone"></i></div>
+              <div>
+                <h4>CALL US</h4>
+                <p>+91-9793970031</p>
+                <p style={{ fontSize: '12px', color: '#aaa', marginTop: '4px' }}>Mon–Sat, 10AM–6PM IST</p>
+              </div>
+            </div>
+            <div className="ci-item">
+              <div className="ci-item-icon"><i className="fa fa-map-marker-alt"></i></div>
+              <div>
+                <h4>OUR ADDRESS</h4>
+                <p>House No. 417, Near Santosh Tea Stall,<br />Labour Chauraha, Shantipuram,<br />Prayagraj, UP – 211013, India</p>
+              </div>
+            </div>
+            <div className="ci-item">
+              <div className="ci-item-icon"><i className="fa fa-clock"></i></div>
+              <div>
+                <h4>BUSINESS HOURS</h4>
+                <p>Monday – Saturday: 10:00 AM – 6:00 PM<br />Sunday: Closed</p>
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="bg-white border border-slate-200 p-8 rounded-2xl shadow-sm">
-          <h2 className="text-xl font-bold mb-6">Send a Message</h2>
-          <form className="space-y-4" onSubmit={handleSubmit}>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Name</label>
-              <input required name="name" type="text" className="w-full text-xs p-3 rounded-lg border border-slate-200 outline-none focus:border-black" />
-            </div>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Email</label>
-              <input required name="email" type="email" className="w-full text-xs p-3 rounded-lg border border-slate-200 outline-none focus:border-black" />
-            </div>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Order ID (Optional)</label>
-              <input name="orderId" type="text" className="w-full text-xs p-3 rounded-lg border border-slate-200 outline-none focus:border-black" />
-            </div>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Message</label>
-              <textarea required name="message" rows={4} className="w-full text-xs p-3 rounded-lg border border-slate-200 outline-none focus:border-black"></textarea>
-            </div>
-            <button type="submit" className="w-full bg-black text-white px-8 py-4 rounded-xl text-xs font-bold hover:bg-slate-800 transition-colors uppercase tracking-widest mt-2">
-              Send Message
-            </button>
-          </form>
         </div>
       </div>
     </div>

@@ -3,6 +3,9 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Package, Truck, CheckCircle2, Clock, Search, ShieldCheck, ArrowRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
+import { collection, query, where, getDocs, limit } from 'firebase/firestore';
+import { db } from '../lib/firebase';
+import { toast } from 'sonner';
 
 export default function TrackOrder() {
   const { user } = useAuth();
@@ -19,25 +22,98 @@ export default function TrackOrder() {
     }
   }, []);
 
-  const triggerTrack = (id: string) => {
+  const triggerTrack = async (id: string) => {
+    if (!id.trim()) return;
     setIsSearching(true);
-    // Simulate API fetch
-    setTimeout(() => {
-      setTrackingData({
-        id: id,
-        status: 'In Transit',
-        lastUpdate: 'Package reached sorting center in New Delhi',
-        estimatedDelivery: '9-15 Working Days',
-        steps: [
-          { status: 'Order Placed', date: 'Processing', completed: true },
-          { status: 'Confirmed', date: 'Authorized', completed: true },
-          { status: 'Dispatched', date: 'Protocol Active', completed: true },
-          { status: 'Out for Delivery', date: '-', completed: false },
-          { status: 'Delivered', date: '-', completed: false },
-        ]
-      });
+    try {
+      const trimmedId = id.trim().replace('#', '');
+      const numId = parseInt(trimmedId, 10);
+      
+      let matchedOrder: any = null;
+      
+      // Query by orderNumber if it's a number
+      if (!isNaN(numId)) {
+        const q1 = query(
+          collection(db, 'orders'),
+          where('orderNumber', '==', numId),
+          limit(1)
+        );
+        const snap1 = await getDocs(q1);
+        if (!snap1.empty) {
+          const doc = snap1.docs[0];
+          matchedOrder = { id: doc.id, ...doc.data() };
+        }
+      }
+      
+      // If not found, try by document ID for the logged in user
+      if (!matchedOrder && user) {
+        const q2 = query(
+          collection(db, 'orders'),
+          where('userId', '==', user.uid || user.email),
+          limit(50)
+        );
+        const snap2 = await getDocs(q2);
+        const docMatch = snap2.docs.find(doc => doc.id === trimmedId);
+        if (docMatch) {
+          matchedOrder = { id: docMatch.id, ...docMatch.data() };
+        }
+      }
+
+      if (matchedOrder) {
+        // Calculate status dynamically based on rules (3 days, 10 days)
+        let datePlaced: Date;
+        const createdAt = matchedOrder.createdAt;
+        if (typeof createdAt === 'string') {
+          datePlaced = new Date(createdAt);
+        } else if (createdAt?.toDate) {
+          datePlaced = createdAt.toDate();
+        } else if (createdAt?.seconds) {
+          datePlaced = new Date(createdAt.seconds * 1000);
+        } else {
+          datePlaced = new Date();
+        }
+
+        const diffTime = Math.abs(new Date().getTime() - datePlaced.getTime());
+        const diffDays = diffTime / (1000 * 60 * 60 * 24);
+
+        let finalStatus = matchedOrder.status || 'Order Placed';
+        let stepIndex = 0; // index for completed steps
+
+        if (diffDays >= 10) {
+          finalStatus = 'Delivered';
+          stepIndex = 4;
+        } else if (diffDays >= 3) {
+          finalStatus = 'In Transit';
+          stepIndex = 2;
+        } else {
+          stepIndex = 1;
+        }
+
+        const steps = [
+          { status: 'Order Placed', date: datePlaced.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }), completed: true },
+          { status: 'Confirmed', date: 'Authorized', completed: stepIndex >= 1 },
+          { status: 'In Transit', date: 'Dispatched', completed: stepIndex >= 2 },
+          { status: 'Out for Delivery', date: '-', completed: stepIndex >= 3 },
+          { status: 'Delivered', date: '-', completed: stepIndex >= 4 },
+        ];
+
+        setTrackingData({
+          id: matchedOrder.orderNumber ? `#${matchedOrder.orderNumber}` : matchedOrder.id,
+          status: finalStatus,
+          lastUpdate: finalStatus === 'Delivered' ? 'Your package has been successfully delivered.' : finalStatus === 'In Transit' ? 'Package is in transit and reaching sorting center.' : 'Your order has been confirmed and is being packed.',
+          estimatedDelivery: finalStatus === 'Delivered' ? 'Delivered' : finalStatus === 'In Transit' ? '1-3 Working Days' : '4-7 Working Days',
+          steps: steps
+        });
+      } else {
+        toast.error('Order not found or access restricted.');
+        setTrackingData(null);
+      }
+    } catch (e) {
+      console.error('Track error:', e);
+      toast.error('Error tracking order. Please try again.');
+    } finally {
       setIsSearching(false);
-    }, 1500);
+    }
   };
 
   const handleTrack = (e: React.FormEvent<HTMLFormElement>) => {

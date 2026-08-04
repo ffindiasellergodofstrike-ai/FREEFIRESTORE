@@ -1,156 +1,418 @@
-import { Link } from 'react-router-dom';
-import { ShoppingBag, Menu, Search, X, User, LogOut } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
-import { useAuth } from '../context/AuthContext';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
+import { useProducts } from '../context/ProductContext';
+import { toast } from 'sonner';
 
 export default function Navbar() {
-  const { user, logout, openAuthModal } = useAuth();
-  const { cart } = useCart();
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { cart, removeFromCart, updateQty, getTotalPrice, cartCount, isCartOpen, setIsCartOpen } = useCart();
+  const { user } = useAuth();
+  const { addProduct } = useProducts();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const cartItemsCount = cart.reduce((total, item) => total + item.quantity, 0);
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  const [searchText, setSearchQuery] = useState('');
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  // Admin form state
+  const [newProdName, setNewProdName] = useState('');
+  const [newProdCat, setNewProdCat] = useState<'men' | 'women' | 'electronics'>('men');
+  const [newProdPrice, setNewProdPrice] = useState('');
+  const [newProdOrig, setNewProdOrig] = useState('');
+  const [newProdImg, setNewProdImg] = useState('');
+  const [newProdDesc, setNewProdDesc] = useState('');
+  const [newProdSizes, setNewProdSizes] = useState('S, M, L, XL');
+
+  const handleAddProductSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newProdName.trim() || !newProdPrice || !newProdImg.trim() || !newProdDesc.trim()) {
+      toast.error('❌ Please fill in all required fields.');
+      return;
+    }
+
+    const priceNum = parseFloat(newProdPrice);
+    const origNum = newProdOrig ? parseFloat(newProdOrig) : 0;
+
+    if (isNaN(priceNum) || priceNum <= 0) {
+      toast.error('❌ Price must be a valid positive number.');
+      return;
+    }
+
+    const sizesArr = newProdSizes.split(',').map(s => s.trim()).filter(Boolean);
+
+    addProduct({
+      name: newProdName.trim(),
+      cat: newProdCat,
+      price: priceNum,
+      orig: origNum,
+      sizes: sizesArr.length > 0 ? sizesArr : ['ONE SIZE'],
+      desc: newProdDesc.trim(),
+      images: [newProdImg.trim()],
+      badge: '',
+    });
+
+    toast.success('🎉 Product added successfully! Visible in New Arrivals.');
+    setIsAdminOpen(false);
+
+    // Reset form
+    setNewProdName('');
+    setNewProdCat('men');
+    setNewProdPrice('');
+    setNewProdOrig('');
+    setNewProdImg('');
+    setNewProdDesc('');
+    setNewProdSizes('S, M, L, XL');
+    
+    // Auto-navigate to collection
+    navigate(`/collections/${newProdCat}`);
+  };
+
+  const handleSearchSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && searchText.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchText.trim())}`);
+      setMobileDrawerOpen(false);
+    }
+  };
+
+  const activeClass = (path: string) => location.pathname === path ? 'active' : '';
+
+  const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
+  const emoji = (cat: string) => cat === 'men' ? '👕' : cat === 'women' ? '👗' : '💻';
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-50 transition-all duration-300">
-        {/* Top Announcement Bar */}
-        <div className="bg-stone-900 text-white text-[10px] sm:text-xs py-1.5 px-4 text-center font-bold tracking-wider uppercase flex items-center justify-center gap-2">
-          <span>⚡ FREE EXPRESS SHIPPING ON ALL ORDERS</span>
-          <span className="hidden sm:inline">|</span>
-          <span className="hidden sm:inline">100% SECURE CHECKOUT</span>
+      {/* Announcement Bar */}
+      <div className="announce" id="announcement-bar-main">
+        <div className="announce-track">
+          <span>🔥 FREE EXPRESS SHIPPING ON ALL ORDERS</span>
+          <span className="announce-sep">•</span>
+          <span>🔒 100% SECURE CHECKOUT</span>
+          <span className="announce-sep">•</span>
+          <span>🔄 EASY 7-DAY RETURNS</span>
+          <span className="announce-sep">•</span>
+          <span>🔥 FREE EXPRESS SHIPPING ON ALL ORDERS</span>
+          <span className="announce-sep">•</span>
+          <span>🔒 100% SECURE CHECKOUT</span>
+          <span className="announce-sep">•</span>
+          <span>🔄 EASY 7-DAY RETURNS</span>
+          <span className="announce-sep">•</span>
+          <span>🔥 FREE EXPRESS SHIPPING ON ALL ORDERS</span>
+          <span className="announce-sep">•</span>
+          <span>🔒 100% SECURE CHECKOUT</span>
+          <span className="announce-sep">•</span>
+          <span>🔄 EASY 7-DAY RETURNS</span>
+          <span className="announce-sep">•</span>
         </div>
+      </div>
 
-        {/* Main Navigation Bar */}
-        <div className="bg-[#faf8f5]/90 backdrop-blur-md border-b border-stone-200/80 py-2.5 sm:py-3.5 shadow-xs">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-            <div className="flex items-center gap-4 sm:gap-8">
-              <button 
-                className="lg:hidden p-1.5 -ml-1.5 text-stone-800 hover:text-orange-600 transition-colors"
-                onClick={() => setMobileMenuOpen(true)}
-                aria-label="Open menu"
-              >
-                <Menu size={22} />
-              </button>
-              <Link to="/" className="text-sm sm:text-base md:text-lg font-black tracking-tight uppercase text-stone-900 flex items-center">
-                Free Fire Shop
-              </Link>
+      {/* Main Header */}
+      <header className="site-header" id="siteHeader">
+        <div className="container">
+          <div className="header-inner">
+            {/* Logo */}
+            <Link to="/" className="logo" id="header-logo-text">
+              GARENA STORE
+            </Link>
 
-              <nav className="hidden lg:flex items-center gap-5 text-[11px] font-bold uppercase tracking-wide text-stone-600">
-                <Link to="/" className="hover:text-orange-600 transition-colors">Home</Link>
-                <Link to="/products" className="hover:text-orange-600 transition-colors">Shop All</Link>
-                {user ? (
-                  <Link to="/my-orders" className="hover:text-orange-600 transition-colors">My Orders</Link>
-                ) : (
-                  <Link to="/track-order" className="hover:text-orange-600 transition-colors">Track Order</Link>
-                )}
-                <Link to="/policies/shipping" className="hover:text-orange-600 transition-colors">Shipping</Link>
-                <Link to="/contact" className="hover:text-orange-600 transition-colors">Contact</Link>
-              </nav>
-            </div>
-
-            <div className="flex items-center gap-3 sm:gap-5">
-              <div className="relative hidden md:block">
-                <input type="text" placeholder="Search products..." className="bg-stone-100/80 border border-stone-200/60 rounded-full px-4 py-1.5 text-xs w-44 focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 outline-none text-stone-800 placeholder-stone-400 transition-all" />
+            {/* Nav (center) */}
+            <nav className="main-nav" id="desktop-main-nav">
+              <div className="nav-item">
+                <Link to="/" className={`nav-link ${activeClass('/')}`}>HOME</Link>
               </div>
-              <div className="flex items-center gap-2 sm:gap-4 text-stone-700">
-                {user ? (
-                  <div className="hidden md:flex items-center gap-2 bg-stone-100/70 border border-stone-200/80 px-2.5 py-1 rounded-full">
-                    <div className="w-5 h-5 bg-stone-900 rounded-full flex items-center justify-center">
-                      <User size={10} className="text-white" />
-                    </div>
-                    <Link to="/my-orders" className="text-[10px] font-bold uppercase tracking-tight text-stone-900 max-w-[90px] truncate hover:underline underline-offset-4">
-                      {user.email.split('@')[0]}
-                    </Link>
-                    <button onClick={logout} className="hover:text-red-600 transition-colors ml-0.5">
-                      <LogOut size={13} />
-                    </button>
-                  </div>
-                ) : (
-                  <button 
-                    onClick={openAuthModal}
-                    className="hidden md:flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest bg-stone-900 text-white px-3.5 py-1.5 rounded-full hover:bg-orange-600 transition-all shadow-xs"
-                  >
-                    <User size={11} /> Login
-                  </button>
-                )}
-                <Link 
-                  to="/checkout" 
-                  className="p-1.5 hover:text-orange-600 transition-colors relative group text-stone-800"
-                >
-                  <motion.div
-                    key={cartItemsCount}
-                    initial={{ scale: 1 }}
-                    animate={{ scale: cartItemsCount > 0 ? [1, 1.2, 1] : 1 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <ShoppingBag size={20} />
-                  </motion.div>
-                  {cartItemsCount > 0 && (
-                    <span className="absolute top-0.5 right-0.5 w-3.5 h-3.5 bg-orange-600 text-white text-[8px] flex items-center justify-center rounded-full leading-none font-bold animate-in fade-in zoom-in duration-300 shadow-xs">
-                      {cartItemsCount}
-                    </span>
-                  )}
+              <div className="nav-item">
+                <Link to="/collections/all" className={`nav-link ${activeClass('/collections/all')}`}>
+                  SHOP ALL <i className="fa fa-chevron-down" style={{ fontSize: '9px', marginLeft: '4px' }}></i>
                 </Link>
+                <div className="dropdown">
+                  <Link to="/collections/men">MEN</Link>
+                  <Link to="/collections/women">WOMEN</Link>
+                  <Link to="/collections/electronics">ELECTRONICS & ACCESSORIES</Link>
+                </div>
               </div>
+              <div className="nav-item">
+                <Link to="/my-orders" className={`nav-link ${activeClass('/my-orders')}`}>MY ORDERS</Link>
+              </div>
+              <div className="nav-item">
+                <Link to="/policies/shipping" className={`nav-link ${activeClass('/policies/shipping')}`}>SHIPPING</Link>
+              </div>
+              <div className="nav-item">
+                <Link to="/contact" className={`nav-link ${activeClass('/contact')}`}>CONTACT</Link>
+              </div>
+            </nav>
+
+            {/* Actions (right) */}
+            <div className="header-actions">
+              <div className="header-search">
+                <i className="fa fa-search"></i>
+                <input 
+                  type="text" 
+                  placeholder="Search products..." 
+                  value={searchText}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={handleSearchSubmit}
+                  id="headerSearchInput" 
+                />
+              </div>
+
+              <Link to={user ? "/my-orders" : "/login"} className="icon-btn" title="Account" id="nav-account-btn">
+                <i className="fa fa-user"></i>
+              </Link>
+              <button className="icon-btn" onClick={() => setIsCartOpen(true)} title="Cart" id="nav-cart-btn">
+                <i className="fa fa-shopping-bag"></i>
+                <span className="cart-count" id="cartCount">{cartCount}</span>
+              </button>
+              <button className="icon-btn hamburger" onClick={() => setMobileDrawerOpen(true)} id="nav-hamburger-btn">
+                <i className="fa fa-bars"></i>
+              </button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Mobile Menu Overlay */}
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 z-[60] bg-white flex flex-col">
-          <div className="px-5 py-4 flex justify-between items-center border-b border-stone-200">
-            <span className="text-lg font-black tracking-tight uppercase text-stone-900">Free Fire Shop</span>
-            <button onClick={() => setMobileMenuOpen(false)} className="p-2 -mr-2 text-stone-500 hover:text-stone-900">
-              <X size={22} />
+      {/* Mobile Drawer Overlay */}
+      <div 
+        className={`mob-overlay ${mobileDrawerOpen ? 'open' : ''}`} 
+        onClick={() => setMobileDrawerOpen(false)} 
+        id="mobile-drawer-overlay"
+      />
+      
+      {/* Mobile Drawer */}
+      <div className={`mob-drawer ${mobileDrawerOpen ? 'open' : ''}`} id="mobDrawer">
+        <button className="drawer-close" onClick={() => setMobileDrawerOpen(false)} id="drawer-close-btn">
+          <i className="fa fa-times"></i>
+        </button>
+        <div className="drawer-logo">GARENA STORE</div>
+        <div className="mob-search">
+          <i className="fa fa-search" style={{ color: '#aaa', fontSize: '13px' }}></i>
+          <input 
+            type="text" 
+            placeholder="Search products..." 
+            value={searchText}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={handleSearchSubmit}
+            id="mobileSearchInput"
+          />
+        </div>
+        <div className="drawer-nav">
+          <Link to="/" onClick={() => setMobileDrawerOpen(false)}>HOME</Link>
+          <Link to="/collections/all" onClick={() => setMobileDrawerOpen(false)}>SHOP ALL</Link>
+          <Link to="/collections/men" onClick={() => setMobileDrawerOpen(false)}>MEN</Link>
+          <Link to="/collections/women" onClick={() => setMobileDrawerOpen(false)}>WOMEN</Link>
+          <Link to="/collections/electronics" onClick={() => setMobileDrawerOpen(false)}>ELECTRONICS & ACCESSORIES</Link>
+          <button 
+            onClick={() => { setMobileDrawerOpen(false); setIsAdminOpen(true); }} 
+            style={{ display: 'block', background: 'none', border: 'none', padding: '0', textAlign: 'left', font: 'inherit', cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: '700', color: 'var(--accent)', marginTop: '8px' }}
+          >
+            ADD PRODUCT (ADMIN)
+          </button>
+          <Link to="/my-orders" onClick={() => setMobileDrawerOpen(false)}>MY ORDERS</Link>
+          <Link to="/policies/shipping" onClick={() => setMobileDrawerOpen(false)}>SHIPPING</Link>
+          <Link to="/contact" onClick={() => setMobileDrawerOpen(false)}>CONTACT</Link>
+          <Link to={user ? "/my-orders" : "/login"} onClick={() => setMobileDrawerOpen(false)}>ACCOUNT</Link>
+        </div>
+      </div>
+
+      {/* Cart Drawer Overlay */}
+      <div 
+        className={`cart-overlay ${isCartOpen ? 'open' : ''}`} 
+        onClick={() => setIsCartOpen(false)} 
+        id="cart-drawer-overlay"
+      />
+
+      {/* Cart Drawer */}
+      <div className={`cart-drawer ${isCartOpen ? 'open' : ''}`} id="cartDrawer">
+        <div className="cart-head">
+          <h3>YOUR BAG ({cartCount})</h3>
+          <button className="cart-close" onClick={() => setIsCartOpen(false)} id="cart-drawer-close-btn">
+            <i className="fa fa-times"></i>
+          </button>
+        </div>
+        <div className="cart-items" id="cartItems">
+          {cart.length === 0 ? (
+            <div className="cart-empty" id="cart-empty-state">
+              <i className="fa fa-shopping-bag"></i>
+              <p>Your bag is empty</p>
+              <button 
+                className="btn btn-black btn-full" 
+                onClick={() => { setIsCartOpen(false); navigate('/collections/all'); }}
+                id="cart-start-shopping-btn"
+              >
+                START SHOPPING
+              </button>
+            </div>
+          ) : (
+            cart.map((item) => (
+              <div className="cart-item" key={item.key} id={`cart-item-${item.id}`}>
+                <Link to={`/product/${item.id}`} onClick={() => setIsCartOpen(false)} style={{ display: 'block', flexShrink: 0 }}>
+                  {item.image ? (
+                    <img 
+                      src={item.image} 
+                      alt={item.name} 
+                      className="cart-item-img" 
+                      style={{ objectFit: 'cover' }}
+                      referrerPolicy="no-referrer"
+                    />
+                  ) : (
+                    <div className={`ph ph-${item.cat === 'electronics' ? 'elec' : item.cat} cart-item-img`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px' }}>
+                      {emoji(item.cat)}
+                    </div>
+                  )}
+                </Link>
+                <div className="ci-info">
+                  <Link to={`/product/${item.id}`} onClick={() => setIsCartOpen(false)} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <div className="ci-name" style={{ cursor: 'pointer' }}>{item.name}</div>
+                  </Link>
+                  <div className="ci-size">Size: {item.size}</div>
+                  <div className="ci-qty">
+                    <button onClick={() => updateQty(item.key, -1)} id={`qty-minus-${item.key}`}>−</button>
+                    <span>{item.qty}</span>
+                    <button onClick={() => updateQty(item.key, 1)} id={`qty-plus-${item.key}`}>+</button>
+                  </div>
+                  <div className="ci-price">{fmt(item.price * item.qty)}</div>
+                </div>
+                <button className="ci-remove" onClick={() => removeFromCart(item.key)} id={`remove-item-${item.key}`}>
+                  <i className="fa fa-times"></i>
+                </button>
+              </div>
+            ))
+          )}
+        </div>
+        
+        {cart.length > 0 && (
+          <div className="cart-foot" id="cartFoot">
+            <div className="cart-total-row">
+              <span className="cart-total-label">SUBTOTAL</span>
+              <span className="cart-total-price" id="cartTotal">{fmt(getTotalPrice())}</span>
+            </div>
+            <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', padding: '8px 14px', fontSize: '12px', color: '#166534', fontFamily: 'var(--font-h)', fontWeight: 700, marginBottom: '16px' }}>
+              ✓ FREE SHIPPING ON THIS ORDER
+            </div>
+            <button 
+              className="btn btn-black btn-full btn-lg" 
+              onClick={() => { setIsCartOpen(false); navigate('/cart'); }}
+              id="view-bag-checkout-btn"
+            >
+              VIEW BAG & CHECKOUT
             </button>
           </div>
-          <nav className="flex flex-col px-6 py-6 gap-5 text-base font-bold text-stone-700">
-            <Link to="/" onClick={() => setMobileMenuOpen(false)} className="hover:text-orange-600 transition-colors">Home</Link>
-            <Link to="/products" onClick={() => setMobileMenuOpen(false)} className="hover:text-orange-600 transition-colors">Shop All</Link>
-            {user ? (
-              <Link to="/my-orders" onClick={() => setMobileMenuOpen(false)} className="hover:text-orange-600 transition-colors">My Orders</Link>
-            ) : (
-              <Link to="/track-order" onClick={() => setMobileMenuOpen(false)} className="hover:text-orange-600 transition-colors">Track Order</Link>
-            )}
-            <Link to="/policies/shipping" onClick={() => setMobileMenuOpen(false)} className="hover:text-orange-600 transition-colors">Shipping Policy</Link>
-            <Link to="/contact" onClick={() => setMobileMenuOpen(false)} className="hover:text-orange-600 transition-colors">Contact Support</Link>
-            {!user ? (
-              <button 
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  openAuthModal();
-                }}
-                className="text-left text-white bg-stone-900 py-3 px-5 rounded-xl text-xs font-black uppercase tracking-widest mt-2"
-              >
-                Login / Register
-              </button>
-            ) : (
-              <button 
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  logout();
-                }}
-                className="text-left text-red-600 font-bold uppercase tracking-wider text-sm mt-2"
-              >
-                Logout ({user.email.split('@')[0]})
-              </button>
-            )}
-          </nav>
+        )}
+      </div>
+
+      {/* Admin Drawer Overlay */}
+      <div 
+        className={`admin-overlay ${isAdminOpen ? 'open' : ''}`} 
+        onClick={() => setIsAdminOpen(false)} 
+        id="admin-drawer-overlay"
+      />
+
+      {/* Admin Drawer */}
+      <div className={`admin-drawer ${isAdminOpen ? 'open' : ''}`} id="adminDrawer">
+        <div className="cart-head">
+          <h3>ADD NEW PRODUCT</h3>
+          <button className="cart-close" onClick={() => setIsAdminOpen(false)} id="admin-drawer-close-btn">
+            <i className="fa fa-times"></i>
+          </button>
         </div>
-      )}
+        <div className="cart-items" style={{ padding: '20px' }}>
+          <form onSubmit={handleAddProductSubmit}>
+            <div className="admin-form-group">
+              <label>Product Name *</label>
+              <input 
+                type="text" 
+                placeholder="e.g. Premium Cotton Shirt" 
+                value={newProdName}
+                onChange={(e) => setNewProdName(e.target.value)}
+                required
+              />
+            </div>
+            
+            <div className="admin-form-group">
+              <label>Category *</label>
+              <select 
+                value={newProdCat} 
+                onChange={(e) => setNewProdCat(e.target.value as any)}
+                required
+              >
+                <option value="men">Men</option>
+                <option value="women">Women</option>
+                <option value="electronics">Electronics & Accessories</option>
+              </select>
+            </div>
+
+            <div className="admin-form-group">
+              <label>Price (₹) *</label>
+              <input 
+                type="number" 
+                placeholder="e.g. 999" 
+                value={newProdPrice}
+                onChange={(e) => setNewProdPrice(e.target.value)}
+                required
+                min="1"
+              />
+            </div>
+
+            <div className="admin-form-group">
+              <label>Compare Price (₹) (0 if none)</label>
+              <input 
+                type="number" 
+                placeholder="e.g. 1499" 
+                value={newProdOrig}
+                onChange={(e) => setNewProdOrig(e.target.value)}
+              />
+            </div>
+
+            <div className="admin-form-group">
+              <label>Image URL *</label>
+              <input 
+                type="url" 
+                placeholder="Paste direct image link from Unsplash" 
+                value={newProdImg}
+                onChange={(e) => setNewProdImg(e.target.value)}
+                required
+              />
+              <div style={{ fontSize: '11px', color: 'var(--gray)', marginTop: '4px', lineHeight: '1.4' }}>
+                Quick tip: copy image link from unsplash or use:
+                <br />
+                <code style={{ background: '#f5f5f5', padding: '2px 4px', display: 'block', margin: '4px 0', wordBreak: 'break-all' }}>
+                  https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800
+                </code>
+              </div>
+            </div>
+
+            <div className="admin-form-group">
+              <label>Available Sizes (comma-separated)</label>
+              <input 
+                type="text" 
+                placeholder="e.g. S, M, L, XL or ONE SIZE" 
+                value={newProdSizes}
+                onChange={(e) => setNewProdSizes(e.target.value)}
+              />
+            </div>
+
+            <div className="admin-form-group">
+              <label>Description *</label>
+              <textarea 
+                rows={3} 
+                placeholder="Describe this product..." 
+                value={newProdDesc}
+                onChange={(e) => setNewProdDesc(e.target.value)}
+                required
+                style={{ width: '100%', padding: '10px 14px', border: '1px solid var(--border)', fontSize: '13px', outline: 'none' }}
+              />
+            </div>
+
+            <button 
+              type="submit" 
+              className="btn btn-black btn-full" 
+              style={{ padding: '12px', marginTop: '10px', fontSize: '12px', letterSpacing: '1.5px' }}
+            >
+              ADD TO STORE
+            </button>
+          </form>
+        </div>
+      </div>
     </>
   );
 }

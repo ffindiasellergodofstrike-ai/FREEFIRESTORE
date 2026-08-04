@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 interface AuthContextType {
-  user: { email: string; uid: string } | null;
-  login: (email: string) => void;
+  user: { email: string; uid: string; name?: string; mobile?: string } | null;
+  login: (email: string, name?: string, mobile?: string) => void;
   logout: () => void;
   showAuthModal: boolean;
   openAuthModal: () => void;
@@ -12,7 +12,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<{ email: string; uid: string } | null>(null);
+  const [user, setUser] = useState<{ email: string; uid: string; name?: string; mobile?: string } | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   useEffect(() => {
@@ -28,8 +28,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const login = (email: string) => {
-    const userData = { email, uid: email };
+  const login = (email: string, name?: string, mobile?: string) => {
+    const userData = { email, uid: email, name, mobile };
     setUser(userData);
     localStorage.setItem('ffindia_user', JSON.stringify(userData));
   };

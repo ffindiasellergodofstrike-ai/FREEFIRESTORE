@@ -1,6 +1,6 @@
 {
-  "name": "Free Fire Shop",
-  "description": "Modern e-commerce retail store with complete Meesho product catalog, sizes, variants, multi-image galleries, and verified customer reviews.",
+  "name": "Garena Store",
+  "description": "Indian fashion & lifestyle e-commerce store featuring Men's Fashion, Women's Fashion, and Electronics collections with full checkout, search, and policy pages.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
