@@ -1103,7 +1103,7 @@ export const PRODUCTS: Product[] = [
     handle: "star-lamp-usb-car-star-ceiling-light",
     cat: "accessories",
     name: "Star Lamp USB Car Star Ceiling Light",
-    price: 399,
+    price: 10,
     orig: 0,
     sizes: ["ONE SIZE"],
     rating: 4.7,

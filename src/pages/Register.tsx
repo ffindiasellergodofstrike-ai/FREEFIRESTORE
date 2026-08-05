@@ -53,7 +53,7 @@ export default function Register() {
         localStorage.removeItem('redirect_product_id');
         navigate(`/product/${redirectId}`);
       } else {
-        navigate('/');
+        navigate('/my-orders');
       }
     } catch (error: any) {
       toast.dismiss(toastId);

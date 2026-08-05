@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 
 export default function Navbar() {
   const { cart, removeFromCart, updateQty, getTotalPrice, cartCount, isCartOpen, setIsCartOpen } = useCart();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const { addProduct } = useProducts();
   const navigate = useNavigate();
   const location = useLocation();
@@ -133,7 +133,9 @@ export default function Navbar() {
                 </div>
               </div>
               <div className="nav-item">
-                <Link to="/my-orders" className={`nav-link ${activeClass('/my-orders')}`}>MY ORDERS</Link>
+                <Link to={user ? "/my-orders" : "/login"} className={`nav-link ${activeClass('/my-orders')}`}>
+                  {user ? 'MY PROFILE & ORDERS' : 'ACCOUNT'}
+                </Link>
               </div>
               <div className="nav-item">
                 <Link to="/policies/shipping" className={`nav-link ${activeClass('/policies/shipping')}`}>SHIPPING</Link>
@@ -157,9 +159,10 @@ export default function Navbar() {
                 />
               </div>
 
-              <Link to={user ? "/my-orders" : "/login"} className="icon-btn" title="Account" id="nav-account-btn">
+              <Link to={user ? "/my-orders" : "/login"} className="icon-btn" title={user ? "My Profile & Orders" : "Sign In"} id="nav-account-btn">
                 <i className="fa fa-user"></i>
               </Link>
+
               <button className="icon-btn" onClick={() => setIsCartOpen(true)} title="Cart" id="nav-cart-btn">
                 <i className="fa fa-shopping-bag"></i>
                 <span className="cart-count" id="cartCount">{cartCount}</span>
@@ -185,6 +188,15 @@ export default function Navbar() {
           <i className="fa fa-times"></i>
         </button>
         <div className="drawer-logo">GARENA STORE</div>
+
+        {user && (
+          <div style={{ background: '#f8fafc', padding: '12px 16px', border: '1px solid #e2e8f0', margin: '12px 0 16px' }}>
+            <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--dark)' }}>👤 {user.name || 'User'}</div>
+            <div style={{ fontSize: '11px', color: 'var(--gray)', wordBreak: 'break-all' }}>📧 {user.email}</div>
+            {user.mobile && <div style={{ fontSize: '11px', color: 'var(--gray)' }}>📱 {user.mobile}</div>}
+          </div>
+        )}
+
         <div className="mob-search">
           <i className="fa fa-search" style={{ color: '#aaa', fontSize: '13px' }}></i>
           <input 
@@ -208,10 +220,42 @@ export default function Navbar() {
           >
             ADD PRODUCT (ADMIN)
           </button>
-          <Link to="/my-orders" onClick={() => setMobileDrawerOpen(false)}>MY ORDERS</Link>
+          <Link to={user ? "/my-orders" : "/login"} onClick={() => setMobileDrawerOpen(false)}>
+            {user ? 'MY PROFILE & ORDERS' : 'LOGIN / REGISTER'}
+          </Link>
           <Link to="/policies/shipping" onClick={() => setMobileDrawerOpen(false)}>SHIPPING</Link>
           <Link to="/contact" onClick={() => setMobileDrawerOpen(false)}>CONTACT</Link>
-          <Link to={user ? "/my-orders" : "/login"} onClick={() => setMobileDrawerOpen(false)}>ACCOUNT</Link>
+
+          {user && (
+            <button 
+              onClick={() => {
+                logout();
+                setMobileDrawerOpen(false);
+                toast.success('Logged out successfully.');
+                navigate('/login');
+              }}
+              style={{
+                width: '100%',
+                padding: '12px',
+                background: '#dc2626',
+                color: '#ffffff',
+                border: 'none',
+                fontFamily: 'var(--font-h)',
+                fontWeight: 700,
+                fontSize: '11px',
+                letterSpacing: '1.5px',
+                marginTop: '20px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px'
+              }}
+              id="drawer-logout-btn"
+            >
+              <i className="fa fa-sign-out"></i> LOG OUT
+            </button>
+          )}
         </div>
       </div>
 

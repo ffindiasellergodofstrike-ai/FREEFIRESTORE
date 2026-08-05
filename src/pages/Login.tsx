@@ -21,20 +21,21 @@ export default function Login() {
 
     const toastId = toast.loading('Logging you in...');
     try {
-      const userRef = doc(db, 'users', email.trim().toLowerCase());
+      const emailLower = email.trim().toLowerCase();
+      const userRef = doc(db, 'users', emailLower);
       const userSnap = await getDoc(userRef);
 
       if (!userSnap.exists()) {
         toast.dismiss(toastId);
-        toast.error('User not found.');
+        toast.error('This is the wrong password. Kindly please contact customer care for resetting your password.');
         return;
       }
 
       const userData = userSnap.data();
-      if (userData.password === password) {
-        login(userData.email, userData.name, userData.mobile);
+      if (userData && userData.password === password) {
+        login(userData.email || emailLower, userData.name || '', userData.mobile || '');
         toast.dismiss(toastId);
-        toast.success(`Welcome back, ${userData.name}!`);
+        toast.success(`Welcome back, ${userData.name || 'User'}!`);
         
         // Redirect if we came from Buy Now redirect flow
         const redirectId = localStorage.getItem('redirect_product_id');
@@ -42,11 +43,11 @@ export default function Login() {
           localStorage.removeItem('redirect_product_id');
           navigate(`/product/${redirectId}`);
         } else {
-          navigate('/');
+          navigate('/my-orders');
         }
       } else {
         toast.dismiss(toastId);
-        toast.error('Invalid password.');
+        toast.error('This is the wrong password. Kindly please contact customer care for resetting your password.');
       }
     } catch (error: any) {
       toast.dismiss(toastId);
