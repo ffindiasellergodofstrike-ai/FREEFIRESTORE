@@ -148,7 +148,7 @@ export default function GarenaCheckout() {
   const [form, setForm] = useState({ name: '', phone: '', email: '' });
   const [focusedField, setFocusedField] = useState<'name' | 'phone' | 'email' | null>(null);
   const [loading, setLoading] = useState(false);
-  const [loadingMessage, setLoadingMessage] = useState('Connecting to Easebuzz Gateway...');
+  const [loadingMessage, setLoadingMessage] = useState('Connecting to Payment Gateway...');
   const [error, setError] = useState('');
   const [countdown, setCountdown] = useState(5);
   const [barWidth, setBarWidth] = useState('100%');
@@ -254,16 +254,16 @@ export default function GarenaCheckout() {
     setError('');
     setShowPayModal(false);
     setLoading(true);
-    setLoadingMessage('Initializing Easebuzz secure checkout...');
+    setLoadingMessage('Initializing secure checkout...');
 
     try {
       // Mandated 5-Second Loading Period before redirection
       for (let secondsLeft = 5; secondsLeft > 0; secondsLeft--) {
-        setLoadingMessage(`Redirecting to Easebuzz payment gateway in ${secondsLeft}s...`);
+        setLoadingMessage(`Redirecting to payment gateway in ${secondsLeft}s...`);
         await new Promise(r => setTimeout(r, 1000));
       }
 
-      setLoadingMessage('Connecting to Easebuzz Gateway...');
+      setLoadingMessage('Connecting to Payment Gateway...');
 
       const txnid = `GK_EB_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
       const productinfo = getProductNameForPrice(pkg);
@@ -331,7 +331,7 @@ export default function GarenaCheckout() {
 
     } catch (e: any) {
       console.error('Easebuzz payment error:', e);
-      setError(e.message || 'Something went wrong while connecting to Easebuzz. Please try again.');
+      setError(e.message || 'Something went wrong while connecting to payment gateway. Please try again.');
       setLoading(false);
     }
   };
@@ -456,7 +456,7 @@ export default function GarenaCheckout() {
             </div>
 
             <div style={{ textAlign: 'center', fontSize: 11, color: '#ccc' }}>
-              🔒 Payment secured by Easebuzz · Do not close this window
+              🔒 Payment secured by Garena Store · Do not close this window
             </div>
           </div>
         </div>
@@ -524,7 +524,7 @@ export default function GarenaCheckout() {
               margin: '0 0 24px',
               lineHeight: 1.6
             }}>
-              Your payment was cancelled or failed at Easebuzz gateway. No amount was deducted.
+              Your payment was cancelled or failed. No amount was deducted.
             </p>
 
             <div style={{
@@ -981,7 +981,7 @@ export default function GarenaCheckout() {
                   marginTop: 4,
                 }}
               >
-                {loading ? '⏳ Processing…' : `🔒 Pay ₹${pkg} via Easebuzz`}
+                {loading ? '⏳ Processing…' : `🔒 Pay ₹${pkg}`}
               </button>
             )}
 
@@ -1008,7 +1008,7 @@ export default function GarenaCheckout() {
 
                   <div style={{ textAlign: 'center', marginBottom: 22 }}>
                     <div style={{ fontSize: 17, fontWeight: 900, color: '#111', letterSpacing: -0.3 }}>
-                      Choose Easebuzz Payment Method
+                      Choose Payment Method
                     </div>
                     <div style={{ fontSize: 12, color: '#aaa', marginTop: 4, fontWeight: 500 }}>
                       Fast · Secure · Instant Diamond Credit
@@ -1076,7 +1076,7 @@ export default function GarenaCheckout() {
                   </button>
 
                   <div style={{ textAlign: 'center', fontSize: 11, color: '#aaa', fontWeight: 500 }}>
-                    🔒 100% Secure · SSL Encrypted · Powered by Easebuzz
+                    🔒 100% Secure · SSL Encrypted · Powered by Garena Store
                   </div>
                 </div>
               </div>
