@@ -15,20 +15,18 @@ async function runServer() {
   app.use(express.urlencoded({ extended: true }));
 
   // Easebuzz callback handling
-  app.all(["/api/easebuzz/callback", "/garena-checkout", "/GarenaCheckout"], (req, res, next) => {
-    if (req.method === 'POST') {
-      const statusParam = req.query.status || req.body?.status;
-      const isSuccess = statusParam === 'success' || req.body?.status === 'success' || req.body?.status === '1';
-      const redirectStatus = isSuccess ? 'success' : 'failed';
-      return res.redirect(302, `/garena-checkout?status=${redirectStatus}`);
-    }
-    if (req.method === 'GET' && req.path.includes('/api/easebuzz/callback')) {
-      const statusParam = req.query.status as string;
-      const isSuccess = statusParam === 'success';
-      const redirectStatus = isSuccess ? 'success' : 'failed';
-      return res.redirect(302, `/garena-checkout?status=${redirectStatus}`);
-    }
-    next();
+  app.all("/api/easebuzz/callback", (req, res) => {
+    const statusParam = req.query.status || req.body?.status;
+    const isSuccess = statusParam === 'success' || req.body?.status === 'success' || req.body?.status === '1';
+    const redirectStatus = isSuccess ? 'success' : 'failed';
+    return res.redirect(302, `/garena-checkout?status=${redirectStatus}`);
+  });
+
+  app.post(["/garena-checkout", "/GarenaCheckout"], (req, res) => {
+    const statusParam = req.query.status || req.body?.status;
+    const isSuccess = statusParam === 'success' || req.body?.status === 'success' || req.body?.status === '1';
+    const redirectStatus = isSuccess ? 'success' : 'failed';
+    return res.redirect(302, `/garena-checkout?status=${redirectStatus}`);
   });
 
   // PayU endpoints
