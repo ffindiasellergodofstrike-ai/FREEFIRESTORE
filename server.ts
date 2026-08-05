@@ -22,6 +22,12 @@ async function runServer() {
       const redirectStatus = isSuccess ? 'success' : 'failed';
       return res.redirect(302, `/garena-checkout?status=${redirectStatus}`);
     }
+    if (req.method === 'GET' && req.path.includes('/api/easebuzz/callback')) {
+      const statusParam = req.query.status as string;
+      const isSuccess = statusParam === 'success';
+      const redirectStatus = isSuccess ? 'success' : 'failed';
+      return res.redirect(302, `/garena-checkout?status=${redirectStatus}`);
+    }
     next();
   });
 
