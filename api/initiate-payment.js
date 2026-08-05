@@ -84,7 +84,7 @@ export default async function handler(req, res) {
     // 4. Sanitize parameters for Easebuzz field specifications
     const cleanTxnid = String(txnid).trim();
     const cleanAmount = parseFloat(amount).toFixed(2);
-    const cleanProductinfo = String(productinfo).replace(/[^a-zA-Z0-9 ]/g, '').trim().substring(0, 50) || 'GarenaStoreProduct';
+    const cleanProductinfo = String(productinfo).replace(/[^a-zA-Z0-9 ]/g, '').trim().substring(0, 50) || 'HomeAndFashionItem';
     const cleanFirstname = String(firstname).replace(/[^a-zA-Z0-9 ]/g, '').trim() || 'Customer';
     const cleanPhone = String(phone).replace(/[^0-9]/g, '');
     const cleanEmail = String(email).trim().toLowerCase();

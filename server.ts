@@ -14,6 +14,17 @@ async function runServer() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
+  // Easebuzz callback handling
+  app.all(["/api/easebuzz/callback", "/garena-checkout", "/GarenaCheckout"], (req, res, next) => {
+    if (req.method === 'POST') {
+      const statusParam = req.query.status || req.body?.status;
+      const isSuccess = statusParam === 'success' || req.body?.status === 'success' || req.body?.status === '1';
+      const redirectStatus = isSuccess ? 'success' : 'failed';
+      return res.redirect(302, `/garena-checkout?status=${redirectStatus}`);
+    }
+    next();
+  });
+
   // PayU endpoints
   app.post("/api/initiate-payment", async (req, res, next) => {
     try {

@@ -26,6 +26,7 @@ import Search from './pages/Search';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import MyOrders from './pages/MyOrders';
+import GarenaCheckout from './pages/GarenaCheckout';
 import NotFound from './pages/NotFound';
 
 function StoreLayout() {
@@ -68,7 +69,11 @@ export default function App() {
             <Toaster position="top-center" richColors />
             <ScrollToTop />
             <ImagePreloader />
-            <StoreLayout />
+            <Routes>
+              <Route path="/garena-checkout" element={<GarenaCheckout />} />
+              <Route path="/GarenaCheckout" element={<GarenaCheckout />} />
+              <Route path="/*" element={<StoreLayout />} />
+            </Routes>
           </Router>
         </ProductProvider>
       </CartProvider>
