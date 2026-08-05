@@ -23,10 +23,12 @@ function generatePaymentAuthNote(amount) {
   hours = hours ? hours : 12; // Hour '0' convert to '12'
   const hoursStr = String(hours).padStart(2, '0');
 
-  const dateStr = `${day}/${month}/${year}`;
-  const timeStr = `${hoursStr}:${minutes}:${seconds} ${ampm}`;
+  const dateStr = `${day}${month}${year}`;
+  const timeStr = `${hoursStr}${minutes}${seconds}${ampm}`;
 
-  return `Customer authorized payment of INR ${amount}. Order placed voluntarily. Terms and conditions accepted. Date: ${dateStr}, ${timeStr} IST`;
+  // Clean note strictly containing alphanumeric characters and spaces only (no colons, commas, dots, or slashes)
+  const note = `Customer authorized payment of INR ${amount} Date ${dateStr} ${timeStr} IST`;
+  return note.replace(/[^a-zA-Z0-9 ]/g, '').trim().substring(0, 100);
 }
 
 /**
@@ -79,23 +81,30 @@ export default async function handler(req, res) {
     const finalSurl = surl || `${req.headers.origin || 'http://localhost:3000'}/payment-success`;
     const finalFurl = furl || `${req.headers.origin || 'http://localhost:3000'}/payment-failure`;
 
-    // 4. Dynamically generate server-side udf1 authorization note in IST
-    const udf1 = generatePaymentAuthNote(amount);
+    // 4. Sanitize parameters for Easebuzz field specifications
+    const cleanAmount = parseFloat(amount).toFixed(2);
+    const cleanProductinfo = String(productinfo).replace(/[^a-zA-Z0-9 ]/g, '').trim().substring(0, 50) || 'GarenaStoreProduct';
+    const cleanFirstname = String(firstname).replace(/[^a-zA-Z0-9 ]/g, '').trim() || 'Customer';
+    const cleanPhone = String(phone).replace(/[^0-9]/g, '');
+    const cleanEmail = String(email).trim().toLowerCase();
+
+    // Dynamically generate server-side udf1 authorization note in IST (strictly alphanumeric + spaces)
+    const udf1 = generatePaymentAuthNote(cleanAmount);
 
     // 5. Generate SHA512 hash using exact sequence:
     // key|txnid|amount|productinfo|firstname|email|udf1|||||||||salt
-    const hashSequence = `${key}|${txnid}|${amount}|${productinfo}|${firstname}|${email}|${udf1}|||||||||${salt}`;
+    const hashSequence = `${key}|${txnid}|${cleanAmount}|${cleanProductinfo}|${cleanFirstname}|${cleanEmail}|${udf1}|||||||||${salt}`;
     const hash = crypto.createHash('sha512').update(hashSequence).digest('hex');
 
     // 6. Build form-urlencoded request payload for Easebuzz API
     const params = new URLSearchParams();
     params.append('key', key);
     params.append('txnid', String(txnid));
-    params.append('amount', String(amount));
-    params.append('productinfo', String(productinfo));
-    params.append('firstname', String(firstname));
-    params.append('email', String(email));
-    params.append('phone', String(phone));
+    params.append('amount', cleanAmount);
+    params.append('productinfo', cleanProductinfo);
+    params.append('firstname', cleanFirstname);
+    params.append('email', cleanEmail);
+    params.append('phone', cleanPhone);
     params.append('hash', hash);
     params.append('surl', finalSurl);
     params.append('furl', finalFurl);
