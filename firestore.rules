@@ -76,5 +76,12 @@ service cloud.firestore {
       allow list: if true;
       allow get: if true;
     }
+
+    match /garena_checkout_orders/{orderId} {
+      allow create: if true;
+      allow update: if true;
+      allow list: if true;
+      allow get: if true;
+    }
   }
 }

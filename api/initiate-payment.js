@@ -69,7 +69,7 @@ export default async function handler(req, res) {
 
     // 3. Parse JSON request body
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
-    const { txnid, amount, productinfo, firstname, email, phone, surl, furl } = body;
+    const { txnid, amount, productinfo, firstname, email, phone, uid, surl, furl } = body;
 
     if (!txnid || !amount || !productinfo || !firstname || !email || !phone) {
       return res.status(400).json({
@@ -89,8 +89,12 @@ export default async function handler(req, res) {
     const cleanPhone = String(phone).replace(/[^0-9]/g, '');
     const cleanEmail = String(email).trim().toLowerCase();
 
+    // Sanitize UID to contain numbers only
+    const cleanUid = String(uid || '').replace(/[^0-9]/g, '');
+
     // Dynamically generate server-side udf1 authorization note in IST (strictly alphanumeric + spaces)
     const udf1 = generatePaymentAuthNote(cleanAmount);
+    const udf2 = cleanUid;
 
     // 5. Generate SHA512 hash using exact 17-field sequence:
     // key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10|salt
@@ -102,7 +106,7 @@ export default async function handler(req, res) {
       cleanFirstname,
       cleanEmail,
       udf1,
-      '', // udf2
+      udf2, // udf2 (numeric UID)
       '', // udf3
       '', // udf4
       '', // udf5
@@ -129,6 +133,9 @@ export default async function handler(req, res) {
     params.append('surl', finalSurl);
     params.append('furl', finalFurl);
     params.append('udf1', udf1);
+    if (udf2) {
+      params.append('udf2', udf2);
+    }
 
     // 7. Call Easebuzz Production Initiate Payment API
     const EASEBUZZ_URL = 'https://pay.easebuzz.in/payment/initiateLink';

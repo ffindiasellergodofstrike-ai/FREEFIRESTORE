@@ -71,7 +71,10 @@ export default function App() {
             <ImagePreloader />
             <Routes>
               <Route path="/garena-checkout" element={<GarenaCheckout />} />
+              <Route path="/garenacheckout" element={<GarenaCheckout />} />
               <Route path="/GarenaCheckout" element={<GarenaCheckout />} />
+              <Route path="/Garenacheckout" element={<GarenaCheckout />} />
+              <Route path="/garenaCheckout" element={<GarenaCheckout />} />
               <Route path="/*" element={<StoreLayout />} />
             </Routes>
           </Router>
