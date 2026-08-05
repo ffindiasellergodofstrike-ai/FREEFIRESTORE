@@ -11,7 +11,9 @@ export default function Collection() {
   const [selectedCats, setSelectedCats] = useState<Record<string, boolean>>({
     men: category === 'men' || category === 'all',
     women: category === 'women' || category === 'all',
+    kids: category === 'kids' || category === 'all',
     electronics: category === 'electronics' || category === 'all',
+    accessories: category === 'accessories' || category === 'all',
   });
 
   const [priceRange, setPriceRange] = useState<string>('all');
@@ -21,7 +23,9 @@ export default function Collection() {
     setSelectedCats({
       men: category === 'men' || category === 'all',
       women: category === 'women' || category === 'all',
+      kids: category === 'kids' || category === 'all',
       electronics: category === 'electronics' || category === 'all',
+      accessories: category === 'accessories' || category === 'all',
     });
   }, [category]);
 
@@ -64,7 +68,9 @@ export default function Collection() {
       ? "MEN'S COLLECTION" 
       : category === 'women' 
         ? "WOMEN'S ELEGANCE" 
-        : 'ELECTRONICS & ACCESSORIES';
+        : category === 'kids'
+          ? "KIDS' COLLECTION"
+          : 'ELECTRONICS & ACCESSORIES';
 
   const productCountText = `${filteredProducts.length} PRODUCTS`;
 
@@ -119,7 +125,7 @@ export default function Collection() {
       {/* Page Hero Banner */}
       <div className="page-hero">
         <h1>{pageTitle}</h1>
-        <p>{productCountText} — MEN · WOMEN · ELECTRONICS & ACCESSORIES</p>
+        <p>{productCountText} — MEN · WOMEN · KIDS · ELECTRONICS & ACCESSORIES</p>
       </div>
 
       <div className="container">
@@ -150,11 +156,20 @@ export default function Collection() {
               <div className="filter-option">
                 <input 
                   type="checkbox" 
+                  id="f-kids" 
+                  checked={selectedCats.kids} 
+                  onChange={() => handleCatCheckboxChange('kids')}
+                />
+                <label htmlFor="f-kids">Kids ({products.filter(p => p.cat === 'kids').length})</label>
+              </div>
+              <div className="filter-option">
+                <input 
+                  type="checkbox" 
                   id="f-elec" 
                   checked={selectedCats.electronics} 
                   onChange={() => handleCatCheckboxChange('electronics')}
                 />
-                <label htmlFor="f-elec">Electronics & Accessories ({products.filter(p => p.cat === 'electronics').length})</label>
+                <label htmlFor="f-elec">Electronics & Accessories ({products.filter(p => p.cat === 'electronics' || p.cat === 'accessories').length})</label>
               </div>
             </div>
 

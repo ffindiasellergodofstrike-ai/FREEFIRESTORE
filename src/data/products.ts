@@ -1,24 +1,30 @@
+export interface ProductVariant {
+  size?: string;
+  color?: string;
+  sku?: string;
+  price?: number;
+  orig?: number;
+  stock?: number;
+  image?: string;
+}
+
 export interface Product {
   id: number;
-  cat: 'men' | 'women' | 'electronics';
+  cat: 'men' | 'women' | 'kids' | 'electronics' | 'accessories';
   name: string;
   price: number;
   orig: number; // 0 if none
   sizes: string[];
+  colors?: string[];
   rating: number;
   reviews: number;
   desc: string;
-  badge: 'SALE' | 'NEW' | '';
+  badge: 'SALE' | 'NEW' | 'FEATURED' | '';
+  featured?: boolean;
   images?: string[];
+  variantImages?: Record<string, string[]>; // Map color -> images array
   handle?: string;
-  variants?: {
-    size: string;
-    color: string;
-    sku: string;
-    price: number;
-    orig: number;
-    stock: number;
-  }[];
+  variants?: ProductVariant[];
 }
 
 export interface BlogPost {
@@ -31,996 +37,925 @@ export interface BlogPost {
 }
 
 export const PRODUCTS: Product[] = [
-  // Original Products with Premium High-Class Images
-  {"id":1,"cat":"men","name":"Classic Oxford Shirt","price":899,"orig":1499,"sizes":["S","M","L","XL","XXL"],"rating":4.5,"reviews":89,"desc":"Premium cotton Oxford shirt with a relaxed fit. Perfect for office and casual wear.","badge":"SALE","images":["https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?q=80&w=800&auto=format&fit=crop"]},
-  {"id":2,"cat":"men","name":"Slim Fit Chinos","price":1199,"orig":1899,"sizes":["28","30","32","34","36"],"rating":4.3,"reviews":64,"desc":"Stretch chinos with a modern slim fit. Wrinkle-resistant fabric, all-day comfort.","badge":"SALE","images":["https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=800&auto=format&fit=crop"]},
-  {"id":5,"cat":"men","name":"Denim Jacket","price":2299,"orig":3499,"sizes":["S","M","L","XL"],"rating":4.8,"reviews":78,"desc":"Classic denim jacket with contrast stitching. Versatile layering piece.","badge":"SALE","images":["https://images.unsplash.com/photo-1611312449412-6cefac5dc3e4?q=80&w=800&auto=format&fit=crop"]},
-  {"id":21,"cat":"electronics","name":"Wireless Earbuds Pro","price":1299,"orig":2499,"sizes":["ONE SIZE"],"rating":4.6,"reviews":567,"desc":"True wireless earbuds with 30-hour battery, active noise cancellation, IPX5 water resistance.","badge":"SALE","images":["https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=800&auto=format&fit=crop"]},
-  {"id":22,"cat":"electronics","name":"Smart Watch Series 5","price":2499,"orig":4999,"sizes":["ONE SIZE"],"rating":4.5,"reviews":389,"desc":"Fitness smartwatch with heart rate monitor, SpO2, GPS, 7-day battery life.","badge":"SALE","images":["https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=800&auto=format&fit=crop"]},
-  {"id":27,"cat":"electronics","name":"Mechanical Keyboard","price":2999,"orig":4499,"sizes":["ONE SIZE"],"rating":4.8,"reviews":234,"desc":"Compact 75% mechanical keyboard with RGB backlight, tactile switches.","badge":"SALE","images":["https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?q=80&w=800&auto=format&fit=crop"]},
+  // --- FEATURED & CSV IMPORTED PRODUCTS ---
+  {
+    id: 301,
+    handle: "women-multi-coloured-floral-regular-fit-crop-top-1245231",
+    cat: "women",
+    name: "Women Multi Coloured Floral Regular Fit Crop Top",
+    price: 499,
+    orig: 0,
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["Multi-coloured"],
+    rating: 4.8,
+    reviews: 124,
+    badge: "NEW",
+    featured: true,
+    desc: "Color: Multi-coloured\nAvailable Sizes: S, M, L, XL, XXL\nStylish Women Multi Coloured Floral Regular Fit Crop Top. A must-have for every wardrobe — perfect for parties, evenings out, and special occasions.\n✓ 7 days easy return & exchange\n✓ Free shipping available\n✓ Delivery in 3-10 days\n✓ Cash on delivery available",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/1245231-31736617.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/1245231-31736618.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/1245231-31736619.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/1245231-31736620.jpg?width=1440"
+    ],
+    variantImages: {
+      "Multi-coloured": [
+        "https://www.ownd.in/cdn/shop/files/1245231-31736617.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/1245231-31736618.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/1245231-31736619.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/1245231-31736620.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 302,
+    handle: "blue-stripes-relaxed-fit-shirt-for-women-1242753",
+    cat: "women",
+    name: "Blue Stripes Relaxed Fit Shirt For Women",
+    price: 490,
+    orig: 699,
+    sizes: ["XS", "S", "M", "L", "XL"],
+    colors: ["Blue"],
+    rating: 4.7,
+    reviews: 89,
+    badge: "SALE",
+    featured: true,
+    desc: "Color: Blue\nAvailable Sizes: XS, S, M, L, XL\nStylish Blue Stripes Relaxed Fit Shirt For Women. A must-have for every wardrobe — perfect for parties, evenings out, and special occasions.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/1242753-31625426.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/1242753-31625427.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/1242753-31625428.jpg?width=1440"
+    ],
+    variantImages: {
+      "Blue": [
+        "https://www.ownd.in/cdn/shop/files/1242753-31625426.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/1242753-31625427.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/1242753-31625428.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 303,
+    handle: "white-and-black-wide-leg-fit-casual-trouser-with-2-pocket-for-women-1242713",
+    cat: "women",
+    name: "White and Black Wide Leg Fit Casual Trouser With 2 Pocket For Women",
+    price: 490,
+    orig: 699,
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["White"],
+    rating: 4.6,
+    reviews: 64,
+    badge: "SALE",
+    featured: false,
+    desc: "Color: White\nAvailable Sizes: S, M, L, XL, XXL\nStylish White and Black Wide Leg Fit Casual Trouser With 2 Pocket For Women.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/1242713-31625272.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/1242713-31625273.jpg?width=1440"
+    ],
+    variantImages: {
+      "White": [
+        "https://www.ownd.in/cdn/shop/files/1242713-31625272.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/1242713-31625273.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 304,
+    handle: "1242736-men-pink-stripes-regular-fit-shirt",
+    cat: "men",
+    name: "Stripes Regular Fit Shirt For Men",
+    price: 560,
+    orig: 799,
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["Pink", "Blue", "Green"],
+    rating: 4.9,
+    reviews: 142,
+    badge: "SALE",
+    featured: true,
+    desc: "Available Colors: Pink, Blue, Green\nAvailable Sizes: S, M, L, XL, XXL\nStylish Stripes Regular Fit Shirt For Men. Premium cotton blend fabric with elegant vertical stripes.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/1242736-31625489.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/1242737-31625496.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/1242738-31625503.jpg?width=1440"
+    ],
+    variantImages: {
+      "Pink": [
+        "https://www.ownd.in/cdn/shop/files/1242736-31625489.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/1242736-31625490.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/1242736-31625491.jpg?width=1440"
+      ],
+      "Blue": [
+        "https://www.ownd.in/cdn/shop/files/1242737-31625496.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/1242737-31625497.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/1242737-31625498.jpg?width=1440"
+      ],
+      "Green": [
+        "https://www.ownd.in/cdn/shop/files/1242738-31625503.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/1242738-31625504.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/1242738-31625505.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 305,
+    handle: "brown-slim-fit-utility-pocket-trouser-for-men-1241823",
+    cat: "men",
+    name: "Slim Fit Utility Pocket Trouser For Men",
+    price: 630,
+    orig: 899,
+    sizes: ["30", "32", "34", "36", "38"],
+    colors: ["Brown", "Navy", "Off White"],
+    rating: 4.8,
+    reviews: 98,
+    badge: "SALE",
+    featured: true,
+    desc: "Available Colors: Brown, Navy, Off White\nAvailable Sizes: 30, 32, 34, 36, 38\nStylish Slim Fit Utility Pocket Trouser For Men.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429684377_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429735338_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429684476_1.jpg?width=1440"
+    ],
+    variantImages: {
+      "Brown": [
+        "https://www.ownd.in/cdn/shop/files/8909429684377_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429684377_2.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429684377_3.jpg?width=1440"
+      ],
+      "Navy": [
+        "https://www.ownd.in/cdn/shop/files/8909429735338_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429735338_2.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429735338_3.jpg?width=1440"
+      ],
+      "Off White": [
+        "https://www.ownd.in/cdn/shop/files/8909429684476_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429684476_2.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429684476_3.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 306,
+    handle: "olive-slim-fit-utility-pocket-trouser-for-men-1241822",
+    cat: "men",
+    name: "Olive Slim Fit Utility Pocket Trouser For Men",
+    price: 630,
+    orig: 899,
+    sizes: ["30", "32", "34", "36", "38"],
+    colors: ["Olive"],
+    rating: 4.5,
+    reviews: 52,
+    badge: "SALE",
+    featured: false,
+    desc: "Color: Olive\nAvailable Sizes: 30, 32, 34, 36, 38\nStylish Olive Slim Fit Utility Pocket Trouser For Men.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429684520_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429684520_2.jpg?width=1440"
+    ],
+    variantImages: {
+      "Olive": [
+        "https://www.ownd.in/cdn/shop/files/8909429684520_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429684520_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 307,
+    handle: "beige-graphic-print-crew-neck-t-shirt-for-men-1241813",
+    cat: "men",
+    name: "Beige Graphic Print Crew Neck T-Shirt For Men",
+    price: 280,
+    orig: 399,
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["Beige"],
+    rating: 4.7,
+    reviews: 77,
+    badge: "SALE",
+    featured: false,
+    desc: "Color: Beige\nAvailable Sizes: S, M, L, XL, XXL\nStylish Beige Graphic Print Crew Neck T-Shirt For Men.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429684827_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429684827_2.jpg?width=1440"
+    ],
+    variantImages: {
+      "Beige": [
+        "https://www.ownd.in/cdn/shop/files/8909429684827_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429684827_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 308,
+    handle: "beige-race-print-t-shirt-shorts-set-for-boys-1241802",
+    cat: "kids",
+    name: "Race Print T-Shirt & Shorts Set For Boys",
+    price: 349,
+    orig: 499,
+    sizes: ["1-2Y", "2-3Y", "3-4Y", "5-6Y", "7-8Y"],
+    colors: ["Beige", "Off White", "Red"],
+    rating: 4.9,
+    reviews: 110,
+    badge: "SALE",
+    featured: true,
+    desc: "Available Colors: Beige, Off White, Red\nAvailable Sizes: 1-2Y, 2-3Y, 3-4Y, 5-6Y, 7-8Y\nStylish Race Print T-Shirt & Shorts Co-ord Set For Boys.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429178234_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429178289_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429178180_1.jpg?width=1440"
+    ],
+    variantImages: {
+      "Beige": [
+        "https://www.ownd.in/cdn/shop/files/8909429178234_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429178234_2.jpg?width=1440"
+      ],
+      "Off White": [
+        "https://www.ownd.in/cdn/shop/files/8909429178289_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429178289_2.jpg?width=1440"
+      ],
+      "Red": [
+        "https://www.ownd.in/cdn/shop/files/8909429178180_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429178180_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 309,
+    handle: "light-blue-mid-embroidered-rise-fit-skirt-for-women-1241801",
+    cat: "women",
+    name: "Light Blue Mid Embroidered Rise Fit Skirt For Women",
+    price: 490,
+    orig: 699,
+    sizes: ["XS", "S", "M", "L", "XL"],
+    colors: ["Light Blue"],
+    rating: 4.6,
+    reviews: 43,
+    badge: "SALE",
+    featured: false,
+    desc: "Color: Light Blue\nAvailable Sizes: XS, S, M, L, XL\nStylish Light Blue Mid Embroidered Rise Fit Skirt For Women.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429621204_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429621204_2.jpg?width=1440"
+    ],
+    variantImages: {
+      "Light Blue": [
+        "https://www.ownd.in/cdn/shop/files/8909429621204_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429621204_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 310,
+    handle: "green-floral-print-straight-kurta-for-women-1241786",
+    cat: "women",
+    name: "Floral Print Straight Kurta For Women",
+    price: 280,
+    orig: 399,
+    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+    colors: ["Green", "Brown"],
+    rating: 4.8,
+    reviews: 156,
+    badge: "SALE",
+    featured: true,
+    desc: "Available Colors: Green, Brown\nAvailable Sizes: XS, S, M, L, XL, XXL\nStylish Floral Print Straight Kurta For Women.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429623284_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429623222_1.jpg?width=1440"
+    ],
+    variantImages: {
+      "Green": [
+        "https://www.ownd.in/cdn/shop/files/8909429623284_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429623284_2.jpg?width=1440"
+      ],
+      "Brown": [
+        "https://www.ownd.in/cdn/shop/files/8909429623222_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429623222_3.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 311,
+    handle: "black-high-rise-skinny-fit-shapewear-for-women-1241566",
+    cat: "women",
+    name: "Black High Rise Skinny Fit Shapewear For Women",
+    price: 499,
+    orig: 0,
+    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+    colors: ["Black"],
+    rating: 4.5,
+    reviews: 68,
+    badge: "NEW",
+    featured: false,
+    desc: "Color: Black\nAvailable Sizes: XS, S, M, L, XL, XXL\nStylish Black High Rise Skinny Fit Shapewear For Women.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429568851_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429568851_2.jpg?width=1440"
+    ],
+    variantImages: {
+      "Black": [
+        "https://www.ownd.in/cdn/shop/files/8909429568851_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429568851_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 312,
+    handle: "black-nylon-blend-regular-fit-bra-for-women-1241565",
+    cat: "women",
+    name: "Nylon Blend Regular Fit Bra For Women",
+    price: 399,
+    orig: 0,
+    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+    colors: ["Black", "Taupe", "Beige"],
+    rating: 4.7,
+    reviews: 92,
+    badge: "NEW",
+    featured: false,
+    desc: "Available Colors: Black, Taupe, Beige\nAvailable Sizes: XS, S, M, L, XL, XXL\nStylish Nylon Blend Regular Fit Bra For Women.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429131970_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429132021_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429131925_1.jpg?width=1440"
+    ],
+    variantImages: {
+      "Black": [
+        "https://www.ownd.in/cdn/shop/files/8909429131970_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429131970_2.jpg?width=1440"
+      ],
+      "Taupe": [
+        "https://www.ownd.in/cdn/shop/files/8909429132021_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429132021_2.jpg?width=1440"
+      ],
+      "Beige": [
+        "https://www.ownd.in/cdn/shop/files/8909429131925_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429131925_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 313,
+    handle: "black-regular-fit-casual-trouser-with-1-pocket-for-women-1241455",
+    cat: "women",
+    name: "Regular Fit Casual Trouser With 1 Pocket For Women",
+    price: 399,
+    orig: 0,
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["Black", "Beige", "White"],
+    rating: 4.6,
+    reviews: 73,
+    badge: "NEW",
+    featured: false,
+    desc: "Available Colors: Black, Beige, White\nAvailable Sizes: S, M, L, XL, XXL\nStylish Regular Fit Casual Trouser With 1 Pocket For Women.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429162264_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429162318_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429162363_1.jpg?width=1440"
+    ],
+    variantImages: {
+      "Black": [
+        "https://www.ownd.in/cdn/shop/files/8909429162264_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429162264_2.jpg?width=1440"
+      ],
+      "Beige": [
+        "https://www.ownd.in/cdn/shop/files/8909429162318_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429162318_2.jpg?width=1440"
+      ],
+      "White": [
+        "https://www.ownd.in/cdn/shop/files/8909429162363_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429162363_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 314,
+    handle: "black-skinny-fit-jeans-with-5-pocket-for-women-1241494",
+    cat: "women",
+    name: "Skinny Fit Jeans With 5 Pocket For Women",
+    price: 799,
+    orig: 0,
+    sizes: ["26", "28", "30", "32", "34", "36"],
+    colors: ["Black", "Light Blue", "Navy"],
+    rating: 4.8,
+    reviews: 135,
+    badge: "NEW",
+    featured: true,
+    desc: "Available Colors: Black, Light Blue, Navy\nAvailable Sizes: 26, 28, 30, 32, 34, 36\nStylish Skinny Fit Jeans With 5 Pocket For Women.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429233988_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429233858_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429233926_1.jpg?width=1440"
+    ],
+    variantImages: {
+      "Black": [
+        "https://www.ownd.in/cdn/shop/files/8909429233988_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429233988_2.jpg?width=1440"
+      ],
+      "Light Blue": [
+        "https://www.ownd.in/cdn/shop/files/8909429233858_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429233858_2.jpg?width=1440"
+      ],
+      "Navy": [
+        "https://www.ownd.in/cdn/shop/files/8909429233926_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429233926_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 315,
+    handle: "mens-slim-solid-navy-formal-trousers-1241488",
+    cat: "men",
+    name: "Mens Slim Solid Navy Formal Trousers",
+    price: 899,
+    orig: 0,
+    sizes: ["30", "32", "34", "36", "38"],
+    colors: ["Navy", "Black", "Charcoal"],
+    rating: 4.9,
+    reviews: 168,
+    badge: "FEATURED",
+    featured: true,
+    desc: "Available Colors: Navy, Black, Charcoal\nAvailable Sizes: 30, 32, 34, 36, 38\nStylish Mens Slim Solid Formal Trousers.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429738087_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429560473_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429738032_1.jpg?width=1440"
+    ],
+    variantImages: {
+      "Navy": [
+        "https://www.ownd.in/cdn/shop/files/8909429738087_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429738087_2.jpg?width=1440"
+      ],
+      "Black": [
+        "https://www.ownd.in/cdn/shop/files/8909429560473_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429560473_2.jpg?width=1440"
+      ],
+      "Charcoal": [
+        "https://www.ownd.in/cdn/shop/files/8909429738032_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429738032_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 316,
+    handle: "pink-cotton-blend-regular-fit-shirt-for-men-1241486",
+    cat: "men",
+    name: "Cotton Blend Regular Fit Shirt For Men",
+    price: 699,
+    orig: 0,
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["Pink", "Blue"],
+    rating: 4.7,
+    reviews: 94,
+    badge: "NEW",
+    featured: false,
+    desc: "Available Colors: Pink, Blue\nAvailable Sizes: S, M, L, XL, XXL\nStylish Cotton Blend Regular Fit Shirt For Men.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429109092_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429109047_1.jpg?width=1440"
+    ],
+    variantImages: {
+      "Pink": [
+        "https://www.ownd.in/cdn/shop/files/8909429109092_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429109092_2.jpg?width=1440"
+      ],
+      "Blue": [
+        "https://www.ownd.in/cdn/shop/files/8909429109047_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429109047_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 317,
+    handle: "light-blue-wide-leg-fit-jeans-with-4-pocket-for-women-1241505",
+    cat: "women",
+    name: "Wide Leg Fit Jeans With 4 Pocket For Women",
+    price: 700,
+    orig: 999,
+    sizes: ["26", "28", "30", "32", "34", "36"],
+    colors: ["Light Blue", "Charcoal"],
+    rating: 4.8,
+    reviews: 81,
+    badge: "SALE",
+    featured: false,
+    desc: "Available Colors: Light Blue, Charcoal\nAvailable Sizes: 26, 28, 30, 32, 34, 36\nStylish Wide Leg Fit Jeans With 4 Pocket For Women.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429465372_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429623550_1.jpg?width=1440"
+    ],
+    variantImages: {
+      "Light Blue": [
+        "https://www.ownd.in/cdn/shop/files/8909429465372_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429465372_2.jpg?width=1440"
+      ],
+      "Charcoal": [
+        "https://www.ownd.in/cdn/shop/files/8909429623550_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429623550_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 318,
+    handle: "light-blue-wide-leg-fit-jeans-with-5-pocket-for-women-1241503",
+    cat: "women",
+    name: "Wide Leg Fit Jeans With 5 Pocket For Women",
+    price: 630,
+    orig: 899,
+    sizes: ["26", "28", "30", "32", "34", "36"],
+    colors: ["Light Blue", "Black", "Blue"],
+    rating: 4.7,
+    reviews: 99,
+    badge: "SALE",
+    featured: false,
+    desc: "Available Colors: Light Blue, Black, Blue\nAvailable Sizes: 26, 28, 30, 32, 34, 36\nStylish Wide Leg Fit Jeans With 5 Pocket For Women.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429143676_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429143607_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429143720_1.jpg?width=1440"
+    ],
+    variantImages: {
+      "Light Blue": [
+        "https://www.ownd.in/cdn/shop/files/8909429143676_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429143676_2.jpg?width=1440"
+      ],
+      "Black": [
+        "https://www.ownd.in/cdn/shop/files/8909429143607_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429143607_2.jpg?width=1440"
+      ],
+      "Blue": [
+        "https://www.ownd.in/cdn/shop/files/8909429143720_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429143720_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 319,
+    handle: "navy-wide-leg-fit-jeans-with-6-pocket-for-women-1241498",
+    cat: "women",
+    name: "Wide Leg Fit Jeans With 6 Pocket For Women",
+    price: 700,
+    orig: 999,
+    sizes: ["26", "28", "30", "32", "34", "36"],
+    colors: ["Navy", "Light Blue", "Blue"],
+    rating: 4.8,
+    reviews: 112,
+    badge: "SALE",
+    featured: false,
+    desc: "Available Colors: Navy, Light Blue, Blue\nAvailable Sizes: 26, 28, 30, 32, 34, 36\nStylish Wide Leg Fit Jeans With 6 Pocket For Women.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429144642_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429144680_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429144741_1.jpg?width=1440"
+    ],
+    variantImages: {
+      "Navy": [
+        "https://www.ownd.in/cdn/shop/files/8909429144642_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429144642_2.jpg?width=1440"
+      ],
+      "Light Blue": [
+        "https://www.ownd.in/cdn/shop/files/8909429144680_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429144680_2.jpg?width=1440"
+      ],
+      "Blue": [
+        "https://www.ownd.in/cdn/shop/files/8909429144741_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429144741_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 320,
+    handle: "yellow-puff-sleeves-regular-fit-dress-for-women-1241535",
+    cat: "women",
+    name: "Yellow Puff Sleeves Regular Fit Dress For Women",
+    price: 699,
+    orig: 0,
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["Yellow"],
+    rating: 4.9,
+    reviews: 145,
+    badge: "NEW",
+    featured: true,
+    desc: "Color: Yellow\nAvailable Sizes: S, M, L, XL, XXL\nStylish Yellow Puff Sleeves Regular Fit Dress For Women.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429534405_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429534405_2.jpg?width=1440"
+    ],
+    variantImages: {
+      "Yellow": [
+        "https://www.ownd.in/cdn/shop/files/8909429534405_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429534405_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 321,
+    handle: "pink-drop-shoulder-sleeves-regular-fit-sweatshirt-for-women-1241527",
+    cat: "women",
+    name: "Drop Shoulder Sleeves Regular Fit Sweatshirt For Women",
+    price: 560,
+    orig: 799,
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["Pink", "Brown"],
+    rating: 4.7,
+    reviews: 86,
+    badge: "SALE",
+    featured: false,
+    desc: "Available Colors: Pink, Brown\nAvailable Sizes: S, M, L, XL, XXL\nStylish Drop Shoulder Sleeves Regular Fit Sweatshirt For Women.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429540154_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429540208_1.jpg?width=1440"
+    ],
+    variantImages: {
+      "Pink": [
+        "https://www.ownd.in/cdn/shop/files/8909429540154_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429540154_2.jpg?width=1440"
+      ],
+      "Brown": [
+        "https://www.ownd.in/cdn/shop/files/8909429540208_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429540208_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 322,
+    handle: "black-solid-tube-bra-for-women-1240577",
+    cat: "women",
+    name: "Solid Tube Bra For Women",
+    price: 200,
+    orig: 399,
+    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+    colors: ["Black", "White", "Purple"],
+    rating: 4.6,
+    reviews: 79,
+    badge: "SALE",
+    featured: false,
+    desc: "Available Colors: Black, White, Purple\nAvailable Sizes: XS, S, M, L, XL, XXL\nStylish Solid Tube Bra For Women.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429525885_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429547832_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429547788_1.jpg?width=1440"
+    ],
+    variantImages: {
+      "Black": [
+        "https://www.ownd.in/cdn/shop/files/8909429525885_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429525885_2.jpg?width=1440"
+      ],
+      "White": [
+        "https://www.ownd.in/cdn/shop/files/8909429547832_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429547832_2.jpg?width=1440"
+      ],
+      "Purple": [
+        "https://www.ownd.in/cdn/shop/files/8909429547788_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429547788_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 323,
+    handle: "light-blue-solid-flared-jeans-for-women-1240571",
+    cat: "women",
+    name: "Light Blue Solid Flared Jeans For Women",
+    price: 799,
+    orig: 0,
+    sizes: ["26", "28", "30", "32", "34", "36"],
+    colors: ["Light Blue"],
+    rating: 4.8,
+    reviews: 104,
+    badge: "NEW",
+    featured: false,
+    desc: "Color: Light Blue\nAvailable Sizes: 26, 28, 30, 32, 34, 36\nStylish Light Blue Solid Flared Jeans For Women.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429234091_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429234091_2.jpg?width=1440"
+    ],
+    variantImages: {
+      "Light Blue": [
+        "https://www.ownd.in/cdn/shop/files/8909429234091_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429234091_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 324,
+    handle: "navy-striped-regular-fit-t-shirt-for-infant-boys-1240565",
+    cat: "kids",
+    name: "Striped Regular Fit T-Shirt For Infant Boys",
+    price: 209,
+    orig: 299,
+    sizes: ["6-9 M", "9-12 M", "12-18 M", "18-24 M"],
+    colors: ["Navy", "Light Blue", "Yellow"],
+    rating: 4.9,
+    reviews: 88,
+    badge: "SALE",
+    featured: true,
+    desc: "Available Colors: Navy, Light Blue, Yellow\nAvailable Sizes: 6-9 M, 9-12 M, 12-18 M, 18-24 M\nStylish Striped Regular Fit T-Shirt For Infant Boys.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429178722_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429178883_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429178807_1.jpg?width=1440"
+    ],
+    variantImages: {
+      "Navy": [
+        "https://www.ownd.in/cdn/shop/files/8909429178722_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429178722_2.jpg?width=1440"
+      ],
+      "Light Blue": [
+        "https://www.ownd.in/cdn/shop/files/8909429178883_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429178883_2.jpg?width=1440"
+      ],
+      "Yellow": [
+        "https://www.ownd.in/cdn/shop/files/8909429178807_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429178807_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 325,
+    handle: "white-solid-rayon-pant-for-women-1240563",
+    cat: "women",
+    name: "Solid Rayon Pant For Women",
+    price: 399,
+    orig: 0,
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["White", "Black"],
+    rating: 4.6,
+    reviews: 58,
+    badge: "NEW",
+    featured: false,
+    desc: "Available Colors: White, Black\nAvailable Sizes: S, M, L, XL, XXL\nStylish Solid Rayon Pant For Women.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429162219_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429162165_1.jpg?width=1440"
+    ],
+    variantImages: {
+      "White": [
+        "https://www.ownd.in/cdn/shop/files/8909429162219_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429162219_2.jpg?width=1440"
+      ],
+      "Black": [
+        "https://www.ownd.in/cdn/shop/files/8909429162165_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429162165_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 326,
+    handle: "white-cotton-blend-solid-pant-for-women-1240561",
+    cat: "women",
+    name: "Cotton Blend Solid Pant For Women",
+    price: 399,
+    orig: 0,
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["White", "Beige"],
+    rating: 4.7,
+    reviews: 63,
+    badge: "NEW",
+    featured: false,
+    desc: "Available Colors: White, Beige\nAvailable Sizes: S, M, L, XL, XXL\nStylish Cotton Blend Solid Pant For Women.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429162462_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429162417_1.jpg?width=1440"
+    ],
+    variantImages: {
+      "White": [
+        "https://www.ownd.in/cdn/shop/files/8909429162462_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429162462_2.jpg?width=1440"
+      ],
+      "Beige": [
+        "https://www.ownd.in/cdn/shop/files/8909429162417_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429162417_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 327,
+    handle: "white-solid-lace-design-pant-for-women-1240560",
+    cat: "women",
+    name: "Solid Lace Design Pant For Women",
+    price: 399,
+    orig: 0,
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["White", "Beige", "Black"],
+    rating: 4.8,
+    reviews: 87,
+    badge: "NEW",
+    featured: false,
+    desc: "Available Colors: White, Beige, Black\nAvailable Sizes: S, M, L, XL, XXL\nStylish Solid Lace Design Pant For Women.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429162615_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429162561_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429162516_1.jpg?width=1440"
+    ],
+    variantImages: {
+      "White": [
+        "https://www.ownd.in/cdn/shop/files/8909429162615_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429162615_2.jpg?width=1440"
+      ],
+      "Beige": [
+        "https://www.ownd.in/cdn/shop/files/8909429162561_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429162561_2.jpg?width=1440"
+      ],
+      "Black": [
+        "https://www.ownd.in/cdn/shop/files/8909429162516_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429162516_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 328,
+    handle: "mint-floral-printed-regular-fit-kurta-for-women-1240196",
+    cat: "women",
+    name: "Mint Floral Printed Regular Fit Kurta For Women",
+    price: 399,
+    orig: 0,
+    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+    colors: ["Green", "Pink"],
+    rating: 4.7,
+    reviews: 95,
+    badge: "NEW",
+    featured: false,
+    desc: "Available Colors: Green, Pink\nAvailable Sizes: XS, S, M, L, XL, XXL\nStylish Mint Floral Printed Regular Fit Kurta For Women.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429623406_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429623345_1.jpg?width=1440"
+    ],
+    variantImages: {
+      "Green": [
+        "https://www.ownd.in/cdn/shop/files/8909429623406_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429623406_2.jpg?width=1440"
+      ],
+      "Pink": [
+        "https://www.ownd.in/cdn/shop/files/8909429623345_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429623345_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 329,
+    handle: "charcoal-solid-regular-fit-jeans-for-women-1240195",
+    cat: "women",
+    name: "Solid Regular Fit Jeans For Women",
+    price: 630,
+    orig: 899,
+    sizes: ["26", "28", "30", "32", "34", "36"],
+    colors: ["Charcoal", "Light Blue", "Blue"],
+    rating: 4.8,
+    reviews: 108,
+    badge: "SALE",
+    featured: false,
+    desc: "Available Colors: Charcoal, Light Blue, Blue\nAvailable Sizes: 26, 28, 30, 32, 34, 36\nStylish Solid Regular Fit Jeans For Women.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429143782_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429143843_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429143904_1.jpg?width=1440"
+    ],
+    variantImages: {
+      "Charcoal": [
+        "https://www.ownd.in/cdn/shop/files/8909429143782_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429143782_2.jpg?width=1440"
+      ],
+      "Light Blue": [
+        "https://www.ownd.in/cdn/shop/files/8909429143843_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429143843_2.jpg?width=1440"
+      ],
+      "Blue": [
+        "https://www.ownd.in/cdn/shop/files/8909429143904_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429143904_2.jpg?width=1440"
+      ]
+    }
+  },
+  {
+    id: 330,
+    handle: "grey-solid-regular-fit-pack-of-2-trunks-for-men-1240194",
+    cat: "men",
+    name: "Grey Solid Regular Fit Pack of 2 Trunks For Men",
+    price: 399,
+    orig: 0,
+    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+    colors: ["Grey"],
+    rating: 4.6,
+    reviews: 51,
+    badge: "NEW",
+    featured: false,
+    desc: "Color: Grey\nAvailable Sizes: XS, S, M, L, XL, XXL\nStylish Grey Solid Regular Fit Pack of 2 Trunks For Men.",
+    images: [
+      "https://www.ownd.in/cdn/shop/files/8909429504460_1.jpg?width=1440",
+      "https://www.ownd.in/cdn/shop/files/8909429504460_2.jpg?width=1440"
+    ],
+    variantImages: {
+      "Grey": [
+        "https://www.ownd.in/cdn/shop/files/8909429504460_1.jpg?width=1440",
+        "https://www.ownd.in/cdn/shop/files/8909429504460_2.jpg?width=1440"
+      ]
+    }
+  },
 
-  // Shopify CSV Imported Dresses
-  {
-    "id": 101,
-    "handle": "ruffle-a-line-dress-2240872",
-    "cat": "women",
-    "name": "Ruffle A-Line Dress",
-    "price": 1431,
-    "orig": 1590,
-    "sizes": [
-      "XS",
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "rating": 4.1,
-    "reviews": 96,
-    "desc": "Color: Brown\nAvailable Sizes: XS, S, M, L, XL, XXL\nStylish Ruffle A-Line Dress. A must-have for every wardrobe — perfect for parties, evenings out, and special occasions.\n✓ 7 days easy return & exchange\n✓ Free shipping available\n✓ Delivery in 3-10 days\n✓ Cash on delivery available",
-    "badge": "SALE",
-    "images": [
-      "https://img201.savana.com/goods-pic/8396db9eaf4b467090348e5935e32994_w1440_q90",
-      "https://img201.savana.com/goods-pic/8b49a61d02d843d8b992646d33151025_w1440_q90",
-      "https://img201.savana.com/goods-pic/76e0e1dd18494fe093e17a603b35ec4b_w1440_q90",
-      "https://img201.savana.com/goods-pic/61725cb72e554ab1890f6246db0ec8ee_w1440_q90"
-    ],
-    "variants": [
-      {
-        "size": "XS",
-        "color": "Brown",
-        "sku": "RUFFLEALIN-BROWN-XS",
-        "price": 1431,
-        "orig": 1590,
-        "stock": 100
-      },
-      {
-        "size": "S",
-        "color": "Brown",
-        "sku": "RUFFLEALIN-BROWN-S",
-        "price": 1431,
-        "orig": 1590,
-        "stock": 100
-      },
-      {
-        "size": "M",
-        "color": "Brown",
-        "sku": "RUFFLEALIN-BROWN-M",
-        "price": 1431,
-        "orig": 1590,
-        "stock": 100
-      },
-      {
-        "size": "L",
-        "color": "Brown",
-        "sku": "RUFFLEALIN-BROWN-L",
-        "price": 1431,
-        "orig": 1590,
-        "stock": 100
-      },
-      {
-        "size": "XL",
-        "color": "Brown",
-        "sku": "RUFFLEALIN-BROWN-XL",
-        "price": 1431,
-        "orig": 1590,
-        "stock": 100
-      },
-      {
-        "size": "XXL",
-        "color": "Brown",
-        "sku": "RUFFLEALIN-BROWN-XXL",
-        "price": 1431,
-        "orig": 1590,
-        "stock": 100
-      }
-    ]
-  },
-  {
-    "id": 102,
-    "handle": "lace-up-a-line-dress-2204632",
-    "cat": "women",
-    "name": "Lace Up A-Line Dress",
-    "price": 1117,
-    "orig": 1490,
-    "sizes": [
-      "XS",
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "rating": 4.8,
-    "reviews": 163,
-    "desc": "Color: Burgundy\nAvailable Sizes: XS, S, M, L, XL, XXL\nStylish Lace Up A-Line Dress. A must-have for every wardrobe — perfect for parties, evenings out, and special occasions.\n✓ 7 days easy return & exchange\n✓ Free shipping available\n✓ Delivery in 3-10 days\n✓ Cash on delivery available",
-    "badge": "SALE",
-    "images": [
-      "https://img201.savana.com/goods-pic/5d4eff2dd36c47d59f5a48340227cfb6_w1440_q90",
-      "https://img201.savana.com/goods-pic/61fa759cbdee43efbb5527b85f8c89e6_w1440_q90",
-      "https://img201.savana.com/goods-pic/451192ff05c24fac8cd26f84a42fdaa7_w1440_q90",
-      "https://img201.savana.com/goods-pic/b02a671b6cd045f6ab270bef174cb94a_w1440_q90",
-      "https://img201.savana.com/goods-pic/5c373ebec2074614aae0d93ce87dee09_w1440_q90",
-      "https://img201.savana.com/goods-pic/d41e296d677a481da13377d043ca9876_w1440_q90",
-      "https://img201.savana.com/goods-pic/ab6a0302e3164268a7181c655b74e39e_w1440_q90",
-      "https://img201.savana.com/goods-pic/686b45a2b7ce4fa8be8fa76abaa71ce2_w1440_q90",
-      "https://img201.savana.com/goods-pic/0eb2c0f1a4fb48dc9e4feb11f27edaec_w1440_q90",
-      "https://img201.savana.com/goods-pic/5f148bd846d14002b6b7aafbbbe0b315_w1440_q90"
-    ],
-    "variants": [
-      {
-        "size": "XS",
-        "color": "Burgundy",
-        "sku": "LACEUPALIN-BURGU-XS",
-        "price": 1117,
-        "orig": 1490,
-        "stock": 100
-      },
-      {
-        "size": "S",
-        "color": "Burgundy",
-        "sku": "LACEUPALIN-BURGU-S",
-        "price": 1117,
-        "orig": 1490,
-        "stock": 100
-      },
-      {
-        "size": "M",
-        "color": "Burgundy",
-        "sku": "LACEUPALIN-BURGU-M",
-        "price": 1117,
-        "orig": 1490,
-        "stock": 100
-      },
-      {
-        "size": "L",
-        "color": "Burgundy",
-        "sku": "LACEUPALIN-BURGU-L",
-        "price": 1117,
-        "orig": 1490,
-        "stock": 100
-      },
-      {
-        "size": "XL",
-        "color": "Burgundy",
-        "sku": "LACEUPALIN-BURGU-XL",
-        "price": 1117,
-        "orig": 1490,
-        "stock": 100
-      },
-      {
-        "size": "XXL",
-        "color": "Burgundy",
-        "sku": "LACEUPALIN-BURGU-XXL",
-        "price": 1117,
-        "orig": 1490,
-        "stock": 100
-      }
-    ]
-  },
-  {
-    "id": 103,
-    "handle": "tie-up-a-line-dress-2233122",
-    "cat": "women",
-    "name": "Tie Up A-Line Dress",
-    "price": 1690,
-    "orig": 0,
-    "sizes": [
-      "XS",
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "rating": 4.1,
-    "reviews": 66,
-    "desc": "Color: Red\nAvailable Sizes: XS, S, M, L, XL, XXL\nStylish Tie Up A-Line Dress. A must-have for every wardrobe — perfect for parties, evenings out, and special occasions.\n✓ 7 days easy return & exchange\n✓ Free shipping available\n✓ Delivery in 3-10 days\n✓ Cash on delivery available",
-    "badge": "NEW",
-    "images": [
-      "https://img201.savana.com/goods-pic/f4e3d11d1b7549e6907dc07f07381d2f_w1440_q90",
-      "https://img201.savana.com/goods-pic/cc0bc55109224579aa116a71c447f188_w1440_q90",
-      "https://img201.savana.com/goods-pic/f6fc5e3740ee49a4840c99d671606a55_w1440_q90",
-      "https://img201.savana.com/goods-pic/828f35320bc14cfea690ae940c07732d_w1440_q90",
-      "https://img201.savana.com/goods-pic/84685b5a4d804c74b0c7ac2b4f5dd91d_w1440_q90"
-    ],
-    "variants": [
-      {
-        "size": "XS",
-        "color": "Red",
-        "sku": "TIEUPALINE-RED-XS",
-        "price": 1690,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "S",
-        "color": "Red",
-        "sku": "TIEUPALINE-RED-S",
-        "price": 1690,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "M",
-        "color": "Red",
-        "sku": "TIEUPALINE-RED-M",
-        "price": 1690,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "L",
-        "color": "Red",
-        "sku": "TIEUPALINE-RED-L",
-        "price": 1690,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "XL",
-        "color": "Red",
-        "sku": "TIEUPALINE-RED-XL",
-        "price": 1690,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "XXL",
-        "color": "Red",
-        "sku": "TIEUPALINE-RED-XXL",
-        "price": 1690,
-        "orig": 0,
-        "stock": 100
-      }
-    ]
-  },
-  {
-    "id": 104,
-    "handle": "backless-bodycon-dress-2181862",
-    "cat": "women",
-    "name": "Backless Bodycon Dress",
-    "price": 1490,
-    "orig": 0,
-    "sizes": [
-      "XS",
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "rating": 4.4,
-    "reviews": 209,
-    "desc": "Color: Navy\nAvailable Sizes: XS, S, M, L, XL, XXL\nStylish Backless Bodycon Dress. A must-have for every wardrobe — perfect for parties, evenings out, and special occasions.\n✓ 7 days easy return & exchange\n✓ Free shipping available\n✓ Delivery in 3-10 days\n✓ Cash on delivery available",
-    "badge": "NEW",
-    "images": [
-      "https://img201.savana.com/goods-pic/d6906a40c3924744a0981f28440af504_w1440_q90",
-      "https://img201.savana.com/goods-pic/486197a9dfa745ad84b6a6b0bcb3fe10_w1440_q90",
-      "https://img201.savana.com/goods-pic/cdc1726223c747009f0c38dcbe31cf07_w1440_q90",
-      "https://img201.savana.com/goods-pic/799e54ce8d0247c68cc18dfa860c2860_w1440_q90",
-      "https://img201.savana.com/goods-pic/701abfbb25ae46409cee97b59ba7334a_w1440_q90"
-    ],
-    "variants": [
-      {
-        "size": "XS",
-        "color": "Navy",
-        "sku": "BACKLESSBO-NAVY-XS",
-        "price": 1490,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "S",
-        "color": "Navy",
-        "sku": "BACKLESSBO-NAVY-S",
-        "price": 1490,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "M",
-        "color": "Navy",
-        "sku": "BACKLESSBO-NAVY-M",
-        "price": 1490,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "L",
-        "color": "Navy",
-        "sku": "BACKLESSBO-NAVY-L",
-        "price": 1490,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "XL",
-        "color": "Navy",
-        "sku": "BACKLESSBO-NAVY-XL",
-        "price": 1490,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "XXL",
-        "color": "Navy",
-        "sku": "BACKLESSBO-NAVY-XXL",
-        "price": 1490,
-        "orig": 0,
-        "stock": 100
-      }
-    ]
-  },
-  {
-    "id": 105,
-    "handle": "shimmer-cocktail-dress-1497222",
-    "cat": "women",
-    "name": "Shimmer Cocktail Dress",
-    "price": 1590,
-    "orig": 0,
-    "sizes": [
-      "XS",
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "rating": 4,
-    "reviews": 55,
-    "desc": "Color: Champagne\nAvailable Sizes: XS, S, M, L, XL, XXL\nStylish Shimmer Cocktail Dress. A must-have for every wardrobe — perfect for parties, evenings out, and special occasions.\n✓ 7 days easy return & exchange\n✓ Free shipping available\n✓ Delivery in 3-10 days\n✓ Cash on delivery available",
-    "badge": "NEW",
-    "images": [
-      "https://img201.savana.com/goods-pic/6859f92fbf3143c0abb5a8f6f0966271_w1440_q90",
-      "https://img201.savana.com/goods-pic/68ed341ede9844d5b2584d04ac642a7c_w1440_q90",
-      "https://img201.savana.com/goods-pic/93fe2807564c46338ce8d730f57721e2_w1440_q90",
-      "https://img201.savana.com/goods-pic/baf3bae2119249bc80d2a0631e351026_w1440_q90",
-      "https://img201.savana.com/goods-pic/db0eefcacd5447299988ffe6ecc6e779_w1440_q90",
-      "https://img201.savana.com/goods-pic/8f3b9e1634c94949af2cdd6a21f5a52b_w1440_q90",
-      "https://img201.savana.com/goods-pic/43ba4f3c6ed84edfaabab1cdbd5885f6_w1440_q90",
-      "https://img201.savana.com/goods-pic/54225346ddd94f608d7680034273708e_w1440_q90",
-      "https://img201.savana.com/goods-pic/fabd943ea84c462a829b890115375ade_w1440_q90",
-      "https://img201.savana.com/goods-pic/81b8e5b5128b4e8c90580127bc0a33de_w1440_q90"
-    ],
-    "variants": [
-      {
-        "size": "XS",
-        "color": "Champagne",
-        "sku": "SHIMMERCOC-CHAMP-XS",
-        "price": 1590,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "S",
-        "color": "Champagne",
-        "sku": "SHIMMERCOC-CHAMP-S",
-        "price": 1590,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "M",
-        "color": "Champagne",
-        "sku": "SHIMMERCOC-CHAMP-M",
-        "price": 1590,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "L",
-        "color": "Champagne",
-        "sku": "SHIMMERCOC-CHAMP-L",
-        "price": 1590,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "XL",
-        "color": "Champagne",
-        "sku": "SHIMMERCOC-CHAMP-XL",
-        "price": 1590,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "XXL",
-        "color": "Champagne",
-        "sku": "SHIMMERCOC-CHAMP-XXL",
-        "price": 1590,
-        "orig": 0,
-        "stock": 100
-      }
-    ]
-  },
-  {
-    "id": 106,
-    "handle": "button-shirt-dress-2283552",
-    "cat": "women",
-    "name": "Button Shirt Dress",
-    "price": 1690,
-    "orig": 0,
-    "sizes": [
-      "XS",
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "rating": 4.1,
-    "reviews": 206,
-    "desc": "Color: Apricot\nAvailable Sizes: XS, S, M, L, XL, XXL\nStylish Button Shirt Dress. A must-have for every wardrobe — perfect for parties, evenings out, and special occasions.\n✓ 7 days easy return & exchange\n✓ Free shipping available\n✓ Delivery in 3-10 days\n✓ Cash on delivery available",
-    "badge": "NEW",
-    "images": [
-      "https://img201.savana.com/goods-pic/ab2c8b0a18fe4825a0a9c196f23512f7_w1440_q90",
-      "https://img201.savana.com/goods-pic/11f24e268d364f8dab74c160248c65ba_w1440_q90",
-      "https://img201.savana.com/goods-pic/50d6e55b19d44022bc6128c6ef1f7be1_w1440_q90",
-      "https://img201.savana.com/goods-pic/c3e65a5e3d3f4e07bd027615c99d71ea_w1440_q90",
-      "https://img201.savana.com/goods-pic/34be863837774bb19b68db4346116f5d_w1440_q90",
-      "https://img201.savana.com/goods-pic/8d9be4a4100541408b66f22558b8f31f_w1440_q90",
-      "https://img201.savana.com/goods-pic/b0119abcc8664da58997437f76b2587f_w1440_q90",
-      "https://img201.savana.com/goods-pic/a01a5f8be4174c7e88e724da853162cf_w1440_q90"
-    ],
-    "variants": [
-      {
-        "size": "XS",
-        "color": "Apricot",
-        "sku": "BUTTONSHIR-APRIC-XS",
-        "price": 1690,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "S",
-        "color": "Apricot",
-        "sku": "BUTTONSHIR-APRIC-S",
-        "price": 1690,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "M",
-        "color": "Apricot",
-        "sku": "BUTTONSHIR-APRIC-M",
-        "price": 1690,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "L",
-        "color": "Apricot",
-        "sku": "BUTTONSHIR-APRIC-L",
-        "price": 1690,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "XL",
-        "color": "Apricot",
-        "sku": "BUTTONSHIR-APRIC-XL",
-        "price": 1690,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "XXL",
-        "color": "Apricot",
-        "sku": "BUTTONSHIR-APRIC-XXL",
-        "price": 1690,
-        "orig": 0,
-        "stock": 100
-      }
-    ]
-  },
-  {
-    "id": 107,
-    "handle": "bow-a-line-dress-2279382",
-    "cat": "women",
-    "name": "Bow A-Line Dress",
-    "price": 1592,
-    "orig": 1990,
-    "sizes": [
-      "XS",
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "rating": 4.9,
-    "reviews": 144,
-    "desc": "Color: Beige\nAvailable Sizes: XS, S, M, L, XL, XXL\nStylish Bow A-Line Dress. A must-have for every wardrobe — perfect for parties, evenings out, and special occasions.\n✓ 7 days easy return & exchange\n✓ Free shipping available\n✓ Delivery in 3-10 days\n✓ Cash on delivery available",
-    "badge": "SALE",
-    "images": [
-      "https://img201.savana.com/goods-pic/3c38d36ac5304cb88e8a60bc87716b1a_w1440_q90",
-      "https://img201.savana.com/goods-pic/2ab53427744c497eabf85232e0affd3a_w1440_q90",
-      "https://img201.savana.com/goods-pic/05fb5559ba5e420d8367b8156489c392_w1440_q90",
-      "https://img201.savana.com/goods-pic/1106093a96434baea05f1d87ec99db03_w1440_q90",
-      "https://img201.savana.com/goods-pic/ffabf78a2f0a4509938124a1d25ec544_w1440_q90"
-    ],
-    "variants": [
-      {
-        "size": "XS",
-        "color": "Beige",
-        "sku": "BOWALINEDR-BEIGE-XS",
-        "price": 1592,
-        "orig": 1990,
-        "stock": 100
-      },
-      {
-        "size": "S",
-        "color": "Beige",
-        "sku": "BOWALINEDR-BEIGE-S",
-        "price": 1592,
-        "orig": 1990,
-        "stock": 100
-      },
-      {
-        "size": "M",
-        "color": "Beige",
-        "sku": "BOWALINEDR-BEIGE-M",
-        "price": 1592,
-        "orig": 1990,
-        "stock": 100
-      },
-      {
-        "size": "L",
-        "color": "Beige",
-        "sku": "BOWALINEDR-BEIGE-L",
-        "price": 1592,
-        "orig": 1990,
-        "stock": 100
-      },
-      {
-        "size": "XL",
-        "color": "Beige",
-        "sku": "BOWALINEDR-BEIGE-XL",
-        "price": 1592,
-        "orig": 1990,
-        "stock": 100
-      },
-      {
-        "size": "XXL",
-        "color": "Beige",
-        "sku": "BOWALINEDR-BEIGE-XXL",
-        "price": 1592,
-        "orig": 1990,
-        "stock": 100
-      }
-    ]
-  },
-  {
-    "id": 108,
-    "handle": "gathered-cocktail-dress-2247852",
-    "cat": "women",
-    "name": "Gathered Cocktail Dress",
-    "price": 1521,
-    "orig": 1690,
-    "sizes": [
-      "XS",
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "rating": 4,
-    "reviews": 215,
-    "desc": "Color: Light Yellow\nAvailable Sizes: XS, S, M, L, XL, XXL\nStylish Gathered Cocktail Dress. A must-have for every wardrobe — perfect for parties, evenings out, and special occasions.\n✓ 7 days easy return & exchange\n✓ Free shipping available\n✓ Delivery in 3-10 days\n✓ Cash on delivery available",
-    "badge": "SALE",
-    "images": [
-      "https://img201.savana.com/goods-pic/3b244c07ee3f48d995f3bfe7c0650828_w1440_q90",
-      "https://img201.savana.com/goods-pic/bf3206f5c08f48a09e304f33511aa925_w1440_q90",
-      "https://img201.savana.com/goods-pic/1f86c0f7b9874c13b765635fe1250e43_w1440_q90",
-      "https://img201.savana.com/goods-pic/98f27e1615534a01a2ac6ec26587e3fb_w1440_q90",
-      "https://img201.savana.com/goods-pic/a87dce4009a7441fab9767b1f813e90c_w1440_q90"
-    ],
-    "variants": [
-      {
-        "size": "XS",
-        "color": "Light Yellow",
-        "sku": "GATHEREDCO-LIGHT-XS",
-        "price": 1521,
-        "orig": 1690,
-        "stock": 100
-      },
-      {
-        "size": "S",
-        "color": "Light Yellow",
-        "sku": "GATHEREDCO-LIGHT-S",
-        "price": 1521,
-        "orig": 1690,
-        "stock": 100
-      },
-      {
-        "size": "M",
-        "color": "Light Yellow",
-        "sku": "GATHEREDCO-LIGHT-M",
-        "price": 1521,
-        "orig": 1690,
-        "stock": 100
-      },
-      {
-        "size": "L",
-        "color": "Light Yellow",
-        "sku": "GATHEREDCO-LIGHT-L",
-        "price": 1521,
-        "orig": 1690,
-        "stock": 100
-      },
-      {
-        "size": "XL",
-        "color": "Light Yellow",
-        "sku": "GATHEREDCO-LIGHT-XL",
-        "price": 1521,
-        "orig": 1690,
-        "stock": 100
-      },
-      {
-        "size": "XXL",
-        "color": "Light Yellow",
-        "sku": "GATHEREDCO-LIGHT-XXL",
-        "price": 1521,
-        "orig": 1690,
-        "stock": 100
-      }
-    ]
-  },
-  {
-    "id": 109,
-    "handle": "sheer-bodycon-dress-2085742",
-    "cat": "women",
-    "name": "Sheer Bodycon Dress",
-    "price": 1112,
-    "orig": 1390,
-    "sizes": [
-      "XS",
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "rating": 4.5,
-    "reviews": 100,
-    "desc": "Color: Black\nAvailable Sizes: XS, S, M, L, XL, XXL\nStylish Sheer Bodycon Dress. A must-have for every wardrobe — perfect for parties, evenings out, and special occasions.\n✓ 7 days easy return & exchange\n✓ Free shipping available\n✓ Delivery in 3-10 days\n✓ Cash on delivery available",
-    "badge": "SALE",
-    "images": [
-      "https://img201.savana.com/goods-pic/ec194a8796f641c5bb028ba248a48c70_w1440_q90",
-      "https://img201.savana.com/goods-pic/08d14cf54fed463788b24e0864898fe8_w1440_q90",
-      "https://img201.savana.com/goods-pic/417802a8dcd44a528fa3d14a659728d1_w1440_q90",
-      "https://img201.savana.com/goods-pic/9cfa58278597401488e5c3296e301b0d_w1440_q90",
-      "https://img201.savana.com/goods-pic/a8de6c67fb6449ab8da55e78bc30f162_w1440_q90"
-    ],
-    "variants": [
-      {
-        "size": "XS",
-        "color": "Black",
-        "sku": "SHEERBODYC-BLACK-XS",
-        "price": 1112,
-        "orig": 1390,
-        "stock": 100
-      },
-      {
-        "size": "S",
-        "color": "Black",
-        "sku": "SHEERBODYC-BLACK-S",
-        "price": 1112,
-        "orig": 1390,
-        "stock": 100
-      },
-      {
-        "size": "M",
-        "color": "Black",
-        "sku": "SHEERBODYC-BLACK-M",
-        "price": 1112,
-        "orig": 1390,
-        "stock": 100
-      },
-      {
-        "size": "L",
-        "color": "Black",
-        "sku": "SHEERBODYC-BLACK-L",
-        "price": 1112,
-        "orig": 1390,
-        "stock": 100
-      },
-      {
-        "size": "XL",
-        "color": "Black",
-        "sku": "SHEERBODYC-BLACK-XL",
-        "price": 1112,
-        "orig": 1390,
-        "stock": 100
-      },
-      {
-        "size": "XXL",
-        "color": "Black",
-        "sku": "SHEERBODYC-BLACK-XXL",
-        "price": 1112,
-        "orig": 1390,
-        "stock": 100
-      }
-    ]
-  },
-  {
-    "id": 110,
-    "handle": "backless-a-line-dress-2204932",
-    "cat": "women",
-    "name": "Backless A-Line Dress",
-    "price": 1272,
-    "orig": 1590,
-    "sizes": [
-      "XS",
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "rating": 4.2,
-    "reviews": 47,
-    "desc": "Color: Light Yellow\nAvailable Sizes: XS, S, M, L, XL, XXL\nStylish Backless A-Line Dress. A must-have for every wardrobe — perfect for parties, evenings out, and special occasions.\n✓ 7 days easy return & exchange\n✓ Free shipping available\n✓ Delivery in 3-10 days\n✓ Cash on delivery available",
-    "badge": "SALE",
-    "images": [
-      "https://img201.savana.com/goods-pic/022c74bf732a4dbbb6fd0e09b0af69ed_w1440_q90",
-      "https://img201.savana.com/goods-pic/fe591e36c284407b9ea37b5c02ea7d84_w1440_q90",
-      "https://img201.savana.com/goods-pic/96ef7fd9650b4bdca329c8d1fb297928_w1440_q90",
-      "https://img201.savana.com/goods-pic/d4eec4d6957048ceacb5a10c8306b0a5_w1440_q90",
-      "https://img201.savana.com/goods-pic/cbb0ea7c0cfa4ad596bd8dd5ee38b202_w1440_q90",
-      "https://img201.savana.com/goods-pic/823abb8038e14ec4931e9ba61c12fbca_w1440_q90",
-      "https://img201.savana.com/goods-pic/57d89314b80f488bbf2e595071c56614_w1440_q90",
-      "https://img201.savana.com/goods-pic/b72b341d04e845fe9429005167653e06_w1440_q90",
-      "https://img201.savana.com/goods-pic/b22fdeeccbf046ba91f312c4da9293a1_w1440_q90",
-      "https://img201.savana.com/goods-pic/a1736410b4ca4760aab2a154957540ae_w1440_q90"
-    ],
-    "variants": [
-      {
-        "size": "XS",
-        "color": "Light Yellow",
-        "sku": "BACKLESSAL-LIGHT-XS",
-        "price": 1272,
-        "orig": 1590,
-        "stock": 100
-      },
-      {
-        "size": "S",
-        "color": "Light Yellow",
-        "sku": "BACKLESSAL-LIGHT-S",
-        "price": 1272,
-        "orig": 1590,
-        "stock": 100
-      },
-      {
-        "size": "M",
-        "color": "Light Yellow",
-        "sku": "BACKLESSAL-LIGHT-M",
-        "price": 1272,
-        "orig": 1590,
-        "stock": 100
-      },
-      {
-        "size": "L",
-        "color": "Light Yellow",
-        "sku": "BACKLESSAL-LIGHT-L",
-        "price": 1272,
-        "orig": 1590,
-        "stock": 100
-      },
-      {
-        "size": "XL",
-        "color": "Light Yellow",
-        "sku": "BACKLESSAL-LIGHT-XL",
-        "price": 1272,
-        "orig": 1590,
-        "stock": 100
-      },
-      {
-        "size": "XXL",
-        "color": "Light Yellow",
-        "sku": "BACKLESSAL-LIGHT-XXL",
-        "price": 1272,
-        "orig": 1590,
-        "stock": 100
-      }
-    ]
-  },
-  {
-    "id": 111,
-    "handle": "sheer-cocktail-dress-2256092",
-    "cat": "women",
-    "name": "Sheer Cocktail Dress",
-    "price": 1436,
-    "orig": 1690,
-    "sizes": [
-      "XS",
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "rating": 4.1,
-    "reviews": 116,
-    "desc": "Color: Burgundy\nAvailable Sizes: XS, S, M, L, XL, XXL\nStylish Sheer Cocktail Dress. A must-have for every wardrobe — perfect for parties, evenings out, and special occasions.\n✓ 7 days easy return & exchange\n✓ Free shipping available\n✓ Delivery in 3-10 days\n✓ Cash on delivery available",
-    "badge": "SALE",
-    "images": [
-      "https://img201.savana.com/goods-pic/ee6758a4f7b94205b18de5982a05c026_w1440_q90",
-      "https://img201.savana.com/goods-pic/3ac66ff513ca4d91aa369196b4c7dae4_w1440_q90",
-      "https://img201.savana.com/goods-pic/75d909eaa5464eaab735eaa6a4a08d96_w1440_q90",
-      "https://img201.savana.com/goods-pic/328a8c254ee945e9835b9f54496bbabb_w1440_q90",
-      "https://img201.savana.com/goods-pic/318e5de2c4e947c29e95c76740c73b39_w1440_q90",
-      "https://img201.savana.com/goods-pic/c38f954d7db64cee8e33839a82629dc1_w1440_q90",
-      "https://img201.savana.com/goods-pic/55e4169fa5614aaeb4c39c4a50597da9_w1440_q90",
-      "https://img201.savana.com/goods-pic/3a49dc121c09433c8cc2d2bdd4f6a477_w1440_q90",
-      "https://img201.savana.com/goods-pic/e436a6c06453421d93afa4f7931b6e86_w1440_q90",
-      "https://img201.savana.com/goods-pic/c442be45c1944aa1881e374ec3d345da_w1440_q90"
-    ],
-    "variants": [
-      {
-        "size": "XS",
-        "color": "Burgundy",
-        "sku": "SHEERCOCKT-BURGU-XS",
-        "price": 1436,
-        "orig": 1690,
-        "stock": 100
-      },
-      {
-        "size": "S",
-        "color": "Burgundy",
-        "sku": "SHEERCOCKT-BURGU-S",
-        "price": 1436,
-        "orig": 1690,
-        "stock": 100
-      },
-      {
-        "size": "M",
-        "color": "Burgundy",
-        "sku": "SHEERCOCKT-BURGU-M",
-        "price": 1436,
-        "orig": 1690,
-        "stock": 100
-      },
-      {
-        "size": "L",
-        "color": "Burgundy",
-        "sku": "SHEERCOCKT-BURGU-L",
-        "price": 1436,
-        "orig": 1690,
-        "stock": 100
-      },
-      {
-        "size": "XL",
-        "color": "Burgundy",
-        "sku": "SHEERCOCKT-BURGU-XL",
-        "price": 1436,
-        "orig": 1690,
-        "stock": 100
-      },
-      {
-        "size": "XXL",
-        "color": "Burgundy",
-        "sku": "SHEERCOCKT-BURGU-XXL",
-        "price": 1436,
-        "orig": 1690,
-        "stock": 100
-      }
-    ]
-  },
-  {
-    "id": 112,
-    "handle": "sheer-a-line-dress-2319832",
-    "cat": "women",
-    "name": "Sheer A-Line Dress",
-    "price": 1490,
-    "orig": 0,
-    "sizes": [
-      "XS",
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "rating": 4.9,
-    "reviews": 154,
-    "desc": "Color: Pink\nAvailable Sizes: XS, S, M, L, XL, XXL\nStylish Sheer A-Line Dress. A must-have for every wardrobe — perfect for parties, evenings out, and special occasions.\n✓ 7 days easy return & exchange\n✓ Free shipping available\n✓ Delivery in 3-10 days\n✓ Cash on delivery available",
-    "badge": "NEW",
-    "images": [
-      "https://img201.savana.com/goods-pic/56a7f7d501ca446983b110869a109155_w1440_q90",
-      "https://img201.savana.com/goods-pic/c4a51dbf05c6482389ae644fa7ea699b_w1440_q90",
-      "https://img201.savana.com/goods-pic/50d4d35bca10499c8db22f10ed37f76b_w1440_q90",
-      "https://img201.savana.com/goods-pic/0b68ed2b9adb40c0b01b9dd2a82ceb19_w1440_q90",
-      "https://img201.savana.com/goods-pic/677cd68df7f0421a9f1a48b33e9e0772_w1440_q90"
-    ],
-    "variants": [
-      {
-        "size": "XS",
-        "color": "Pink",
-        "sku": "SHEERALINE-PINK-XS",
-        "price": 1490,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "S",
-        "color": "Pink",
-        "sku": "SHEERALINE-PINK-S",
-        "price": 1490,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "M",
-        "color": "Pink",
-        "sku": "SHEERALINE-PINK-M",
-        "price": 1490,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "L",
-        "color": "Pink",
-        "sku": "SHEERALINE-PINK-L",
-        "price": 1490,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "XL",
-        "color": "Pink",
-        "sku": "SHEERALINE-PINK-XL",
-        "price": 1490,
-        "orig": 0,
-        "stock": 100
-      },
-      {
-        "size": "XXL",
-        "color": "Pink",
-        "sku": "SHEERALINE-PINK-XXL",
-        "price": 1490,
-        "orig": 0,
-        "stock": 100
-      }
-    ]
-  },
-  {
-    "id": 113,
-    "handle": "ruffle-bodycon-dress-1955962",
-    "cat": "women",
-    "name": "Ruffle Bodycon Dress",
-    "price": 1341,
-    "orig": 1490,
-    "sizes": [
-      "XS"
-    ],
-    "rating": 4.1,
-    "reviews": 196,
-    "desc": "Color: Beige\nAvailable Sizes: XS, S, M, L, XL, XXL\nStylish Ruffle Bodycon Dress. A must-have for every wardrobe — perfect for parties, evenings out, and special occasions.\n✓ 7 days easy return & exchange\n✓ Free shipping available\n✓ Delivery in 3-10 days\n✓ Cash on delivery available",
-    "badge": "SALE",
-    "images": [
-      "https://img201.savana.com/goods-pic/a67db3244ae4432783d0df84b5016ced_w1440_q90"
-    ],
-    "variants": [
-      {
-        "size": "XS",
-        "color": "Beige",
-        "sku": "RUFFLEBODY-BEIGE-XS",
-        "price": 1341,
-        "orig": 1490,
-        "stock": 100
-      }
-    ]
-  },
+  // Existing Staples
+  { id: 1, cat: 'men', name: 'Classic Oxford Shirt', price: 899, orig: 1499, sizes: ['S', 'M', 'L', 'XL', 'XXL'], rating: 4.5, reviews: 89, desc: 'Premium cotton Oxford shirt with a relaxed fit. Perfect for office and casual wear.', badge: 'SALE', images: ['https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?q=80&w=800&auto=format&fit=crop'] },
+  { id: 2, cat: 'men', name: 'Slim Fit Chinos', price: 1199, orig: 1899, sizes: ['28', '30', '32', '34', '36'], rating: 4.3, reviews: 64, desc: 'Stretch chinos with a modern slim fit. Wrinkle-resistant fabric, all-day comfort.', badge: 'SALE', images: ['https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=800&auto=format&fit=crop'] },
+  { id: 21, cat: 'electronics', name: 'Wireless Earbuds Pro', price: 1299, orig: 2499, sizes: ['ONE SIZE'], rating: 4.6, reviews: 567, desc: 'True wireless earbuds with 30-hour battery, active noise cancellation, IPX5 water resistance.', badge: 'SALE', images: ['https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=800&auto=format&fit=crop'] },
+  { id: 22, cat: 'electronics', name: 'Smart Watch Series 5', price: 2499, orig: 4999, sizes: ['ONE SIZE'], rating: 4.5, reviews: 389, desc: 'Fitness smartwatch with heart rate monitor, SpO2, GPS, 7-day battery life.', badge: 'SALE', images: ['https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=800&auto=format&fit=crop'] },
+  { id: 27, cat: 'electronics', name: 'Mechanical Keyboard', price: 2999, orig: 4499, sizes: ['ONE SIZE'], rating: 4.8, reviews: 234, desc: 'Compact 75% mechanical keyboard with RGB backlight, tactile switches.', badge: 'SALE', images: ['https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?q=80&w=800&auto=format&fit=crop'] }
 ];
 
 export const BLOG_POSTS: BlogPost[] = [
-  {id:1,cat:'STYLE GUIDE',title:'10 Must-Have Pieces for Your Summer Wardrobe',excerpt:'From breezy kurtas to chic co-ords — here are the 10 essentials you need this summer.',date:'July 28, 2026',emoji:'👗'},
-  {id:2,cat:'MENSWEAR',title:'How to Style a White Shirt 5 Different Ways',excerpt:'The white shirt is the ultimate wardrobe staple. Here\'s how to wear it for every occasion.',date:'July 22, 2026',emoji:'👔'},
-  {id:3,cat:'TECH',title:'Best Budget Earbuds Under ₹1500 in India 2026',excerpt:'True wireless sound on a budget — our top picks for the best earbuds this year.',date:'July 15, 2026',emoji:'🎧'},
-  {id:4,cat:'FASHION TIPS',title:'The Ultimate Guide to Indian Ethnic Wear',excerpt:'From kurtis to sarees — a complete guide to dressing in Indian ethnic fashion.',date:'July 8, 2026',emoji:'🪷'},
-  {id:5,cat:'LIFESTYLE',title:'Building Your Capsule Wardrobe for Indian Weather',excerpt:'Smart, minimal, versatile — build a wardrobe that works year-round in India.',date:'June 30, 2026',emoji:'👚'},
-  {id:6,cat:'TECH',title:'Smart Gadgets That Will Change Your Daily Routine',excerpt:'From smartwatches to desk lamps — the best gadgets to upgrade your lifestyle.',date:'June 20, 2026',emoji:'💡'},
+  { id: 1, cat: 'STYLE GUIDE', title: '10 Essential Wardrobe Staples for Summer 2026', excerpt: 'Build a versatile, timeless wardrobe with these must-have pieces that transition effortlessly.', date: 'JUNE 15, 2026', emoji: '☀️' },
+  { id: 2, cat: 'DENIM', title: 'The Ultimate Denim Fit Guide: Wide Leg vs Skinny', excerpt: 'Everything you need to know about finding the perfect pair of jeans for your body type.', date: 'JUNE 10, 2026', emoji: '👖' },
+  { id: 3, cat: 'TECH', title: 'Top Wearable Tech Trends You Need to Know', excerpt: 'How smartwatches and wireless audio are reshaping daily convenience and fitness tracking.', date: 'MAY 28, 2026', emoji: '⌚' }
 ];

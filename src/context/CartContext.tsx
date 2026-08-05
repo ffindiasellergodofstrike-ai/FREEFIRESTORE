@@ -6,15 +6,16 @@ export interface CartItem {
   id: number;
   name: string;
   price: number;
-  cat: 'men' | 'women' | 'electronics';
+  cat: 'men' | 'women' | 'kids' | 'electronics' | 'accessories';
   size: string;
+  color?: string;
   qty: number;
   image?: string;
 }
 
 interface CartContextType {
   cart: CartItem[];
-  addToCart: (product: any, size?: string, qty?: number) => void;
+  addToCart: (product: any, size?: string, qty?: number, color?: string, customImage?: string) => void;
   updateQty: (key: string, delta: number) => void;
   removeFromCart: (key: string) => void;
   clearCart: () => void;
@@ -44,9 +45,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch (e) {}
   }, [cart]);
 
-  const addToCart = (product: any, size?: string, qty: number = 1) => {
+  const addToCart = (product: any, size?: string, qty: number = 1, color?: string, customImage?: string) => {
     const selectedSize = size || (product.sizes && product.sizes[0]) || 'ONE SIZE';
-    const itemKey = `${product.id}-${selectedSize}`;
+    const selectedColor = color || '';
+    const itemKey = `${product.id}-${selectedSize}-${selectedColor}`;
+
+    const chosenImage = customImage || (product.images && product.images.length > 0 ? product.images[0] : undefined);
 
     setCart(prev => {
       const existing = prev.find(item => item.key === itemKey);
@@ -60,12 +64,13 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return [...prev, { 
         key: itemKey,
         id: product.id, 
-        name: product.name, 
+        name: selectedColor ? `${product.name} (${selectedColor})` : product.name, 
         price: product.price, 
         cat: product.cat,
         size: selectedSize, 
+        color: selectedColor,
         qty: qty,
-        image: product.images && product.images.length > 0 ? product.images[0] : undefined
+        image: chosenImage
       }];
     });
 

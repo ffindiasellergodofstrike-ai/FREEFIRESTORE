@@ -4,6 +4,7 @@ import { createServer as createViteServer } from "vite";
 import generateHashHandler from "./api/payu/generate-hash";
 import callbackHandler from "./api/payu/callback";
 import callbackGkHandler from "./api/payu/callback-gk";
+import initiatePaymentHandler from "./api/initiate-payment.js";
 
 async function runServer() {
   const app = express();
@@ -14,6 +15,14 @@ async function runServer() {
   app.use(express.urlencoded({ extended: true }));
 
   // PayU endpoints
+  app.post("/api/initiate-payment", async (req, res, next) => {
+    try {
+      await initiatePaymentHandler(req, res);
+    } catch (err) {
+      next(err);
+    }
+  });
+
   app.post("/api/payu/generate-hash", async (req, res, next) => {
     try {
       await generateHashHandler(req, res);

@@ -13,17 +13,40 @@ export default function ProductDetail() {
 
   const product = products.find(p => p.id === Number(id));
 
+  // Determine available colors
+  const availableColors = product?.colors && product.colors.length > 0 
+    ? product.colors 
+    : Array.from(new Set(product?.variants?.map(v => v.color).filter(Boolean) as string[] || []));
+
+  const [selectedColor, setSelectedColor] = useState<string>('');
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [qty, setQty] = useState<number>(1);
   const [activeThumb, setActiveThumb] = useState<number>(1);
 
   // Reset page state and scroll to top smoothly when product changes
   useEffect(() => {
+    const defaultColor = availableColors[0] || '';
+    setSelectedColor(defaultColor);
     setSelectedSize('');
     setQty(1);
     setActiveThumb(1);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [id]);
+  }, [id, product]);
+
+  // Determine images to display: ONLY images for the selected color variant
+  const getDisplayedImages = (): string[] => {
+    if (!product) return [];
+    if (selectedColor && product.variantImages && product.variantImages[selectedColor] && product.variantImages[selectedColor].length > 0) {
+      return product.variantImages[selectedColor];
+    }
+    const colorVariant = product.variants?.find(v => v.color === selectedColor);
+    if (colorVariant?.image) {
+      return [colorVariant.image];
+    }
+    return product.images || [];
+  };
+
+  const displayedImages = getDisplayedImages();
 
   const optimizeUnsplash = (url: string, width: number, quality: number = 80) => {
     if (!url) return url;
@@ -35,25 +58,25 @@ export default function ProductDetail() {
   };
 
   const nextSlide = () => {
-    if (product?.images && product.images.length > 0) {
-      setActiveThumb(prev => (prev >= product.images.length ? 1 : prev + 1));
+    if (displayedImages && displayedImages.length > 0) {
+      setActiveThumb(prev => (prev >= displayedImages.length ? 1 : prev + 1));
     }
   };
 
   const prevSlide = () => {
-    if (product?.images && product.images.length > 0) {
-      setActiveThumb(prev => (prev <= 1 ? product.images.length : prev - 1));
+    if (displayedImages && displayedImages.length > 0) {
+      setActiveThumb(prev => (prev <= 1 ? displayedImages.length : prev - 1));
     }
   };
 
   // Auto-slide effect
   useEffect(() => {
-    if (!product || !product.images || product.images.length <= 1) return;
+    if (!displayedImages || displayedImages.length <= 1) return;
     const timer = setInterval(() => {
       nextSlide();
     }, 4000);
     return () => clearInterval(timer);
-  }, [product, activeThumb]);
+  }, [displayedImages, activeThumb]);
 
   // Touch Swipe Handlers
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
@@ -105,7 +128,8 @@ export default function ProductDetail() {
       return;
     }
     const size = selectedSize || product.sizes[0];
-    addToCart(product, size, qty);
+    const customImage = displayedImages && displayedImages.length > 0 ? displayedImages[0] : undefined;
+    addToCart(product, size, qty, selectedColor, customImage);
   };
 
   const handleBuyNow = () => {
@@ -114,7 +138,8 @@ export default function ProductDetail() {
       return;
     }
     const size = selectedSize || product.sizes[0];
-    navigate('/checkout', { state: { product, size, qty } });
+    const customImage = displayedImages && displayedImages.length > 0 ? displayedImages[0] : undefined;
+    navigate('/checkout', { state: { product, size, qty, color: selectedColor, customImage } });
   };
 
   return (
@@ -143,15 +168,15 @@ export default function ProductDetail() {
               onTouchEnd={handleTouchEnd}
               style={{ position: 'relative', cursor: 'grab', userSelect: 'none', overflow: 'hidden' }}
             >
-              {product.images && product.images.length > 0 ? (
+              {displayedImages && displayedImages.length > 0 ? (
                 <>
                   <img 
-                    src={optimizeUnsplash(product.images[Math.min(activeThumb - 1, product.images.length - 1)], 600, 85)} 
-                    alt={product.name} 
+                    src={optimizeUnsplash(displayedImages[Math.min(activeThumb - 1, displayedImages.length - 1)], 600, 85)} 
+                    alt={`${product.name} ${selectedColor}`} 
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     referrerPolicy="no-referrer"
                   />
-                  {product.images.length > 1 && (
+                  {displayedImages.length > 1 && (
                     <>
                       <button 
                         onClick={(e) => { e.preventDefault(); e.stopPropagation(); prevSlide(); }} 
@@ -172,7 +197,7 @@ export default function ProductDetail() {
                       
                       {/* Dots indicators inside image */}
                       <div className="gallery-dots">
-                        {product.images.map((_, idx) => (
+                        {displayedImages.map((_, idx) => (
                           <span 
                             key={idx} 
                             className={`gallery-dot ${activeThumb === idx + 1 ? 'active' : ''}`}
@@ -192,8 +217,8 @@ export default function ProductDetail() {
             </div>
             
             <div className="pd-thumbs" id="pdThumbs" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-              {product.images && product.images.length > 0 ? (
-                product.images.map((imgUrl, i) => (
+              {displayedImages && displayedImages.length > 0 ? (
+                displayedImages.map((imgUrl, i) => (
                   <div 
                     key={i}
                     className={`pd-thumb ${activeThumb === i + 1 ? 'active' : ''}`} 
@@ -238,6 +263,43 @@ export default function ProductDetail() {
             </div>
 
             <p className="pd-desc" id="pdDesc">{product.desc}</p>
+
+            {/* Color Selector */}
+            {availableColors.length > 0 && (
+              <div style={{ marginBottom: '20px' }}>
+                <div className="pd-section-label">
+                  COLOR: <span style={{ color: 'var(--dark)', fontWeight: 700 }}>{selectedColor || availableColors[0]}</span>
+                </div>
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                  {availableColors.map(color => (
+                    <button
+                      key={color}
+                      type="button"
+                      className={`color-btn ${selectedColor === color ? 'active' : ''}`}
+                      onClick={() => {
+                        setSelectedColor(color);
+                        setActiveThumb(1);
+                      }}
+                      style={{
+                        padding: '8px 16px',
+                        fontSize: '12px',
+                        fontWeight: 700,
+                        letterSpacing: '0.5px',
+                        borderRadius: '4px',
+                        border: selectedColor === color ? '2px solid #000' : '1px solid #ddd',
+                        background: selectedColor === color ? '#000' : '#fff',
+                        color: selectedColor === color ? '#fff' : '#222',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        textTransform: 'uppercase'
+                      }}
+                    >
+                      {color}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div className="pd-section-label">SELECT SIZE</div>
             <div className="size-grid" id="pdSizes">

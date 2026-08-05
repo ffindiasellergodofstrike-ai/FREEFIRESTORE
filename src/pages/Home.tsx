@@ -102,7 +102,7 @@ export default function Home() {
             <div className="bubble-item" onClick={() => handleCategoryClick('men')} id="category-men">
               <div className="bubble-img-wrapper">
                 <img 
-                  src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=300&auto=format&fit=crop" 
+                  src="https://cms.landmarkshops.in/MAX-Friday/MAX2.O/MAX-Dept-Nav-Men-08JUN26.png" 
                   alt="Men" 
                   referrerPolicy="no-referrer"
                   loading="lazy"
@@ -114,7 +114,7 @@ export default function Home() {
             <div className="bubble-item" onClick={() => handleCategoryClick('women')} id="category-women">
               <div className="bubble-img-wrapper">
                 <img 
-                  src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=300&auto=format&fit=crop" 
+                  src="https://cms.landmarkshops.in/MAX-Friday/MAX2.O/MAX-Dept-Nav-Women-08JUN26.png" 
                   alt="Women" 
                   referrerPolicy="no-referrer"
                   loading="lazy"
@@ -126,7 +126,7 @@ export default function Home() {
             <div className="bubble-item" onClick={() => handleCategoryClick('electronics')} id="category-electronics">
               <div className="bubble-img-wrapper">
                 <img 
-                  src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=300&auto=format&fit=crop" 
+                  src="https://i.ibb.co/XkLx5j6v/ELECTRONICS-ACCESSORIES.png" 
                   alt="Electronics & Accessories" 
                   referrerPolicy="no-referrer"
                   loading="lazy"

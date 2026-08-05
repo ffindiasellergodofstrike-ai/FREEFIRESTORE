@@ -7,6 +7,7 @@ import { ProductProvider } from './context/ProductContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import ImagePreloader from './components/ImagePreloader';
 
 import Home from './pages/Home';
 import Collection from './pages/Collection';
@@ -29,7 +30,7 @@ import NotFound from './pages/NotFound';
 
 function StoreLayout() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--clr-bg)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh'}}>
       <Navbar />
       <main style={{ flex: 1 }}>
         <Routes>
@@ -66,6 +67,7 @@ export default function App() {
           <Router>
             <Toaster position="top-center" richColors />
             <ScrollToTop />
+            <ImagePreloader />
             <StoreLayout />
           </Router>
         </ProductProvider>

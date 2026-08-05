@@ -62,10 +62,9 @@ export default function Checkout() {
     }
   }, [user, directProduct]);
 
-  const [paymentType, setPaymentType] = useState<'payu' | 'pod'>('pod');
+  const [paymentType, setPaymentType] = useState<'easebuzz' | 'pod'>('easebuzz');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [showOnlinePaymentNotice, setShowOnlinePaymentNotice] = useState(false);
 
   useEffect(() => {
     if (statusParam === 'success') {
@@ -107,17 +106,71 @@ export default function Checkout() {
     }
 
     setIsProcessing(true);
-    toast.loading('Securing order details...');
     
     try {
       const orderNumber = Math.floor(Math.random() * 900000) + 100000;
       
-      if (paymentType === 'payu') {
-        setIsProcessing(false);
-        setShowOnlinePaymentNotice(true);
-        toast.dismiss();
+      if (paymentType === 'easebuzz') {
+        toast.loading('Initiating Easebuzz payment gateway...');
+        const txnid = `TXN${orderNumber}${Date.now().toString().slice(-4)}`;
+
+        // Check if Easebuzz Checkout SDK helper is available
+        if (typeof (window as any).startEasebuzzPayment !== 'function') {
+          await new Promise<void>((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = '/easebuzz-checkout.js';
+            script.onload = () => resolve();
+            script.onerror = () => reject(new Error('Could not load Easebuzz checkout script.'));
+            document.head.appendChild(script);
+          });
+        }
+
+        const productinfo = checkoutItems.map(item => item.name).join(', ').substring(0, 50) || 'Garena Store Purchase';
+
+        (window as any).startEasebuzzPayment({
+          txnid,
+          amount: grandTotal.toFixed(2),
+          productinfo,
+          firstname: formData.firstName,
+          email: formData.email,
+          phone: formData.phone,
+          surl: `${window.location.origin}/checkout?status=success`,
+          furl: `${window.location.origin}/checkout?status=failure`,
+          onSuccess: async (response: any) => {
+            if (db) {
+              try {
+                await addDoc(collection(db, 'orders'), {
+                  userId: user?.uid || user?.email || 'guest',
+                  userEmail: formData.email,
+                  items: checkoutItems,
+                  total: grandTotal,
+                  status: 'Paid',
+                  paymentMethod: 'Easebuzz Gateway',
+                  easebuzzPayId: response?.easepayid || response?.txnid || txnid,
+                  shippingAddress: formData,
+                  orderNumber,
+                  createdAt: new Date().toISOString()
+                });
+              } catch (err) {
+                console.error('Firestore write notice:', err);
+              }
+            }
+            setIsProcessing(false);
+            setIsSuccess(true);
+            if (!directProduct) clearCart();
+            toast.dismiss();
+            toast.success('Easebuzz Payment Successful! Order confirmed.');
+          },
+          onFailure: (response: any) => {
+            setIsProcessing(false);
+            toast.dismiss();
+            toast.error(response?.error || response?.result || 'Payment was cancelled or failed.');
+          }
+        });
+
         return;
       } else {
+        toast.loading('Securing order details...');
         if (db) {
           try {
             await addDoc(collection(db, 'orders'), {
@@ -126,6 +179,7 @@ export default function Checkout() {
               items: checkoutItems,
               total: grandTotal,
               status: 'Order Placed',
+              paymentMethod: 'Cash / Pay on Delivery (COD)',
               shippingAddress: formData,
               orderNumber,
               createdAt: new Date().toISOString()
@@ -530,8 +584,36 @@ export default function Checkout() {
                       alignItems: 'center',
                       gap: '12px',
                       padding: '16px',
-                      border: '2px solid var(--dark)',
-                      background: '#fcfcfc',
+                      border: paymentType === 'easebuzz' ? '2px solid var(--dark)' : '1px solid var(--border)',
+                      background: paymentType === 'easebuzz' ? '#fcfcfc' : '#ffffff',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <input 
+                      type="radio" 
+                      name="paymentType" 
+                      value="easebuzz" 
+                      checked={paymentType === 'easebuzz'}
+                      onChange={() => setPaymentType('easebuzz')}
+                    />
+                    <div>
+                      <strong style={{ display: 'block', fontSize: '14px', color: 'var(--dark)' }}>
+                        ONLINE PAYMENT (EASEBUZZ - UPI / CREDIT & DEBIT CARDS / NETBANKING)
+                      </strong>
+                      <span style={{ fontSize: '12px', color: 'var(--gray)' }}>
+                        Fast & secure online payment powered by Easebuzz Gateway
+                      </span>
+                    </div>
+                  </label>
+
+                  <label 
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      padding: '16px',
+                      border: paymentType === 'pod' ? '2px solid var(--dark)' : '1px solid var(--border)',
+                      background: paymentType === 'pod' ? '#fcfcfc' : '#ffffff',
                       cursor: 'pointer'
                     }}
                   >
@@ -543,28 +625,12 @@ export default function Checkout() {
                       onChange={() => setPaymentType('pod')}
                     />
                     <div>
-                      <strong style={{ display: 'block', fontSize: '14px', color: 'var(--dark)' }}>CASH / PAY ON DELIVERY (COD)</strong>
-                      <span style={{ fontSize: '12px', color: 'var(--gray)' }}>Pay via Cash, UPI, or Card upon delivery</span>
-                    </div>
-                  </label>
-
-                  <label 
-                    onClick={() => setShowOnlinePaymentNotice(true)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                      padding: '16px',
-                      border: '1px solid var(--border)',
-                      background: '#f9fafb',
-                      cursor: 'pointer',
-                      opacity: 0.7
-                    }}
-                  >
-                    <input type="radio" disabled name="paymentType" value="payu" />
-                    <div>
-                      <strong style={{ display: 'block', fontSize: '14px', color: '#999' }}>ONLINE PAYMENT (UPI / CARDS)</strong>
-                      <span style={{ fontSize: '12px', color: '#aaa' }}>Currently paused (use Cash on Delivery)</span>
+                      <strong style={{ display: 'block', fontSize: '14px', color: 'var(--dark)' }}>
+                        CASH / PAY ON DELIVERY (COD)
+                      </strong>
+                      <span style={{ fontSize: '12px', color: 'var(--gray)' }}>
+                        Pay via Cash, UPI, or Card upon delivery
+                      </span>
                     </div>
                   </label>
                 </div>
@@ -575,7 +641,12 @@ export default function Checkout() {
                 disabled={isProcessing}
                 className="btn btn-black btn-full btn-lg"
               >
-                {isProcessing ? 'PLACING SECURE ORDER...' : `SECURE MY ORDER (${fmt(grandTotal)})`}
+                {isProcessing 
+                  ? 'PROCESSING SECURE PAYMENT...' 
+                  : paymentType === 'easebuzz' 
+                    ? `PAY NOW VIA EASEBUZZ (${fmt(grandTotal)})` 
+                    : `PLACE COD ORDER (${fmt(grandTotal)})`
+                }
               </button>
             </form>
           </div>
@@ -627,20 +698,6 @@ export default function Checkout() {
           </div>
         </div>
       </div>
-
-      {showOnlinePaymentNotice && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
-          <div style={{ background: '#fff', padding: '32px', borderRadius: '0', border: '2px solid var(--dark)', maxWidth: '400px', width: '100%', textAlign: 'center' }}>
-            <h3 style={{ fontSize: '16px', fontFamily: 'var(--font-h)', fontWeight: 700, letterSpacing: '1px', marginBottom: '12px' }}>ONLINE PAYMENT NOTICE</h3>
-            <p style={{ fontSize: '14px', color: 'var(--gray)', lineHeight: 1.6, marginBottom: '24px' }}>
-              Online prepaid transactions are temporarily offline. Please select Cash on Delivery (COD) to place your order. Garena Store offers free delivery and easy checkout for all COD orders!
-            </p>
-            <button className="btn btn-black btn-full" onClick={() => setShowOnlinePaymentNotice(false)}>
-              CONTINUE WITH CASH ON DELIVERY
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

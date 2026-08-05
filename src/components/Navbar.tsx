@@ -128,6 +128,7 @@ export default function Navbar() {
                 <div className="dropdown">
                   <Link to="/collections/men">MEN</Link>
                   <Link to="/collections/women">WOMEN</Link>
+                  <Link to="/collections/kids">KIDS</Link>
                   <Link to="/collections/electronics">ELECTRONICS & ACCESSORIES</Link>
                 </div>
               </div>

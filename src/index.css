@@ -21,7 +21,7 @@
 /* ============ RESET ============ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; overflow-x: hidden; width: 100%; }
-body { font-family: var(--font-b); background: var(--bg); color: var(--dark); line-height: 1.6; overflow-x: hidden; width: 100%; }
+body { font-family: var(--font-b); background: var(--white); color: var(--dark); line-height: 1.6; overflow-x: hidden; width: 100%; }
 h1,h2,h3,h4,h5,h6 { font-family: var(--font-h); font-weight: 800; color: var(--dark); }
 a { color: inherit; text-decoration: none; }
 ul { list-style: none; }
@@ -825,11 +825,14 @@ textarea.form-input { resize:vertical; min-height:120px; }
     padding: 12px 10px;
   }
   .bubbles-container {
-    gap: 20px;
+    gap: 16px;
+    flex-wrap: nowrap;
+    justify-content: center;
+    padding: 0;
   }
   .bubble-img-wrapper {
-    width: 85px;
-    height: 85px;
+    width: 80px;
+    height: 80px;
   }
   .bubble-title {
     font-size: 11px;
