@@ -7,9 +7,9 @@ export default function PrivacyPolicy() {
       <div className="breadcrumb">
         <div className="container">
           <div className="breadcrumb-inner">
-            <Link to="/">HOME</Link>
+            <Link to="/">Home</Link>
             <span className="sep">/</span>
-            <span className="curr">PRIVACY POLICY</span>
+            <span className="curr">Privacy Policy</span>
           </div>
         </div>
       </div>

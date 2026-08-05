@@ -24,8 +24,10 @@ export default function Contact() {
   return (
     <div id="contact-page-root">
       <div className="page-hero">
-        <h1>CONTACT US</h1>
-        <p>WE'D LOVE TO HEAR FROM YOU</p>
+        <div className="container">
+          <h1>Contact Us</h1>
+          <p>We'd love to hear from you</p>
+        </div>
       </div>
 
       <div className="container">

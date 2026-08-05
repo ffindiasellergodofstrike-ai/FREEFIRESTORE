@@ -8,8 +8,10 @@ export default function Blog() {
   return (
     <div id="blog-page-root">
       <div className="page-hero">
-        <h1>STYLE JOURNAL</h1>
-        <p>FASHION TIPS · TRENDS · INSPIRATION</p>
+        <div className="container">
+          <h1>Style Journal</h1>
+          <p>Fashion tips, trends & inspiration</p>
+        </div>
       </div>
 
       <div className="container">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Product } from '../data/products';
 import { useProducts } from '../context/ProductContext';
 
@@ -8,24 +8,27 @@ export default function Collection() {
   const navigate = useNavigate();
   const { products } = useProducts();
 
+  const isElecAcc = (c?: string) => c === 'electronics' || c === 'accessories' || c === 'electronics-accessories';
+
   const [selectedCats, setSelectedCats] = useState<Record<string, boolean>>({
     men: category === 'men' || category === 'all',
     women: category === 'women' || category === 'all',
     kids: category === 'kids' || category === 'all',
-    electronics: category === 'electronics' || category === 'all',
-    accessories: category === 'accessories' || category === 'all',
+    electronics: isElecAcc(category) || category === 'all',
+    accessories: isElecAcc(category) || category === 'all',
   });
 
   const [priceRange, setPriceRange] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('FEATURED');
 
   useEffect(() => {
+    const elecAcc = isElecAcc(category);
     setSelectedCats({
       men: category === 'men' || category === 'all',
       women: category === 'women' || category === 'all',
       kids: category === 'kids' || category === 'all',
-      electronics: category === 'electronics' || category === 'all',
-      accessories: category === 'accessories' || category === 'all',
+      electronics: elecAcc || category === 'all',
+      accessories: elecAcc || category === 'all',
     });
   }, [category]);
 
@@ -41,8 +44,8 @@ export default function Collection() {
 
   // Get current products with filters and sorting
   const filteredProducts = products.filter(p => {
-    // Category filter
-    const isCatSelected = selectedCats[p.cat];
+    // Category filter: check if product's category is selected
+    const isCatSelected = selectedCats[p.cat] || (p.cat === 'accessories' && selectedCats.electronics) || (p.cat === 'electronics' && selectedCats.accessories);
     if (!isCatSelected) return false;
 
     // Price filter
@@ -63,16 +66,16 @@ export default function Collection() {
   });
 
   const pageTitle = category === 'all' 
-    ? 'SHOP ALL' 
+    ? 'All Products' 
     : category === 'men' 
-      ? "MEN'S COLLECTION" 
+      ? "Men's Collection" 
       : category === 'women' 
-        ? "WOMEN'S ELEGANCE" 
+        ? "Women's Collection" 
         : category === 'kids'
-          ? "KIDS' COLLECTION"
-          : 'ELECTRONICS & ACCESSORIES';
+          ? "Kids' Collection"
+          : 'Electronics & Accessories';
 
-  const productCountText = `${filteredProducts.length} PRODUCTS`;
+  const productCountText = `${filteredProducts.length} ${filteredProducts.length === 1 ? 'product' : 'products'} available`;
 
   const renderProductCard = (p: Product) => {
     const disc = p.orig ? Math.round(((p.orig - p.price) / p.orig) * 100) : 0;
@@ -122,10 +125,23 @@ export default function Collection() {
 
   return (
     <div id="collection-page-root">
-      {/* Page Hero Banner */}
+      {/* Breadcrumb */}
+      <nav className="breadcrumb">
+        <div className="container">
+          <div className="breadcrumb-inner">
+            <Link to="/">Home</Link>
+            <span className="sep">/</span>
+            <span className="curr">{pageTitle}</span>
+          </div>
+        </div>
+      </nav>
+
+      {/* Page Header */}
       <div className="page-hero">
-        <h1>{pageTitle}</h1>
-        <p>{productCountText} — MEN · WOMEN · KIDS · ELECTRONICS & ACCESSORIES</p>
+        <div className="container">
+          <h1>{pageTitle}</h1>
+          <p>{productCountText}</p>
+        </div>
       </div>
 
       <div className="container">
@@ -166,8 +182,15 @@ export default function Collection() {
                 <input 
                   type="checkbox" 
                   id="f-elec" 
-                  checked={selectedCats.electronics} 
-                  onChange={() => handleCatCheckboxChange('electronics')}
+                  checked={selectedCats.electronics || selectedCats.accessories} 
+                  onChange={() => {
+                    const nextVal = !(selectedCats.electronics && selectedCats.accessories);
+                    setSelectedCats(prev => ({
+                      ...prev,
+                      electronics: nextVal,
+                      accessories: nextVal,
+                    }));
+                  }}
                 />
                 <label htmlFor="f-elec">Electronics & Accessories ({products.filter(p => p.cat === 'electronics' || p.cat === 'accessories').length})</label>
               </div>

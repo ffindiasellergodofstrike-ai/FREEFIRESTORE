@@ -7,9 +7,9 @@ export default function ShippingPolicy() {
       <div className="breadcrumb">
         <div className="container">
           <div className="breadcrumb-inner">
-            <Link to="/">HOME</Link>
+            <Link to="/">Home</Link>
             <span className="sep">/</span>
-            <span className="curr">SHIPPING POLICY</span>
+            <span className="curr">Shipping Policy</span>
           </div>
         </div>
       </div>

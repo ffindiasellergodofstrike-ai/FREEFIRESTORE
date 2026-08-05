@@ -7,9 +7,9 @@ export default function RefundPolicy() {
       <div className="breadcrumb">
         <div className="container">
           <div className="breadcrumb-inner">
-            <Link to="/">HOME</Link>
+            <Link to="/">Home</Link>
             <span className="sep">/</span>
-            <span className="curr">REFUND POLICY</span>
+            <span className="curr">Refund Policy</span>
           </div>
         </div>
       </div>

@@ -27,8 +27,10 @@ export default function Cart() {
   return (
     <div id="cart-page-root">
       <div className="page-hero">
-        <h1>YOUR BAG</h1>
-        <p id="cartPageSubtitle">{cartCount} ITEMS</p>
+        <div className="container">
+          <h1>Shopping Bag</h1>
+          <p id="cartPageSubtitle">{cartCount} {cartCount === 1 ? 'item' : 'items'} in your bag</p>
+        </div>
       </div>
 
       <div className="container" style={{ padding: '40px 20px 60px' }}>

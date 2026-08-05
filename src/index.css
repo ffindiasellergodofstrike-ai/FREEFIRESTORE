@@ -418,20 +418,77 @@ input, textarea, select { font-family: var(--font-b); }
 .cart-total-price { font-family:var(--font-h); font-size:20px; font-weight:900; color:var(--dark); }
 
 /* ============ BREADCRUMB ============ */
-.breadcrumb { padding: 14px 0; border-bottom: 1px solid var(--border); background: var(--white); }
-.breadcrumb-inner { display: flex; align-items: center; gap: 8px; font-family: var(--font-h); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); }
-.breadcrumb-inner a { color: var(--gray); }
-.breadcrumb-inner a:hover { color: var(--dark); }
-.breadcrumb-inner .sep { opacity: 0.4; }
-.breadcrumb-inner .curr { color: var(--dark); }
+.breadcrumb {
+  padding: 12px 0;
+  border-bottom: 1px solid #eef2f6;
+  background: #ffffff;
+}
+.breadcrumb-inner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-family: var(--font-b);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #64748b;
+}
+.breadcrumb-inner a {
+  color: #64748b;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.breadcrumb-inner a:hover {
+  color: #0f172a;
+  text-decoration: underline;
+}
+.breadcrumb-inner .sep {
+  color: #cbd5e1;
+  font-size: 11px;
+}
+.breadcrumb-inner .curr {
+  color: #0f172a;
+  font-weight: 500;
+  max-width: 480px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 /* ============ PAGE HERO BANNER ============ */
 .page-hero {
-  background: var(--dark); color: #fff;
-  padding: 48px 0; text-align: center;
+  background: #f8fafc;
+  color: #0f172a;
+  padding: 24px 0 28px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
 }
-.page-hero h1 { font-size: clamp(1.8rem,3vw,2.6rem); color: #fff; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; }
-.page-hero p  { opacity: 0.6; font-size: 14px; font-family: var(--font-h); letter-spacing: 1.5px; text-transform: uppercase; }
+.page-hero .container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.page-hero h1 {
+  font-size: clamp(1.4rem, 2.5vw, 1.875rem);
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.02em;
+  text-transform: none;
+  line-height: 1.25;
+}
+.page-hero p {
+  opacity: 1;
+  color: #64748b;
+  font-size: 13px;
+  font-family: var(--font-b);
+  letter-spacing: 0;
+  margin: 0;
+  text-transform: none;
+  font-weight: 400;
+}
 
 /* ============ COLLECTION PAGE FILTERS ============ */
 .shop-layout { display: grid; grid-template-columns: 220px 1fr; gap: 32px; padding: 40px 0 60px; }

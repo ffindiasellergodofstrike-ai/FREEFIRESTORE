@@ -438,8 +438,10 @@ export default function Checkout() {
       )}
 
       <div className="page-hero">
-        <h1>SECURE CHECKOUT</h1>
-        <p>COMPLETE YOUR PURCHASE SECURELY</p>
+        <div className="container">
+          <h1>Secure Checkout</h1>
+          <p>Complete your purchase securely</p>
+        </div>
       </div>
 
       <div className="container" style={{ padding: '40px 20px 60px' }}>

@@ -142,17 +142,25 @@ export default function ProductDetail() {
     navigate('/checkout', { state: { product, size, qty, color: selectedColor, customImage } });
   };
 
+  const getCategoryLabel = (cat: string) => {
+    if (cat === 'electronics' || cat === 'accessories') return 'Electronics & Accessories';
+    if (cat === 'men') return "Men's Collection";
+    if (cat === 'women') return "Women's Collection";
+    if (cat === 'kids') return "Kids' Collection";
+    return cat.charAt(0).toUpperCase() + cat.slice(1);
+  };
+
   return (
     <div id="product-detail-page-root">
       {/* Breadcrumb */}
       <nav className="breadcrumb">
         <div className="container">
           <div className="breadcrumb-inner">
-            <Link to="/">HOME</Link>
+            <Link to="/">Home</Link>
             <span className="sep">/</span>
-            <Link to={`/collections/${product.cat}`}>{product.cat.toUpperCase()}</Link>
+            <Link to={`/collections/${product.cat}`}>{getCategoryLabel(product.cat)}</Link>
             <span className="sep">/</span>
-            <span className="curr">{product.name}</span>
+            <span className="curr" title={product.name}>{product.name}</span>
           </div>
         </div>
       </nav>

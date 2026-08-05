@@ -7,9 +7,9 @@ export default function Terms() {
       <div className="breadcrumb">
         <div className="container">
           <div className="breadcrumb-inner">
-            <Link to="/">HOME</Link>
+            <Link to="/">Home</Link>
             <span className="sep">/</span>
-            <span className="curr">TERMS OF SERVICE</span>
+            <span className="curr">Terms of Service</span>
           </div>
         </div>
       </div>

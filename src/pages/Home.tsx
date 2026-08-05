@@ -21,10 +21,9 @@ export default function Home() {
     navigate(`/collections/${cat}`);
   };
 
-  // Filter products
-  // Add all Shopify products to Featured Products (IDs >= 101)
-  const featuredProducts = products.filter(p => p.id >= 101);
-  // Newly added products and current active products with badge === 'NEW'
+  // Filter products: featured items (ID 101-399 or featured: true)
+  const featuredProducts = products.filter(p => p.featured || (p.id >= 101 && p.id < 400));
+  // Newly added products with badge === 'NEW'
   const newArrivals = products.filter(p => p.badge === 'NEW');
 
   const [newsletterEmail, setNewsletterEmail] = useState('');

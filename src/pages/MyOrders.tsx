@@ -104,8 +104,10 @@ export default function MyOrders() {
     return (
       <div id="orders-page-root">
         <div className="page-hero">
-          <h1>MY ORDERS</h1>
-          <p>TRACK YOUR PURCHASES & SHIPMENTS</p>
+          <div className="container">
+            <h1>My Orders</h1>
+            <p>Track your purchases & shipments</p>
+          </div>
         </div>
         <div className="container" style={{ padding: '80px 24px', textAlign: 'center' }}>
           <div style={{ fontSize: '64px', marginBottom: '16px' }}>🔒</div>
@@ -123,8 +125,10 @@ export default function MyOrders() {
   return (
     <div id="orders-page-root">
       <div className="page-hero">
-        <h1>MY ORDERS</h1>
-        <p>SECURE LOGS OF YOUR DEPLOYMENTS</p>
+        <div className="container">
+          <h1>My Orders</h1>
+          <p>View and manage your purchase history</p>
+        </div>
       </div>
 
       <div className="container" style={{ padding: '40px 20px 60px' }}>
