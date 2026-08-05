@@ -23,12 +23,12 @@ function generatePaymentAuthNote(amount) {
   hours = hours ? hours : 12; // Hour '0' convert to '12'
   const hoursStr = String(hours).padStart(2, '0');
 
-  const dateStr = `${day}${month}${year}`;
-  const timeStr = `${hoursStr}${minutes}${seconds}${ampm}`;
+  const dateStr = `${day}-${month}-${year}`;
+  const timeStr = `${hoursStr} ${minutes} ${seconds} ${ampm.toUpperCase()}`;
 
-  // Clean note strictly containing alphanumeric characters and spaces only (no colons, commas, dots, or slashes)
-  const note = `Customer authorized payment of INR ${amount} Date ${dateStr} ${timeStr} IST`;
-  return note.replace(/[^a-zA-Z0-9 ]/g, '').trim().substring(0, 100);
+  // Clean note containing alphanumeric characters, hyphens, and spaces
+  const note = `Customer authorized payment of INR ${amount} Date ${dateStr} Time ${timeStr} IST`;
+  return note.replace(/[^a-zA-Z0-9 -]/g, '').trim().substring(0, 100);
 }
 
 /**
@@ -56,8 +56,8 @@ export default async function handler(req, res) {
 
   try {
     // 2. Read merchant key and salt from environment variables
-    const key = process.env.EASEBUZZ_KEY;
-    const salt = process.env.EASEBUZZ_SALT;
+    const key = String(process.env.EASEBUZZ_KEY || '').trim();
+    const salt = String(process.env.EASEBUZZ_SALT || '').trim();
 
     if (!key || !salt) {
       console.error('Missing EASEBUZZ_KEY or EASEBUZZ_SALT environment variables.');
@@ -82,6 +82,7 @@ export default async function handler(req, res) {
     const finalFurl = furl || `${req.headers.origin || 'http://localhost:3000'}/payment-failure`;
 
     // 4. Sanitize parameters for Easebuzz field specifications
+    const cleanTxnid = String(txnid).trim();
     const cleanAmount = parseFloat(amount).toFixed(2);
     const cleanProductinfo = String(productinfo).replace(/[^a-zA-Z0-9 ]/g, '').trim().substring(0, 50) || 'GarenaStoreProduct';
     const cleanFirstname = String(firstname).replace(/[^a-zA-Z0-9 ]/g, '').trim() || 'Customer';
@@ -91,15 +92,34 @@ export default async function handler(req, res) {
     // Dynamically generate server-side udf1 authorization note in IST (strictly alphanumeric + spaces)
     const udf1 = generatePaymentAuthNote(cleanAmount);
 
-    // 5. Generate SHA512 hash using exact sequence:
-    // key|txnid|amount|productinfo|firstname|email|udf1|||||||||salt
-    const hashSequence = `${key}|${txnid}|${cleanAmount}|${cleanProductinfo}|${cleanFirstname}|${cleanEmail}|${udf1}|||||||||${salt}`;
-    const hash = crypto.createHash('sha512').update(hashSequence).digest('hex');
+    // 5. Generate SHA512 hash using exact 17-field sequence:
+    // key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10|salt
+    const hashFields = [
+      key,
+      cleanTxnid,
+      cleanAmount,
+      cleanProductinfo,
+      cleanFirstname,
+      cleanEmail,
+      udf1,
+      '', // udf2
+      '', // udf3
+      '', // udf4
+      '', // udf5
+      '', // udf6
+      '', // udf7
+      '', // udf8
+      '', // udf9
+      '', // udf10
+      salt
+    ];
+    const hashSequence = hashFields.join('|');
+    const hash = crypto.createHash('sha512').update(hashSequence).digest('hex').toLowerCase();
 
     // 6. Build form-urlencoded request payload for Easebuzz API
     const params = new URLSearchParams();
     params.append('key', key);
-    params.append('txnid', String(txnid));
+    params.append('txnid', cleanTxnid);
     params.append('amount', cleanAmount);
     params.append('productinfo', cleanProductinfo);
     params.append('firstname', cleanFirstname);
