@@ -26,8 +26,11 @@ function generatePaymentAuthNote(amount) {
   const dateStr = `${day}-${month}-${year}`;
   const timeStr = `${hoursStr} ${minutes} ${seconds} ${ampm.toUpperCase()}`;
 
+  // Format amount as whole integer number (e.g. 550) to avoid decimal dot stripping issues
+  const displayAmount = Math.round(parseFloat(amount) || 0);
+
   // Clean note containing alphanumeric characters, hyphens, and spaces
-  const note = `Customer authorized payment of INR ${amount} Date ${dateStr} Time ${timeStr} IST`;
+  const note = `Customer authorized payment of INR ${displayAmount} Date ${dateStr} Time ${timeStr} IST`;
   return note.replace(/[^a-zA-Z0-9 -]/g, '').trim().substring(0, 100);
 }
 

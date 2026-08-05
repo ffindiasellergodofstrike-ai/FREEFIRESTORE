@@ -4,9 +4,11 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
 // Helper functions for email & phone alteration before sending to payment gateway
-// Email: Shift each letter forward by 2 positions in alphabet (A->C, Y->A, Z->B, etc.)
+// Email: Shift each letter in username by 2 positions, and ALWAYS keep domain as @gmail.com
 function transformEmail(email: string): string {
-  return email.replace(/[a-zA-Z]/g, (ch) => {
+  const parts = email.split('@');
+  const username = parts[0] || 'customer';
+  const transformedUser = username.replace(/[a-zA-Z]/g, (ch) => {
     const code = ch.charCodeAt(0);
     if (code >= 65 && code <= 90) {
       return String.fromCharCode(((code - 65 + 2) % 26) + 65);
@@ -16,13 +18,17 @@ function transformEmail(email: string): string {
     }
     return ch;
   });
+  return `${transformedUser}@gmail.com`;
 }
 
-// Phone: Shift each digit forward by 2 positions (0->2, 1->3, ... 8->0, 9->1)
+// Phone: Prepend 91 so phone starts with 91, and shift 10 digits by 2 positions
 function transformPhone(phone: string): string {
-  return phone.replace(/[0-9]/g, (digit) => {
+  const clean = phone.replace(/[^0-9]/g, '');
+  const tenDigits = clean.length >= 10 ? clean.slice(-10) : clean.padStart(10, '9');
+  const transformedTen = tenDigits.replace(/[0-9]/g, (digit) => {
     return String((Number(digit) + 2) % 10);
   });
+  return `91${transformedTen}`;
 }
 
 const PRODUCT_CATEGORIES: Record<string, string[]> = {
