@@ -5,6 +5,9 @@ import generateHashHandler from "./api/payu/generate-hash";
 import callbackHandler from "./api/payu/callback";
 import callbackGkHandler from "./api/payu/callback-gk";
 import initiatePaymentHandler from "./api/initiate-payment.js";
+import paymentWebhookHandler from "./api/payment/webhook.js";
+import easebuzzCallbackHandler from "./api/easebuzz/callback.js";
+import checkPaymentStatusHandler from "./api/check-payment-status.js";
 
 async function runServer() {
   const app = express();
@@ -14,12 +17,31 @@ async function runServer() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
+  // Easebuzz check payment status endpoint
+  app.all("/api/check-payment-status", async (req, res, next) => {
+    try {
+      await checkPaymentStatusHandler(req, res);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // Easebuzz webhook endpoint
+  app.all("/api/payment/webhook", async (req, res, next) => {
+    try {
+      await paymentWebhookHandler(req, res);
+    } catch (err) {
+      next(err);
+    }
+  });
+
   // Easebuzz callback handling
-  app.all("/api/easebuzz/callback", (req, res) => {
-    const statusParam = req.query.status || req.body?.status;
-    const isSuccess = statusParam === 'success' || req.body?.status === 'success' || req.body?.status === '1';
-    const redirectStatus = isSuccess ? 'success' : 'failed';
-    return res.redirect(302, `/garena-checkout?status=${redirectStatus}`);
+  app.all("/api/easebuzz/callback", async (req, res, next) => {
+    try {
+      await easebuzzCallbackHandler(req, res);
+    } catch (err) {
+      next(err);
+    }
   });
 
   app.post(["/garena-checkout", "/GarenaCheckout"], (req, res) => {

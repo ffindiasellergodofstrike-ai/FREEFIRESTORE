@@ -72,7 +72,7 @@ export default async function handler(req, res) {
 
     // 3. Parse JSON request body
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
-    const { txnid, amount, productinfo, firstname, email, phone, uid, surl, furl } = body;
+    const { txnid, amount, productinfo, firstname, email, phone, uid, surl, furl, mode } = body;
 
     if (!txnid || !amount || !productinfo || !firstname || !email || !phone) {
       return res.status(400).json({
@@ -140,6 +140,13 @@ export default async function handler(req, res) {
       params.append('udf2', udf2);
     }
 
+    if (mode === 'QR') {
+      params.append('request_flow', 'SEAMLESS');
+      params.append('payment_mode', 'UPI');
+      params.append('upi_qr', 'true');
+      params.append('request_mode', 'SUVA');
+    }
+
     // 7. Call Easebuzz Production Initiate Payment API
     const EASEBUZZ_URL = 'https://pay.easebuzz.in/payment/initiateLink';
 
@@ -166,11 +173,16 @@ export default async function handler(req, res) {
     }
 
     // 8. Return access_key and merchant_key on status 1
-    if (data.status === 1 || data.status === '1') {
+    if (data.status === 1 || data.status === '1' || data.status === true) {
       const accessKey = typeof data.data === 'string' ? data.data : (data.data?.access_key || data.access_key);
+      const qrLink = data.qr_link || data.data?.qr_link || data.upi_intent_url || data.data?.upi_intent_url || data.qr_code || data.data?.qr_code || data.qr_url || data.data?.qr_url || null;
+
       return res.status(200).json({
+        status: 1,
         access_key: accessKey,
-        merchant_key: key
+        merchant_key: key,
+        qr_link: qrLink,
+        upi_intent_url: qrLink
       });
     } else {
       console.error('Easebuzz initiate payment failed:', data);

