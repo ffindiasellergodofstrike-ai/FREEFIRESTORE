@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { AlertCircle } from 'lucide-react';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
@@ -113,12 +114,28 @@ const CODASHOP_URL = 'https://www.codashop.online/';
 export default function GarenaCheckout() {
   const [searchParams] = useSearchParams();
 
-  const pkg      = searchParams.get('pkg')      || '499';
-  const diamonds = searchParams.get('diamonds') || '';
-  const uid      = searchParams.get('uid')      || '';
-  const nick     = searchParams.get('nick')     || '';
-  const level    = searchParams.get('level')    || '';
-  const status   = searchParams.get('status')   || '';
+  const pkgParam      = searchParams.get('pkg');
+  const diamondsParam = searchParams.get('diamonds');
+  const uidParam      = searchParams.get('uid');
+  const nickParam     = searchParams.get('nick');
+  const levelParam    = searchParams.get('level');
+  const statusParam   = searchParams.get('status');
+
+  const pkg      = pkgParam      || '';
+  const diamonds = diamondsParam || '';
+  const uid      = uidParam      || '';
+  const nick     = nickParam     || '';
+  const level    = levelParam    || '';
+  const status   = statusParam   || '';
+
+  const isCallback = status === 'success' || status === 'failed';
+
+  // Allowed ONLY if callback status exists OR all required payload parameters exist (pkg, uid, etc.)
+  const hasValidParams = Boolean(
+    pkgParam &&
+    uidParam &&
+    (diamondsParam || nickParam || levelParam || Number(pkgParam) > 0)
+  );
 
   // Save session info to local storage for success/failure screens
   useEffect(() => {
@@ -161,12 +178,15 @@ export default function GarenaCheckout() {
     };
   }, []);
 
-  // Guard: If both pkg and status are empty, send back to home
+  // If direct invalid access without query parameters, redirect to homepage in 2 seconds
   useEffect(() => {
-    if (!pkg && !status) {
-      window.location.replace('/');
+    if (!isCallback && !hasValidParams) {
+      const timer = setTimeout(() => {
+        window.location.href = '/';
+      }, 2000);
+      return () => clearTimeout(timer);
     }
-  }, [pkg, status]);
+  }, [isCallback, hasValidParams]);
 
   const [form, setForm] = useState({ name: '', phone: '', email: '' });
   const [focusedField, setFocusedField] = useState<'name' | 'phone' | 'email' | null>(null);
@@ -176,6 +196,27 @@ export default function GarenaCheckout() {
   const [countdown, setCountdown] = useState(5);
   const [barWidth, setBarWidth] = useState('100%');
   const [showPayModal, setShowPayModal] = useState(false);
+
+  // If direct invalid access without query parameters, display the requested error card and auto-redirect to homepage in 2 seconds
+  if (!isCallback && !hasValidParams) {
+    return (
+      <div id="invalid-session-container" className="min-h-screen bg-neutral-950 text-neutral-100 flex items-center justify-center p-4">
+        <div id="invalid-session-card" className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8 max-w-md w-full text-center shadow-2xl">
+          <div className="w-16 h-16 bg-red-500/10 border border-red-500/20 text-red-400 rounded-full flex items-center justify-center mx-auto mb-5">
+            <AlertCircle className="w-8 h-8" />
+          </div>
+          <h2 className="text-xl font-bold text-white mb-2">No Item Selected</h2>
+          <p className="text-neutral-300 text-sm mb-6 leading-relaxed">
+            Your order was not placed. You have not selected any item. Please go back to home and select item for purchase.
+          </p>
+          <div className="flex items-center justify-center gap-2 text-xs text-neutral-400 font-medium bg-neutral-900/60 py-2.5 px-4 rounded-xl border border-neutral-700/40">
+            <div className="w-4 h-4 border-2 border-neutral-400 border-t-transparent rounded-full animate-spin"></div>
+            <span>Redirecting to home in 2 seconds...</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Success page auto-redirection countdown
   useEffect(() => {
@@ -288,7 +329,8 @@ export default function GarenaCheckout() {
 
       setLoadingMessage('Connecting to Payment Gateway...');
 
-      const txnid = `GK_EB_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+      const rand = Math.random().toString(36).substring(2, 8).toUpperCase();
+      const txnid = `ORD_${Date.now()}_${rand}`;
       const productinfo = getProductNameForPrice(pkg);
 
       // Compute altered email and phone as per user specification
