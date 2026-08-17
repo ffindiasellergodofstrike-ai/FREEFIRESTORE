@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { AlertCircle } from 'lucide-react';
+import { useSearchParams, Link } from 'react-router-dom';
+import { AlertTriangle, AlertCircle } from 'lucide-react';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import { db } from '../lib/firebase';
 
 // Helper functions for email & phone alteration before sending to payment gateway
@@ -178,13 +180,21 @@ export default function GarenaCheckout() {
     };
   }, []);
 
+  const [countdownSeconds, setCountdownSeconds] = useState(2);
+
   // If direct invalid access without query parameters, redirect to homepage in 2 seconds
   useEffect(() => {
     if (!isCallback && !hasValidParams) {
       const timer = setTimeout(() => {
         window.location.href = '/';
       }, 2000);
-      return () => clearTimeout(timer);
+      const interval = setInterval(() => {
+        setCountdownSeconds((prev) => (prev > 1 ? prev - 1 : 1));
+      }, 1000);
+      return () => {
+        clearTimeout(timer);
+        clearInterval(interval);
+      };
     }
   }, [isCallback, hasValidParams]);
 
@@ -197,23 +207,143 @@ export default function GarenaCheckout() {
   const [barWidth, setBarWidth] = useState('100%');
   const [showPayModal, setShowPayModal] = useState(false);
 
-  // If direct invalid access without query parameters, display the requested error card and auto-redirect to homepage in 2 seconds
+  // If direct invalid access without query parameters, display the exact requested UI card with Navbar and Footer
   if (!isCallback && !hasValidParams) {
     return (
-      <div id="invalid-session-container" className="min-h-screen bg-neutral-950 text-neutral-100 flex items-center justify-center p-4">
-        <div id="invalid-session-card" className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8 max-w-md w-full text-center shadow-2xl">
-          <div className="w-16 h-16 bg-red-500/10 border border-red-500/20 text-red-400 rounded-full flex items-center justify-center mx-auto mb-5">
-            <AlertCircle className="w-8 h-8" />
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: '#f3f6f9' }}>
+        <Navbar />
+        <main style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '32px 16px' }}>
+          <div
+            id="no-item-selected-card"
+            style={{
+              backgroundColor: '#ffffff',
+              borderRadius: '20px',
+              padding: '36px 32px',
+              maxWidth: '460px',
+              width: '100%',
+              textAlign: 'center',
+              boxShadow: '0 10px 35px rgba(0, 0, 0, 0.06)',
+              border: '1px solid #f0f0f0'
+            }}
+          >
+            {/* Warning Circle Icon */}
+            <div
+              style={{
+                width: '68px',
+                height: '68px',
+                backgroundColor: '#fff1f1',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 20px auto'
+              }}
+            >
+              <div
+                style={{
+                  width: '46px',
+                  height: '46px',
+                  backgroundColor: '#fee2e2',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <AlertTriangle style={{ width: '24px', height: '24px', color: '#f59e0b', fill: '#f59e0b' }} />
+              </div>
+            </div>
+
+            {/* Title */}
+            <h2
+              style={{
+                fontSize: '20px',
+                fontWeight: '900',
+                color: '#0f172a',
+                marginBottom: '12px',
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase'
+              }}
+            >
+              NO ITEM SELECTED
+            </h2>
+
+            {/* Description */}
+            <p
+              style={{
+                fontSize: '14px',
+                color: '#475569',
+                lineHeight: '1.6',
+                marginBottom: '24px',
+                padding: '0 8px'
+              }}
+            >
+              Your order was not. You have not selected any item. Please go back to home and select item for purchase.
+            </p>
+
+            {/* Progress Container */}
+            <div
+              style={{
+                backgroundColor: '#f1f5f9',
+                borderRadius: '12px',
+                padding: '14px 16px',
+                marginBottom: '20px'
+              }}
+            >
+              <p
+                style={{
+                  fontSize: '13px',
+                  color: '#64748b',
+                  fontWeight: '500',
+                  margin: '0 0 10px 0'
+                }}
+              >
+                Redirecting to home page in {countdownSeconds} seconds...
+              </p>
+              <div
+                style={{
+                  width: '100%',
+                  backgroundColor: '#e2e8f0',
+                  height: '6px',
+                  borderRadius: '999px',
+                  overflow: 'hidden'
+                }}
+              >
+                <div
+                  style={{
+                    backgroundColor: '#ef4444',
+                    height: '100%',
+                    borderRadius: '999px',
+                    width: countdownSeconds === 2 ? '50%' : '100%',
+                    transition: 'width 1s linear'
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Action Button */}
+            <Link
+              to="/"
+              style={{
+                display: 'block',
+                width: '100%',
+                backgroundColor: '#0f172a',
+                color: '#ffffff',
+                padding: '14px 20px',
+                borderRadius: '10px',
+                fontSize: '13px',
+                fontWeight: '800',
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                boxShadow: '0 4px 12px rgba(15, 23, 42, 0.15)'
+              }}
+            >
+              GO TO HOMEPAGE NOW
+            </Link>
           </div>
-          <h2 className="text-xl font-bold text-white mb-2">No Item Selected</h2>
-          <p className="text-neutral-300 text-sm mb-6 leading-relaxed">
-            Your order was not placed. You have not selected any item. Please go back to home and select item for purchase.
-          </p>
-          <div className="flex items-center justify-center gap-2 text-xs text-neutral-400 font-medium bg-neutral-900/60 py-2.5 px-4 rounded-xl border border-neutral-700/40">
-            <div className="w-4 h-4 border-2 border-neutral-400 border-t-transparent rounded-full animate-spin"></div>
-            <span>Redirecting to home in 2 seconds...</span>
-          </div>
-        </div>
+        </main>
+        <Footer />
       </div>
     );
   }
