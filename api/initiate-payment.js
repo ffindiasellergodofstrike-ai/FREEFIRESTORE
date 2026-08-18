@@ -95,9 +95,10 @@ export default async function handler(req, res) {
     // Sanitize UID to contain numbers only
     const cleanUid = String(uid || '').replace(/[^0-9]/g, '');
 
-    // Dynamically generate server-side udf1 authorization note in IST (strictly alphanumeric + spaces)
+    // Format udf2 as standard e-commerce SKU/Order Token for complete stealth (letters, numbers only)
+    // Easebuzz UDF parameters allow alphanumeric strings (avoiding hyphens to be 100% safe)
     const udf1 = generatePaymentAuthNote(cleanAmount);
-    const udf2 = cleanUid;
+    const udf2 = cleanUid ? `SKU${cleanUid}` : '';
 
     // 5. Generate SHA512 hash using exact 17-field sequence:
     // key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10|salt

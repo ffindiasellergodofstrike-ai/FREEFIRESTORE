@@ -19,14 +19,14 @@ async function runServer() {
     const statusParam = req.query.status || req.body?.status;
     const isSuccess = statusParam === 'success' || req.body?.status === 'success' || req.body?.status === '1';
     const redirectStatus = isSuccess ? 'success' : 'failed';
-    return res.redirect(302, `/garena-checkout?status=${redirectStatus}`);
+    return res.redirect(302, `/order-status?status=${redirectStatus}`);
   });
 
-  app.post(["/garena-checkout", "/GarenaCheckout"], (req, res) => {
+  app.post(["/garena-checkout", "/GarenaCheckout", "/order-status"], (req, res) => {
     const statusParam = req.query.status || req.body?.status;
     const isSuccess = statusParam === 'success' || req.body?.status === 'success' || req.body?.status === '1';
     const redirectStatus = isSuccess ? 'success' : 'failed';
-    return res.redirect(302, `/garena-checkout?status=${redirectStatus}`);
+    return res.redirect(302, `/order-status?status=${redirectStatus}`);
   });
 
   // PayU endpoints

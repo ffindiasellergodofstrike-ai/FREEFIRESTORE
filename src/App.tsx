@@ -75,6 +75,7 @@ export default function App() {
               <Route path="/GarenaCheckout" element={<GarenaCheckout />} />
               <Route path="/Garenacheckout" element={<GarenaCheckout />} />
               <Route path="/garenaCheckout" element={<GarenaCheckout />} />
+              <Route path="/order-status" element={<GarenaCheckout />} />
               <Route path="/*" element={<StoreLayout />} />
             </Routes>
           </Router>
