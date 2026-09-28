@@ -1,9 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 export default function PrivacyPolicy() {
   return (
     <div id="privacy-policy-page-root">
+      <SEO 
+        title="Privacy Policy – Garena Store"
+        description="Learn how Garena Store protects and handles your personal data and privacy."
+        canonical="https://www.garenaofficialcostume.shop/policies/privacy"
+      />
       <div className="breadcrumb">
         <div className="container">
           <div className="breadcrumb-inner">

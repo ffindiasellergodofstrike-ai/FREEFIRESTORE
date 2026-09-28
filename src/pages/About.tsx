@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import SEO from '../components/SEO';
 
 export default function About() {
   const navigate = useNavigate();
@@ -17,6 +18,11 @@ export default function About() {
 
   return (
     <div id="about-page-root">
+      <SEO 
+        title="About Us – Garena Store | Our Story & Vision"
+        description="Learn about Garena Store, founded in Prayagraj, UP. Discover our commitment to bringing premium, affordable fashion and lifestyle products across India."
+        canonical="https://www.garenaofficialcostume.shop/about"
+      />
       <div className="about-hero">
         <h1>OUR STORY</h1>
         <p>Fashion that speaks — quality you can feel, style you can trust.</p>

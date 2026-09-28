@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Product } from '../data/products';
 import { useCart } from '../context/CartContext';
 import { useProducts } from '../context/ProductContext';
+import SEO from '../components/SEO';
 import { toast } from 'sonner';
 
 export default function Home() {
@@ -94,6 +95,22 @@ export default function Home() {
 
   return (
     <div id="page-home-root">
+      <SEO 
+        title="Garena Store – Style for Every Day | Premium Fashion & Lifestyle"
+        description="Discover premium Men's and Women's fashion, trending apparel, and lifestyle accessories with fast delivery across India at Garena Store."
+        canonical="https://www.garenaofficialcostume.shop/"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "Garena Store",
+          "url": "https://www.garenaofficialcostume.shop/",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://www.garenaofficialcostume.shop/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }}
+      />
       {/* Categories (Myntra/Amazon Bubble Style) */}
       <div className="category-bubbles-section" id="categories-section">
         <div className="container">

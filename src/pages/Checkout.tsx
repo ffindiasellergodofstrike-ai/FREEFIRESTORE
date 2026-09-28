@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import { db } from '../lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ShieldCheck, ShoppingBag, ArrowRight } from 'lucide-react';
+import SEO from '../components/SEO';
 
 export default function Checkout() {
   const location = useLocation();
@@ -210,6 +211,7 @@ export default function Checkout() {
   if (isSuccess) {
     return (
       <div className="container" style={{ padding: '80px 24px', textAlign: 'center', minHeight: '60vh' }}>
+        <SEO title="Order Secured – Garena Store" noindex={true} />
         <div style={{ width: '80px', height: '80px', background: '#dcfce7', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
           <i className="fa fa-check" style={{ fontSize: '36px', color: '#166534' }}></i>
         </div>
@@ -227,6 +229,7 @@ export default function Checkout() {
 
   return (
     <div id="checkout-page-root">
+      <SEO title="Checkout – Garena Store" noindex={true} />
       {showLoginModal && (
         <div style={{
           position: 'fixed',

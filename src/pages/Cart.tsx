@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import SEO from '../components/SEO';
 import { toast } from 'sonner';
 
 export default function Cart() {
@@ -26,6 +27,7 @@ export default function Cart() {
 
   return (
     <div id="cart-page-root">
+      <SEO title="Shopping Bag – Garena Store" noindex={true} />
       <div className="page-hero">
         <div className="container">
           <h1>Shopping Bag</h1>

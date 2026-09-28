@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useProducts } from '../context/ProductContext';
 import { useCart } from '../context/CartContext';
 import ProductCard from '../components/ProductCard';
+import SEO from '../components/SEO';
 import { toast } from 'sonner';
 
 export default function ProductDetail() {
@@ -150,8 +151,48 @@ export default function ProductDetail() {
     return cat.charAt(0).toUpperCase() + cat.slice(1);
   };
 
+  const productImageUrl = displayedImages && displayedImages.length > 0 ? displayedImages[0] : undefined;
+  const productDescriptionClean = product.desc.replace(/[\n\r]+/g, ' ').slice(0, 160);
+
   return (
     <div id="product-detail-page-root">
+      <SEO 
+        title={`${product.name} – Garena Store`}
+        description={productDescriptionClean}
+        canonical={`https://www.garenaofficialcostume.shop/product/${product.id}`}
+        image={productImageUrl}
+        type="product"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": product.name,
+          "image": productImageUrl ? [productImageUrl] : undefined,
+          "description": product.desc,
+          "sku": `GRN-PROD-${product.id}`,
+          "brand": {
+            "@type": "Brand",
+            "name": "Garena Store"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": `https://www.garenaofficialcostume.shop/product/${product.id}`,
+            "priceCurrency": "INR",
+            "price": product.price,
+            "priceValidUntil": "2026-12-31",
+            "itemCondition": "https://schema.org/NewCondition",
+            "availability": "https://schema.org/InStock",
+            "seller": {
+              "@type": "Organization",
+              "name": "Garena Store"
+            }
+          },
+          "aggregateRating": product.rating ? {
+            "@type": "AggregateRating",
+            "ratingValue": product.rating,
+            "reviewCount": product.reviews || 1
+          } : undefined
+        }}
+      />
       {/* Breadcrumb */}
       <nav className="breadcrumb">
         <div className="container">

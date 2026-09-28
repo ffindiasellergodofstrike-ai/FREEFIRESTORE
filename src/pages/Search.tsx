@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Product } from '../data/products';
 import { useProducts } from '../context/ProductContext';
+import SEO from '../components/SEO';
 
 export default function Search() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -82,6 +83,7 @@ export default function Search() {
 
   return (
     <div id="search-page-root">
+      <SEO title="Search Products – Garena Store" noindex={true} />
       <div className="search-hero">
         <h1>SEARCH</h1>
         <form onSubmit={handleSearchSubmit} className="search-bar-lg">

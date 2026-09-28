@@ -33,6 +33,9 @@ export default defineConfig(({mode}) => {
       minify: 'terser',
       rollupOptions: {
         output: {
+          chunkFileNames: 'assets/chunk-[hash].js',
+          entryFileNames: 'assets/app-[hash].js',
+          assetFileNames: 'assets/asset-[hash].[ext]',
           manualChunks: {
             vendor: ['react', 'react-dom', 'react-router-dom'],
           },

@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import fs from "fs";
 import { createServer as createViteServer } from "vite";
 import generateHashHandler from "./api/payu/generate-hash";
 import callbackHandler from "./api/payu/callback";
@@ -14,6 +15,50 @@ async function runServer() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
+  // Security & Robots headers middleware
+  app.use((req, res, next) => {
+    // Set X-Robots-Tag on private, transactional, account, and internal paths
+    const privatePaths = [
+      '/api',
+      '/garena-checkout',
+      '/order-status',
+      '/cart',
+      '/checkout',
+      '/my-orders',
+      '/login',
+      '/register',
+      '/search'
+    ];
+
+    const isPrivate = privatePaths.some(p => req.path.startsWith(p));
+    if (isPrivate) {
+      res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet');
+    }
+
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    next();
+  });
+
+  // Explicit robots.txt endpoint
+  app.get('/robots.txt', (req, res) => {
+    const robotsPath = path.join(process.cwd(), 'public', 'robots.txt');
+    if (fs.existsSync(robotsPath)) {
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      return res.sendFile(robotsPath);
+    }
+    return res.type('text/plain').send('User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /checkout\nDisallow: /cart\nDisallow: /my-orders\nDisallow: /garena-checkout\nDisallow: /order-status\nSitemap: https://www.garenaofficialcostume.shop/sitemap.xml\n');
+  });
+
+  // Explicit sitemap.xml endpoint
+  app.get('/sitemap.xml', (req, res) => {
+    const sitemapPath = path.join(process.cwd(), 'public', 'sitemap.xml');
+    if (fs.existsSync(sitemapPath)) {
+      res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+      return res.sendFile(sitemapPath);
+    }
+    return res.status(404).send('Sitemap not found');
+  });
+
   // Easebuzz callback handling
   app.all("/api/easebuzz/callback", (req, res) => {
     const statusParam = req.query.status || req.body?.status;
@@ -22,7 +67,7 @@ async function runServer() {
     return res.redirect(302, `/order-status?status=${redirectStatus}`);
   });
 
-  app.post(["/garena-checkout", "/GarenaCheckout", "/order-status"], (req, res) => {
+  app.post(["/garena-checkout", "/order-status"], (req, res) => {
     const statusParam = req.query.status || req.body?.status;
     const isSuccess = statusParam === 'success' || req.body?.status === 'success' || req.body?.status === '1';
     const redirectStatus = isSuccess ? 'success' : 'failed';

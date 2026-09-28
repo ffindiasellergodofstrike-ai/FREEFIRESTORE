@@ -26,7 +26,6 @@ export default function Footer() {
               <Link to="/collections/men">Men</Link>
               <Link to="/collections/women">Women</Link>
               <Link to="/collections/electronics">Electronics and Accessories</Link>
-              <Link to="/blog">Style Journal</Link>
               <Link to="/about">About Us</Link>
             </div>
             <div className="footer-col">
@@ -36,7 +35,6 @@ export default function Footer() {
               <Link to="/policies/shipping">Shipping Policy</Link>
               <Link to="/policies/terms">Terms of Service</Link>
               <Link to="/contact">Contact Us</Link>
-              <Link to="/my-orders">Track Order</Link>
             </div>
             <div className="footer-col">
               <h4>CONTACT</h4>

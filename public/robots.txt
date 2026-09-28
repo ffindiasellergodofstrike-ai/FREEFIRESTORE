@@ -1,0 +1,22 @@
+# robots.txt for Garena Store
+User-agent: *
+Allow: /
+Allow: /collections/
+Allow: /product/
+Allow: /about
+Allow: /contact
+Allow: /policies/
+
+# Disallow private user flows, checkout, internal endpoints, and transactional state
+Disallow: /cart
+Disallow: /checkout
+Disallow: /my-orders
+Disallow: /login
+Disallow: /register
+Disallow: /search
+Disallow: /api/
+Disallow: /garena-checkout
+Disallow: /order-status
+
+# Canonical XML Sitemap
+Sitemap: https://www.garenaofficialcostume.shop/sitemap.xml

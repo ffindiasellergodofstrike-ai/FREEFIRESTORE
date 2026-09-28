@@ -1,9 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 export default function ShippingPolicy() {
   return (
     <div id="shipping-policy-page-root">
+      <SEO 
+        title="Shipping Policy – Garena Store"
+        description="Free express shipping on all orders across India. Delivery timeline and tracking information."
+        canonical="https://www.garenaofficialcostume.shop/policies/shipping"
+      />
       <div className="breadcrumb">
         <div className="container">
           <div className="breadcrumb-inner">

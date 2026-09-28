@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Product } from '../data/products';
 import { useProducts } from '../context/ProductContext';
+import SEO from '../components/SEO';
 
 export default function Collection() {
   const { category = 'all' } = useParams<{ category?: string }>();
@@ -125,6 +126,35 @@ export default function Collection() {
 
   return (
     <div id="collection-page-root">
+      <SEO 
+        title={`${pageTitle} – Garena Store`}
+        description={`Browse our latest ${pageTitle.toLowerCase()} with verified quality, best prices, and free express delivery across India.`}
+        canonical={`https://www.garenaofficialcostume.shop/collections/${category}`}
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "name": `${pageTitle} – Garena Store`,
+          "description": `Browse our latest ${pageTitle.toLowerCase()} with verified quality, best prices, and free express delivery across India.`,
+          "url": `https://www.garenaofficialcostume.shop/collections/${category}`,
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://www.garenaofficialcostume.shop/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": pageTitle,
+                "item": `https://www.garenaofficialcostume.shop/collections/${category}`
+              }
+            ]
+          }
+        }}
+      />
       {/* Breadcrumb */}
       <nav className="breadcrumb">
         <div className="container">

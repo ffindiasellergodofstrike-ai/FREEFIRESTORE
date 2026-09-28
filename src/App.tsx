@@ -23,11 +23,10 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Search from './pages/Search';
-import Blog from './pages/Blog';
-import BlogPost from './pages/BlogPost';
 import MyOrders from './pages/MyOrders';
-import GarenaCheckout from './pages/GarenaCheckout';
 import NotFound from './pages/NotFound';
+
+const GarenaCheckout = React.lazy(() => import('./pages/GarenaCheckout'));
 
 function StoreLayout() {
   return (
@@ -49,8 +48,6 @@ function StoreLayout() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/search" element={<Search />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="/my-orders" element={<MyOrders />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -70,12 +67,22 @@ export default function App() {
             <ScrollToTop />
             <ImagePreloader />
             <Routes>
-              <Route path="/garena-checkout" element={<GarenaCheckout />} />
-              <Route path="/garenacheckout" element={<GarenaCheckout />} />
-              <Route path="/GarenaCheckout" element={<GarenaCheckout />} />
-              <Route path="/Garenacheckout" element={<GarenaCheckout />} />
-              <Route path="/garenaCheckout" element={<GarenaCheckout />} />
-              <Route path="/order-status" element={<GarenaCheckout />} />
+              <Route 
+                path="/garena-checkout" 
+                element={
+                  <React.Suspense fallback={<div style={{ minHeight: '100vh', background: '#f5f6fa' }} />}>
+                    <GarenaCheckout />
+                  </React.Suspense>
+                } 
+              />
+              <Route 
+                path="/order-status" 
+                element={
+                  <React.Suspense fallback={<div style={{ minHeight: '100vh', background: '#f5f6fa' }} />}>
+                    <GarenaCheckout />
+                  </React.Suspense>
+                } 
+              />
               <Route path="/*" element={<StoreLayout />} />
             </Routes>
           </Router>

@@ -3,6 +3,7 @@ import { db } from '../lib/firebase';
 import { collection, query, where, onSnapshot, orderBy, limit, doc, getDoc } from 'firebase/firestore';
 import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
+import SEO from '../components/SEO';
 import { toast } from 'sonner';
 
 interface OrderItem {
@@ -137,6 +138,7 @@ export default function MyOrders() {
   if (!user) {
     return (
       <div id="orders-page-root">
+        <SEO title="My Profile & Orders – Garena Store" noindex={true} />
         <div className="page-hero">
           <div className="container">
             <h1>My Profile & Orders</h1>
@@ -162,6 +164,7 @@ export default function MyOrders() {
 
   return (
     <div id="orders-page-root">
+      <SEO title="My Profile & Orders – Garena Store" noindex={true} />
       <div className="page-hero">
         <div className="container">
           <h1>My Profile & Orders</h1>

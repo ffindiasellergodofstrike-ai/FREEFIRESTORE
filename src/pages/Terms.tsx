@@ -1,9 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 export default function Terms() {
   return (
     <div id="terms-page-root">
+      <SEO 
+        title="Terms of Service – Garena Store"
+        description="Read the official terms and conditions for shopping with Garena Store in India."
+        canonical="https://www.garenaofficialcostume.shop/policies/terms"
+      />
       <div className="breadcrumb">
         <div className="container">
           <div className="breadcrumb-inner">

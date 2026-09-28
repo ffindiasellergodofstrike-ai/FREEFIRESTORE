@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import SEO from '../components/SEO';
 import { toast } from 'sonner';
 
 export default function Register() {
@@ -63,6 +64,7 @@ export default function Register() {
 
   return (
     <div id="register-page-root">
+      <SEO title="Create Account – Garena Store" noindex={true} />
       <div className="container" style={{ padding: '60px 20px', display: 'flex', justifyContent: 'center' }}>
         <div style={{ background: '#fff', border: '1px solid var(--border)', padding: '32px 40px', maxWidth: '480px', width: '100%' }}>
           <h2 style={{ fontSize: '1.4rem', fontFamily: 'var(--font-h)', fontWeight: 700, letterSpacing: '1px', textAlign: 'center', marginBottom: '8px' }}>

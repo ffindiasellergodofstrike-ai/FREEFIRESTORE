@@ -1,9 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 export default function RefundPolicy() {
   return (
     <div id="refund-policy-page-root">
+      <SEO 
+        title="Return & Refund Policy – Garena Store"
+        description="Learn about our 7-day return and refund policy at Garena Store."
+        canonical="https://www.garenaofficialcostume.shop/policies/refund"
+      />
       <div className="breadcrumb">
         <div className="container">
           <div className="breadcrumb-inner">

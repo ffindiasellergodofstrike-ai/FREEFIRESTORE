@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { toast } from 'sonner';
+import SEO from '../components/SEO';
 
 export default function Contact() {
   const [name, setName] = useState('');
@@ -23,6 +24,23 @@ export default function Contact() {
 
   return (
     <div id="contact-page-root">
+      <SEO 
+        title="Contact Us – Garena Store Customer Support"
+        description="Get in touch with Garena Store support for order assistance, shipping inquiries, and returns. Fast response within 24 hours."
+        canonical="https://www.garenaofficialcostume.shop/contact"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          "name": "Contact Garena Store",
+          "url": "https://www.garenaofficialcostume.shop/contact",
+          "mainEntity": {
+            "@type": "Organization",
+            "name": "Garena Store",
+            "email": "connectwithvexora@gmail.com",
+            "telephone": "+91-9793970031"
+          }
+        }}
+      />
       <div className="page-hero">
         <div className="container">
           <h1>Contact Us</h1>
