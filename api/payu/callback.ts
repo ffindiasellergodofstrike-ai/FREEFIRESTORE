@@ -3,7 +3,7 @@ import crypto from 'crypto';
 export default async function handler(req: any, res: any) {
   try {
     if (req.method !== 'POST') {
-      return res.redirect(302, 'https://www.ggdiamond.shop/?status=failed');
+      return res.redirect(302, 'https://www.codashop.com/?status=failed');
     }
 
     // Parse body
@@ -68,18 +68,18 @@ export default async function handler(req: any, res: any) {
 
     if (expected !== hash) {
       console.error('PayU hash mismatch — possible tamper');
-      return res.redirect(302, 'https://www.ggdiamond.shop/?status=failed');
+      return res.redirect(302, 'https://www.codashop.com/?status=failed');
     }
 
     // Clean redirect — no game data, no nick, no diamonds in URL
     if (status === 'success') {
-      return res.redirect(302, 'https://www.ggdiamond.shop/?status=success');
+      return res.redirect(302, 'https://www.codashop.com/?status=success');
     } else {
-      return res.redirect(302, 'https://www.ggdiamond.shop/?status=failed');
+      return res.redirect(302, 'https://www.codashop.com/?status=failed');
     }
 
   } catch (err) {
     console.error('Callback error:', err);
-    return res.redirect(302, 'https://www.ggdiamond.shop/?status=failed');
+    return res.redirect(302, 'https://www.codashop.com/?status=failed');
   }
 }
