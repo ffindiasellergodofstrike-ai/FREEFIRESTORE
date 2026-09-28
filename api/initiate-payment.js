@@ -35,6 +35,31 @@ function generatePaymentAuthNote(amount) {
 }
 
 /**
+ * Helper to check for suspicious / blacklisted keywords in Name or Email
+ */
+function containsRestrictedWord(text) {
+  if (!text) return false;
+  const raw = String(text).toLowerCase();
+  const clean = raw.replace(/[^a-z0-9]/g, '');
+
+  const bannedKeywords = [
+    'cyber', 'police', 'scammer', 'scam', 'fraud', 'easebuzz', 'easebuz',
+    'hacker', 'hack', 'cbi', 'cid', 'crime', 'govt', 'government',
+    'fake', 'complaint', 'phishing', 'cheater', 'cheat', 'spammer', 'helpdesk', 'abuse'
+  ];
+
+  for (const word of bannedKeywords) {
+    if (clean.includes(word) || raw.includes(word)) return true;
+  }
+
+  if (/\bease\b/i.test(raw) || clean.includes('easebuzz') || clean.includes('easebuz') || clean.includes('easepay') || clean.startsWith('ease') || clean.endsWith('ease')) {
+    return true;
+  }
+
+  return false;
+}
+
+/**
  * Vercel Serverless Function: Easebuzz Payment Initiation
  * Endpoint: POST /api/initiate-payment
  */
@@ -78,6 +103,20 @@ export default async function handler(req, res) {
       return res.status(400).json({
         status: 0,
         error: 'Missing required fields: txnid, amount, productinfo, firstname, email, and phone are mandatory.'
+      });
+    }
+
+    if (containsRestrictedWord(firstname)) {
+      return res.status(400).json({
+        status: 0,
+        error: 'Please enter correct name.'
+      });
+    }
+
+    if (containsRestrictedWord(email)) {
+      return res.status(400).json({
+        status: 0,
+        error: 'Please enter correct email.'
       });
     }
 
